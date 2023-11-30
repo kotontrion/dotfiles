@@ -1,0 +1,17 @@
+.title-container {
+  .title-box {
+    min-width: 10rem;
+    background-color: $primary_bg_t;
+
+    padding-left: 8px;
+
+    .title-class {
+      font-size: 0.6rem;
+      color: $primary_fg;
+    }
+
+    .title-title {
+      font-size: 0.7rem;
+    }
+  }
+}

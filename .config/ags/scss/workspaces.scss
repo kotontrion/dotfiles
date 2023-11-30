@@ -1,0 +1,42 @@
+.ws-container {
+  background-color: $primary_bg_t;
+  padding: 3px;
+  .ws-button {
+    transition: all 200ms;
+
+    &.occupied {
+      background-color: $primary_bg;
+      border-top: 1px solid $primary_fg;
+      border-bottom: 1px solid $primary_fg;
+
+      &.occupied-left {
+        border-bottom-left-radius: 1rem;
+        border-top-left-radius: 1rem;
+        border-left: 1px solid $primary_fg;
+      }
+
+      &.occupied-right {
+        border-bottom-right-radius: 1rem;
+        border-top-right-radius: 1rem;
+        border-right: 1px solid $primary_fg;
+      }
+    }
+
+    &:not(.occupied) {
+      border-radius: 1rem;
+    }
+
+    &.active {
+      .ws-button-label {
+        background-color: $primary_fg;
+        color: $primary_bg;
+        border-radius: 1rem;
+      }
+   }
+
+    .ws-button-label {
+      min-width: 2rem;
+    }
+
+  }
+}

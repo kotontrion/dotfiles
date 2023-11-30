@@ -1,0 +1,54 @@
+.notification-indicator {
+  font-size: 1.3rem;
+}
+
+.notification-indicator-container {
+  background-color: $primary_bg_t;
+  padding-right: 8px;
+}
+
+.notifications-popup-list {
+  min-width: 40rem;
+  margin-right: 5px;
+}
+
+.notification {
+
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 1rem;
+  background-color: $primary_bg_t;
+  min-width: 24.3rem;
+
+  .notification-icon {
+    font-size: 5rem;
+    min-width: 5rem;
+    min-height: 5rem;
+    margin-right: 5px;
+    border-radius: 1rem;
+    background-size: cover;
+    background-position: center;
+    border-radius: 1rem;
+  }
+
+  .notification-title {
+    font-weight: bold;
+  }
+
+  .notification-body {
+
+  }
+
+  .notification-time {
+  }
+
+  .notification-close {
+    min-width: 1.5rem;
+  }
+
+  .notification-action-button {
+    background-color: mix($primary_fg, $primary_bg_t);
+    border-radius: 1rem;
+    margin: 5px 0px;
+  }
+}

@@ -1,0 +1,69 @@
+.bar-music-container {
+  background-color: $primary_bg_t;
+  padding: 1px;
+
+  .music-progress {
+    font-size: 2px;
+    min-width: 12px;
+    min-height: 12px;
+
+    image {
+      font-size: 0.5rem;
+    }
+  }
+}
+
+.music-container {
+
+  background-color: $primary_bg_t;
+  border-radius: 1rem;
+  padding: 5px;
+  margin-top: 5px;
+
+  .music-cover {
+    min-width: 5rem;
+    min-height: 5rem;
+    margin-right: 5px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 1rem;
+
+    image {
+      font-size: 4rem;
+    }
+  }
+
+  .music-artist {
+    text-shadow: 0.1rem 0.1rem $primary_bg_t;
+  }
+
+  .music-title {
+    font-weight: bold;
+    text-shadow: 0.1rem 0.1rem $primary_bg_t;
+  }
+
+  .music-button-prev {
+    background-color: mix($primary_fg, $primary_bg_t);
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+    padding: 5px;
+  }
+
+  .music-button-next {
+    background-color: mix($primary_fg, $primary_bg_t);
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 5px;
+  }
+
+  .music-progress {
+    font-size: 3px;
+    min-width: 40px;
+    min-height: 40px;
+
+    image {
+      font-size: 1.6rem;
+    }
+  }
+
+}

@@ -1,0 +1,42 @@
+.sidebar-right {
+  background-color: $primary_bg_t;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  min-width: 25rem;
+  min-height: 27rem;
+
+  scrollbar, scrollbar * {
+    all: unset;
+  }
+
+
+  .qs-page {
+    min-height: 10rem;
+  }
+
+  .qs-menu {
+    margin-bottom: 8px;
+    .qs-title {
+      font-weight: bold;
+    }
+    .qs-content {
+    }
+  }
+
+  .qs-header {
+    margin: 8px 0;
+    background-color: $primary_bg_t;
+    border-radius: 1rem;
+    .qs-button {
+      padding: 5px;
+      font-size: 1.2rem;
+      border-radius: 1rem;
+      min-width: 2rem;
+      background-color: transparent;
+      &.active {
+        background-color: mix($primary_fg, $primary_bg_t);
+      }
+    }
+  }
+}

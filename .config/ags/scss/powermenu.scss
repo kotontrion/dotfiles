@@ -1,0 +1,28 @@
+.session-bg {
+  margin-top: -2.727rem;
+  background-color: $primary_bg_t
+}
+
+.session-button {
+  border-radius: 1rem;
+  min-width: 8.182rem;
+  min-height: 8.182rem;
+  background-color: $primary_bg;
+  color: $default_fg;
+  font-size: 3rem;
+}
+
+.session-button-focused {
+  background-color: $primary_bg_t;
+  color: $default_fg;
+}
+
+.session-button-desc {
+  background-color: mix($primary_bg, $default_bg, 50%);
+  color: mix($primary_fg, $default_fg, 50%);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 0.205rem 0.341rem;
+  font-weight: 700;
+  font-size: 11px;
+}

@@ -1,0 +1,39 @@
+.launcher {
+  background-color: $primary_bg_t;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  min-width: 25rem;
+
+  .search-entry {
+    border-radius: 1rem;
+    margin-bottom: 5px;
+  }
+  .search-scroll {
+    
+    scrollbar, scrollbar * {
+      all: unset;
+    }
+
+    .search-results {
+      .app-button {
+        padding: 5px;
+        border-radius: 1rem;
+        .app-icon{
+          font-size: 3rem;
+          margin-right: 5px;
+        }
+        .app-name{
+          font-weight: bold;
+          font-size: 1.2rem;
+        }
+        .app-description{
+          font-size: 0.8rem;
+        }
+        &.focused {
+          background-color: $primary_bg_t;
+        }
+      }
+    }
+  }
+}
