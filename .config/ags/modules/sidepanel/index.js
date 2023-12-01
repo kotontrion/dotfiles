@@ -2,11 +2,12 @@ import PopupWindow from "../popupwindow/index.js";
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import App from "resource:///com/github/Aylur/ags/app.js"
 import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
-import QuickSettings from './quicksettings.js'
+import QuickSettings, { QSState } from './quicksettings.js'
 import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 import icons from "../icons/index.js";
 import Calendar from './calendar/index.js'
 import Cava from '../cava/index.js'
+import Gdk from "gi://Gdk";
 
 const ModuleReloadIcon = (props = {}) => Widget.Button({
     ...props,
@@ -102,7 +103,22 @@ export default () => {
     focusable: true,
     anchor: ['right', 'top', 'bottom'],
     name: 'sideright',
-    child: SidebarRight()
+    child: SidebarRight(),
+    connections: [
+      ['key-press-event', (_, event) => {
+        const keyval = event.get_keyval()[1]
+        if(
+          ( keyval === Gdk.KEY_n || keyval === Gdk.KEY_Right)
+          && ((event.get_state()[1])&Gdk.ModifierType.CONTROL_MASK) > 0
+        )
+          QSState.next()
+        if(
+          ( keyval === Gdk.KEY_p || keyval === Gdk.KEY_Left)
+          && ((event.get_state()[1])&Gdk.ModifierType.CONTROL_MASK) > 0
+        )
+          QSState.prev()
+      }]
+    ]
   });
   return win
 }

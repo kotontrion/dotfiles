@@ -10,21 +10,32 @@ import WifiList from '../network/index.js'
 import BluetoothList from '../bluetooth/index.js'
 import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js'
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
+import Variable from 'resource:///com/github/Aylur/ags/variable.js'
 
-const QuickSettingsButton = ({icon, title, stack, ...props}) => Widget.Button({
+export const QSState = Variable('audio')
+QSState.next = () => {
+  const index = QSState.items.indexOf(QSState.value) + 1;
+  QSState.value = QSState.items[index % (QSState.items.length)]
+}
+QSState.prev = () => {
+  const index = QSState.items.indexOf(QSState.value) - 1 + QSState.items.length;
+  QSState.value = QSState.items[index % (QSState.items.length)]
+}
+
+const QuickSettingsButton = ({icon, title, ...props}) => Widget.Button({
     child: Widget.Icon(icon),
     class_name: "qs-button",
     ...props,
     on_clicked: (button) => {
-        stack.visible_child_name = title
+        QSState.value = title
     },
     connections: [
-      [stack, (button, name) => {
-        button.toggleClassName('active', title === stack.visible_child_name);
-      }, 'notify::visible-child-name'] 
+      [QSState, (button, value) => {
+        button.toggleClassName('active', title === QSState.value);
+      }] 
     ]
 })
-const QuickSettingsHeader = (stack) => Widget.Box({
+const QuickSettingsHeader = () => Widget.Box({
     homogeneous: true,
     spacing: 5,
     class_name: "qs-header",
@@ -34,34 +45,30 @@ const QuickSettingsHeader = (stack) => Widget.Box({
             title: "notifications",
             class_name: 'qs-button active',
             tooltip_text: 'Notifications',
-            stack
         }),
         QuickSettingsButton({
             icon: "network-wireless-signal-good-symbolic",
             title: "wifi",
             tooltip_text: 'Wi-Fi',
-            stack
         }),
         QuickSettingsButton({
             icon: icons.bluetooth.enabled,
             title: "bluetooth",
             tooltip_text: 'Bluetooth',
-            stack
         }),
         QuickSettingsButton({
             icon: icons.audio.volume.high,
             title: "audio",
             tooltip_text: 'Audio',
-            stack
         }),
         QuickSettingsButton({
             icon: icons.mpris.fallback,
             title: "mpris",
             tooltip_text: 'Media',
-            stack
         })
     ]
 })
+
 
 const QuickSettingsPage = content => Widget.Scrollable({
     class_name: "qs-page",
@@ -153,11 +160,17 @@ const QuickSettingsContent = () => Widget.Stack({
             })
         )],
     ],
+    connections: [
+      [QSState, (stack, value) => {
+        stack.visible_child_name = QSState.value
+      }]
+    ]
 })
 
 const QuickSettings = () => { 
   const stack = QuickSettingsContent();
-  const header = QuickSettingsHeader(stack);
+  const header = QuickSettingsHeader();
+  QSState.items = stack.items.map(i => i[0])
   return Widget.EventBox({
     child: Widget.Box({
       vertical: true,

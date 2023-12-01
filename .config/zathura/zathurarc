@@ -1,0 +1,58 @@
+
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+
+# One page per row by default
+set pages-per-row 1
+
+#stop at page boundries
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set scroll-full-overlap 0.01
+set scroll-step 100
+
+#zoom settings
+set zoom-min 10
+set guioptions ""
+
+# zathurarc-dark
+
+set default-bg "#1e1e2e" #00
+set default-fg "#cdd6f4" #01
+
+set statusbar-fg "#cdd6f4" #04
+set statusbar-bg "#1e1e2e" #01
+
+set inputbar-bg "#1e1e2e" #00
+set inputbar-fg "#cdd6f4" #02
+
+set notification-error-bg "#f38ba8" #08
+set notification-error-fg "#1e1e2e" #00
+
+set notification-warning-bg "#f38ba8" #08
+set notification-warning-fg "#1e1e2e" #00
+
+set highlight-color "#cba6f7" #0A
+set highlight-active-color "#cba6f7" #0D
+
+set completion-highlight-fg "#1e1e2e" #02
+set completion-highlight-bg "#cba6f7" #0C
+
+set completion-bg "#1e1e2e" #02
+set completion-fg "#cdd6f4" #0C
+
+set notification-bg "#cba6f7" #0B
+set notification-fg "#1e1e2e" #00
+
+set recolor "true"
+set recolor-lightcolor "#1e1e2e" #00
+set recolor-darkcolor "#cdd6f4" #06
+set recolor-reverse-video "true"
+set recolor-keephue "true"
+
+
+set render-loading "false"
+set scroll-step 50
+unmap f
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
