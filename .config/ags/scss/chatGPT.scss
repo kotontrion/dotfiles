@@ -1,0 +1,42 @@
+.ai-container {
+  .ai-message-list {
+    margin-bottom: 3px;
+    .ai-message-corner {
+        background-color: $primary_bg_t;
+        border-radius: 1rem;        
+      }
+    .ai-message {
+      min-width: 1rem;
+      margin-top: 5px;
+      border-radius: 1rem;
+      background-color: $primary_bg_t;
+      padding: 8px;
+      &.user {
+        border-bottom-right-radius: 0px;
+      }
+      &.assistant {
+        border-bottom-left-radius: 0px;
+      }
+      .ai-role {
+        color: $primary_fg;
+      }
+      .ai-content {
+        &.thinking {
+          font-weight: 600;
+          animation: shine 3s infinite linear;
+        }
+        @keyframes shine {
+          0% { color: $primary_bg_t; }
+          20% { color: $primary_fg; }
+          80% { color: $primary_fg; }
+          100% { color: $primary_bg_t; }
+        }
+      }
+    }
+  }
+  .ai-send-button {
+    min-width: 2rem;
+    border-radius: 5px;
+    background-color: $primary_bg_t;
+  }
+}

@@ -3,6 +3,7 @@ import App from 'resource:///com/github/Aylur/ags/app.js'
 import icons from '../icons/index.js'
 import MprisPlayerList from '../mpris/index.js'
 import AudioContent from '../audio/index.js'
+import AIContent, { ChatGPT } from  '../chatGPT/index.js'
 import Menu from "./menu.js";
 import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
 import NotificationList from '../notifications/index.js'
@@ -65,6 +66,11 @@ const QuickSettingsHeader = () => Widget.Box({
             icon: icons.mpris.fallback,
             title: "mpris",
             tooltip_text: 'Media',
+        }),
+        QuickSettingsButton({
+            icon: icons.ai,
+            title: "chatgpt",
+            tooltip_text: 'ChatGPT',
         })
     ]
 })
@@ -92,7 +98,7 @@ const QuickSettingsContent = () => Widget.Stack({
                             child: Widget.Box({
                                 children: [
                                     Widget.Label("clear"),
-                                    Widget.Icon(icons.trash.full)
+                                    Widget.Icon(icons.trash.empty)
                                 ]
                             }),
                             binds: [['visible', Notifications, 'notifications', out => out.length > 0]]
@@ -157,6 +163,21 @@ const QuickSettingsContent = () => Widget.Stack({
                 title: "Player",
                 icon: icons.mpris.fallback,
                 content: MprisPlayerList(),
+            })
+        )],
+        ["chatgpt", QuickSettingsPage(Menu({
+                title: "ChatGPT",
+                icon: icons.ai,
+                content: AIContent(),
+                headerChild: Widget.Button({
+                    on_clicked: () => ChatGPT.clear(),
+                    child: Widget.Box({
+                      children: [
+                        Widget.Label('Clear '),
+                        Widget.Icon(icons.trash.empty),
+                      ]
+                    }),
+                }),
             })
         )],
     ],

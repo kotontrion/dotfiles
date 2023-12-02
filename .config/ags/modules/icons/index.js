@@ -1,3 +1,5 @@
+import App from 'resource:///com/github/Aylur/ags/app.js'
+
 export default {
     settings: 'org.gnome.Settings-symbolic',
     tick: 'object-select-symbolic',
@@ -77,7 +79,9 @@ export default {
         prev: 'media-skip-backward-symbolic',
         next: 'media-skip-forward-symbolic',
     },
+    ai: `${App.configDir}/modules/icons/chatgpt.svg`,
     ui: {
+        send: 'mail-send-symbolic',
         arrow: {
             right: 'pan-end-symbolic',
             left: 'pan-start-symbolic',

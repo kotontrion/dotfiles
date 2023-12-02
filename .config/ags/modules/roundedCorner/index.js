@@ -1,7 +1,7 @@
 import Widget from 'resource:///com/github/Aylur/ags/widget.js'
 import Gtk from 'gi://Gtk'
 
-const RoundedCorner = (place, props) => Widget.DrawingArea({
+export const RoundedCorner = (place, props) => Widget.DrawingArea({
     ...props,
     hpack: place.includes('left') ? 'start' : 'end',
     vpack: place.includes('top') ? 'start' : 'end',
