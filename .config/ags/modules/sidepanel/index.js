@@ -8,6 +8,7 @@ import icons from "../icons/index.js";
 import Calendar from './calendar/index.js'
 import Cava from '../cava/index.js'
 import Gdk from "gi://Gdk";
+import { WeatherWidget } from "../weather/index.js";
 
 const ModuleReloadIcon = (props = {}) => Widget.Button({
     ...props,
@@ -49,10 +50,11 @@ const ModulePowerIcon = (props = {}) => Widget.Button({
 const Header = () => Widget.Box({
     spacing: 8,
     children: [
+        WeatherWidget(),
         Widget.Label({
             connections: [[5000, label => {
                 execAsync([`date`, "+%H:%M"]).then(timeString => {
-                    label.label = timeString;
+                    label.label = `• ${timeString}`;
                 }).catch(print);
             }]],
         }),
