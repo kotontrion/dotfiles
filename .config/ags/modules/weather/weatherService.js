@@ -9,23 +9,26 @@ class WeatherService extends Service {
     Service.register(this, {},
       {
         'feels-like': ['int'],
+        'temp': ['int'],
         'icon': ['string'],
-        'description': ['string']
+        'description': ['string'],
+        'weather-data': ['jsobject'],
       })
   }
 
   _feels_like = 0
+  _temp = 0
   _description = ''
   _icon = ''
+  _weather_data = {}
   _url = GLib.Uri.parse('http://wttr.in/?format=j1', GLib.UriFlags.NONE);
   _decoder = new TextDecoder()
 
-  set feels_like(feels_like) {this._feels_like = feels_like; this.notify('feels-like')}
   get feels_like() {return this._feels_like}
-  set icon(icon) {this._icon = icon; this.notify('icon')}
+  get temp() {return this._temp}
   get icon() {return this._icon}
-  set description(desc) {this._description = desc; this.notify('description')}
   get description() {return this._description}
+  get weather_data() {return this._weather_data}
 
   constructor() {
     super()
@@ -41,18 +44,22 @@ class WeatherService extends Service {
     session.send_and_read_async(message, GLib.DEFAULT_PRIORITY, null, (_, result) => {
       const resp = this._decoder.decode(session.send_and_read_finish(result).get_data());
       const weatherData = JSON.parse(resp)
-      this.feels_like = weatherData["current_condition"][0]["FeelsLikeC"]
-      this.description = weatherData["current_condition"][0]["weatherDesc"][0]["value"]
+      this.updateProperty('weather_data', weatherData)
+      this.updateProperty('feels_like', Number(weatherData["current_condition"][0]["FeelsLikeC"]))
+      this.updateProperty('temp', Number(weatherData["current_condition"][0]["temp_C"]))
+      this.updateProperty('description', weatherData["current_condition"][0]["weatherDesc"][0]["value"])
       const weatherCode = weatherData["current_condition"][0]["weatherCode"]
       const sunriseHour = weatherData["weather"][0]["astronomy"][0]["sunrise"].split(':')[0]
       const sunsetHour = weatherData["weather"][0]["astronomy"][0]["sunset"].split(':')[0]
       const curHour = new Date().getHours();
       const timeOfDay = curHour > sunriseHour && curHour < sunsetHour + 12 ? 'day' : 'night'
-      this.icon = icons.fontIcons.weather[timeOfDay][weatherCode]
-                  || icons.fontIcons.weather['day'][weatherCode] // fallback to day
-                  || 'image-missing'
+      this.updateProperty('icon', icons.weather[timeOfDay][weatherCode]
+                  || icons.weather['day'][weatherCode] // fallback to day
+                  || '')
     });
   }
 }
 
-export default new WeatherService();
+const service = new WeatherService();
+export default service;
+globalThis.weather = service;

@@ -1,6 +1,6 @@
 {
     "name": "ags-config",
-    "version": "1.0.0",
+    "version": "1.5.5",
     "description": "personal AGS configuration",
     "main": "config.js",
     "author": "kotontrion",
@@ -20,7 +20,6 @@
         "fzf": "^0.5.2"
     },
     "dependencies": {
-        "fzf": "^0.5.2",
-        "wayland-client": "^1.0.0"
+        "fzf": "^0.5.2"
     }
 }

@@ -13,7 +13,7 @@ const CoverArt = player => Widget.Box({
         })
     ],
     connections: [[Mpris, (self) => {
-        const coverPath = player.cover_path;
+        const coverPath = player.cover_path || '';
         self.children[0].visible = !GLib.file_test(coverPath, GLib.FileTest.EXISTS);
         self.css = `background-image: url('${coverPath}');`;
     }]],
@@ -23,7 +23,7 @@ const CoverArt = player => Widget.Box({
 const MprisPlayer = player => Widget.Box({
     class_name: 'music-container',
     connections: [[Mpris, (self) => {
-        const coverPath = player.cover_path;
+        const coverPath = player.cover_path || '';
         const bg = GLib.file_test(coverPath, GLib.FileTest.EXISTS)
           ? `url('${coverPath}')`
           : 'none'

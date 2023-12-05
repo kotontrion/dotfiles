@@ -1,6 +1,7 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js'
 import App from 'resource:///com/github/Aylur/ags/app.js'
 const { Gio } = imports.gi;
+import GObject from 'gi://GObject';
 
 class DirectoryMonitorService extends Service {
   static {

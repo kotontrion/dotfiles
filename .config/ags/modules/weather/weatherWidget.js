@@ -11,7 +11,7 @@ const WeatherBox = () => Widget.Box({
     }),
     Widget.Label({
       class_name: 'weather-temp',
-      binds: [['label', Weather, 'feels-like', out => out + '°C']]
+      binds: [['label', Weather, 'temp', out => out + '°C']]
     })
   ],
   binds: [['tooltip-markup', Weather, 'description']]
