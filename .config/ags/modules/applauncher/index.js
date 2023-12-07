@@ -5,6 +5,7 @@ import PopupWindow from "../popupwindow/index.js";
 import Widget from 'resource:///com/github/Aylur/ags/widget.js'
 import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js'
 import { Fzf } from '../../node_modules/fzf/dist/fzf.es.js'
+import Gtk from 'gi://Gtk'
 
 const AppIcon = app => {
   const icon = lookUpIcon(app.icon_name)
@@ -81,11 +82,16 @@ const SearchBox = () => {
         const text = entry.text;
         results.children.forEach(c => results.remove(c));
         const fzfResults = fzf.find(text)
+        const context = results.get_style_context()
+        const color = context.get_color(Gtk.StateFlags.FOCUSED)
+        const hexcolor = '#' + (color.red * 0xff).toString(16).padStart(2, 0)
+                             + (color.green * 0xff).toString(16).padStart(2, 0)
+                             + (color.blue * 0xff).toString(16).padStart(2, 0)
         fzfResults.forEach(entry => {
           const nameChars = entry.item.app.name.normalize().split("");
           const nameMarkup = nameChars.map((char, i) => {
             if (entry.positions.has(i))
-              return `<span foreground="#CBA6F7">${char}</span>`;
+              return `<span foreground="${hexcolor}">${char}</span>`;
             else
               return char;
           }).join('');

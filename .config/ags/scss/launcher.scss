@@ -16,7 +16,10 @@
     }
 
     .search-results {
+      //color for letter highlighting
+      color: #CBA6F7;
       .app-button {
+        color: $default_fg;
         padding: 5px;
         border-radius: 1rem;
         .app-icon{
