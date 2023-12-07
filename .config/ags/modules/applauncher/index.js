@@ -83,7 +83,7 @@ const SearchBox = () => {
         results.children.forEach(c => results.remove(c));
         const fzfResults = fzf.find(text)
         const context = results.get_style_context()
-        const color = context.get_color(Gtk.StateFlags.FOCUSED)
+        const color = context.get_color(Gtk.StateFlags.NORMAL)
         const hexcolor = '#' + (color.red * 0xff).toString(16).padStart(2, 0)
                              + (color.green * 0xff).toString(16).padStart(2, 0)
                              + (color.blue * 0xff).toString(16).padStart(2, 0)
