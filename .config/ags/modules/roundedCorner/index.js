@@ -12,8 +12,6 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
         widget.connect('draw', (widget, cr) => {
             const c = widget.get_style_context().get_property('background-color', Gtk.StateFlags.NORMAL);
             const r = widget.get_style_context().get_property('border-radius', Gtk.StateFlags.NORMAL);
-            // const borderColor = widget.get_style_context().get_property('color', Gtk.StateFlags.NORMAL);
-            // const borderWidth = widget.get_style_context().get_border(Gtk.StateFlags.NORMAL).left; // ur going to write border-width: something anyway
             widget.set_size_request(r, r);
 
             switch (place) {
@@ -41,9 +39,6 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
             cr.closePath();
             cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
             cr.fill();
-            // cr.setLineWidth(borderWidth);
-            // cr.setSourceRGBA(borderColor.red, borderColor.green, borderColor.blue, borderColor.alpha);
-            // cr.stroke();
         })
     }
 });
@@ -54,11 +49,13 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
     hexpand: true,
     setup: widget => {
         const ratio = 1.5;
-        const c = widget.get_style_context().get_property('background-color', Gtk.StateFlags.NORMAL);
         const r = widget.get_allocated_height()
         widget.set_size_request(ratio*r, r);
         widget.connect('draw', (widget, cr) => {
-            const c = widget.get_style_context().get_property('background-color', Gtk.StateFlags.NORMAL);
+            const context = widget.get_style_context();
+            const c = context.get_property('background-color', Gtk.StateFlags.NORMAL);
+            const border_color = context.get_property('color', Gtk.StateFlags.NORMAL);
+            const border_width = context.get_border(Gtk.StateFlags.NORMAL).bottom;
             const r = widget.get_allocated_height()
             widget.set_size_request(ratio*r, r);
             switch (place) {
@@ -66,18 +63,39 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
                     cr.moveTo(0, 0)
                     cr.curveTo(ratio*r/2, 0, ratio*r/2, r, ratio*r, r);
                     cr.lineTo(ratio*r, 0);
+                    
+                    cr.moveTo(0, 0)
+                    cr.curveTo(ratio*r/2, 0, ratio*r/2, r, ratio*r, r);
+                    cr.lineTo(ratio*r, 0);
+                    cr.closePath();
+                    cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
+                    cr.fillPreserve();
+                    cr.clip()
+                    cr.moveTo(0, 0)
+                    cr.curveTo(ratio*r/2, 0, ratio*r/2, r, ratio*r, r);
+                    cr.setLineWidth(border_width * 2);
+                    cr.setSourceRGBA(border_color.red, border_color.green, border_color.blue, border_color.alpha);
+                    cr.stroke()
                     break;
 
                 case 'topright':
                     cr.moveTo(ratio*r, 0)
                     cr.curveTo(ratio*r/2, 0, ratio*r/2, r, 0, r);
                     cr.lineTo(0, 0);
+                    cr.closePath();
+                    cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
+                    cr.fillPreserve();
+                    cr.clip()
+                    cr.moveTo(ratio*r, 0)
+                    cr.curveTo(ratio*r/2, 0, ratio*r/2, r, 0, r);
+                    cr.setLineWidth(border_width * 2);
+                    cr.setSourceRGBA(border_color.red, border_color.green, border_color.blue, border_color.alpha);
+                    cr.stroke()
                     break;
             }
 
-            cr.closePath();
-            cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
-            cr.fill();
+            // cr.setLineWidth(border_width);
+            // cr.setSourceRGBA(border_color.red, border_color.green, border_color.blue, border_color.alpha);
         })
     }
 });

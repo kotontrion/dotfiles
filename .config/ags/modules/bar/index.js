@@ -21,7 +21,7 @@ const Right = () => Widget.EventBox({
     hpack: 'end',
     child: Widget.Box({
         children: [
-            RoundedAngleEnd("topleft", {class_name: "corner", hexpand: true}),
+            RoundedAngleEnd("topleft", {class_name: "angle", hexpand: true}),
             Tray(),
             Widget.EventBox({
                 on_primary_click_release: () => App.openWindow("sideright"),

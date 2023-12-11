@@ -110,12 +110,12 @@ export default () => {
       ['key-press-event', (_, event) => {
         const keyval = event.get_keyval()[1]
         if(
-          ( keyval === Gdk.KEY_n || keyval === Gdk.KEY_Right)
+          ( keyval === Gdk.KEY_n)
           && ((event.get_state()[1])&Gdk.ModifierType.CONTROL_MASK) > 0
         )
           QSState.next()
         if(
-          ( keyval === Gdk.KEY_p || keyval === Gdk.KEY_Left)
+          ( keyval === Gdk.KEY_p)
           && ((event.get_state()[1])&Gdk.ModifierType.CONTROL_MASK) > 0
         )
           QSState.prev()

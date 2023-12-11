@@ -1,5 +1,6 @@
 .bar-music-container {
   background-color: $primary_bg_t;
+  border-bottom: 2px solid $primary_fg;
   padding: 1px;
 
   .music-progress {
