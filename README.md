@@ -6,6 +6,9 @@ These files are always evolving, there are currently a few issues with them, whi
 
 https://github.com/kotontrion/dotfiles/assets/141950090/9b7aafdb-04d4-4378-82ce-8f251f27d914
 
+### Notes
+This branch includes a version of highlight.js in the modules directory, which was modified to work with gjs.
+
 #### special thanks
 - [Aylur](https://www.github.com/Aylur) for making ags
 - [end-4](https://www.github.com/end-4) for the awesome config, which inspired parts of mine (i also stole some parts of it)

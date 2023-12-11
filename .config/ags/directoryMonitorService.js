@@ -1,14 +1,12 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js'
 import App from 'resource:///com/github/Aylur/ags/app.js'
-const { Gio } = imports.gi;
-import GObject from 'gi://GObject';
+import { monitorFile } from 'resource:///com/github/Aylur/ags/utils.js'
+import Gio from 'gi://Gio';
 
 class DirectoryMonitorService extends Service {
   static {
     Service.register(this, {}, {})
   }
-
-  _monitors = [];
 
   constructor() {
     super();
@@ -16,16 +14,14 @@ class DirectoryMonitorService extends Service {
   }
 
   recursiveDirectoryMonitor(directoryPath) {
+
+    monitorFile(directoryPath, (_, eventType) => {
+      if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {
+        this.emit('changed');
+      }
+    }, 'directory');
+
     const directory = Gio.File.new_for_path(directoryPath);
-    const monitor = directory.monitor_directory(Gio.FileMonitorFlags.NONE, null);
-    this._monitors.push(monitor)
-
-    monitor.connect('changed', (fileMonitor, file, otherFile, eventType) => {
-        if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {
-            this.emit('changed');
-        }
-    });
-
     const enumerator = directory.enumerate_children('standard::*', Gio.FileQueryInfoFlags.NONE, null);
 
     let fileInfo;

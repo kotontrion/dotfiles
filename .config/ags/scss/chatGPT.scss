@@ -2,14 +2,14 @@
   .ai-message-list {
     margin-bottom: 3px;
     .ai-message-corner {
-        background-color: $primary_bg_t;
+        background-color: $primary_bg;
         border-radius: 1rem;        
       }
     .ai-message {
-      min-width: 1rem;
+      min-width: 20rem;
       margin-top: 5px;
       border-radius: 1rem;
-      background-color: $primary_bg_t;
+      background-color: $primary_bg;
       padding: 8px;
       &.user {
         border-bottom-right-radius: 0px;

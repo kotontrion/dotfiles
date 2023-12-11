@@ -1,4 +1,5 @@
 import { Button, Icon, Box, Label, Entry, Scrollable } from 'resource:///com/github/Aylur/ags/widget.js';
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import ChatGPT from './AIService.js';
 import icons from '../icons/index.js'
 import RoundedCorner from '../roundedCorner/index.js';
@@ -6,6 +7,42 @@ import Keys from '../../keys.js';
 import { QSState } from '../sidepanel/quicksettings.js'
 import App from 'resource:///com/github/Aylur/ags/app.js'
 import Gtk from 'gi://Gtk'
+import WebKit2 from 'gi://WebKit2?version=4.1';
+import Gdk from 'gi://Gdk';
+import { readFile } from 'resource:///com/github/Aylur/ags/utils.js'
+const WebView = Widget.subclass(WebKit2.WebView);
+
+const styleString = readFile(`${App.configDir}/highlight.css`)
+const stylesheet = new WebKit2.UserStyleSheet(
+  styleString, 0, 0, null, null)
+
+const MessageContent = (msg) => {
+  const view = WebView({
+    hexpand: true,
+    connections: [
+      [msg, (view) => {
+        view.load_html(msg.html, null)
+      }, 'notify::content'],
+      ['load-changed', (view, event) => {
+        if(event === 3) {
+          view.evaluate_javascript('document.body.scrollHeight', -1, null, null, null, (v, result) => {
+            const height = v.evaluate_javascript_finish(result)?.to_int32() || -1
+            v.get_parent().css = `min-height: ${height}px;`
+          })
+        }
+      }],
+      ['populate-popup', (view, menu) => {
+        menu.destroy();
+      }]
+    ]
+  });
+  view.get_user_content_manager().add_style_sheet(stylesheet)
+  view.set_background_color(new Gdk.RGBA())
+  return Box({
+    children: [view]
+  });
+};
+
 
 const Message = (msg) => Box({
   hpack: msg.role === 'user' ? 'end' : 'start',
@@ -24,18 +61,7 @@ const Message = (msg) => Box({
           wrap: true,
           selectable: true,
         }),
-        Label({
-          label: msg.content,
-          xalign: 0,
-          hpack: msg.role === 'user' ? 'end' : 'start',
-          class_name: 'ai-content',
-          hexpand: true,
-          wrap: true,
-          max_width_chars: 35,
-          selectable: true,
-          binds: [['label', msg, 'content']],
-          connections: [[msg, label => label.toggleClassName('thinking', msg.thinking), 'notify::thinking']]
-        })
+        MessageContent(msg),
       ]
     }),
     msg.role === 'user' && RoundedCorner('bottomleft', {class_name: 'ai-message-corner'}),
@@ -57,7 +83,8 @@ export default () => {
           connections: [[ChatGPT, (box, idx) => {
               const msg = ChatGPT.messages[idx];
               if (!msg) return;
-              box.add(Message(msg))
+              const msgWidget = Message(msg)
+              box.add(msgWidget)
             }, 'newMsg'],
           [ChatGPT, box => { box.children = [] }, 'clear']]
         })
