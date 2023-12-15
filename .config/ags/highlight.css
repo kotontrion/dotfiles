@@ -15,6 +15,17 @@
   border-top-right-radius: 0.5rem;
   padding: 5px;
 }
+.code-header > button {
+  color: #CDD6F4;
+  background: transparent;
+  float: right;
+  border: none;
+}
+.code-header > button:before {
+  content: '󰆏';
+  display: inline-block;
+  width: 1rem;'
+}
 pre{
   padding: 5px;
   overflow-x: scroll;

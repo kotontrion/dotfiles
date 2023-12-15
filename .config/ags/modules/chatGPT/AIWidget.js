@@ -10,6 +10,35 @@ import Gtk from 'gi://Gtk'
 import WebKit2 from 'gi://WebKit2?version=4.1';
 import Gdk from 'gi://Gdk';
 import { readFile } from 'resource:///com/github/Aylur/ags/utils.js'
+
+import { Marked } from '../../node_modules/marked/lib/marked.esm.js'
+import { markedHighlight } from '../../node_modules/marked-highlight/src/index.js';
+//highlightjs requires some modifications to work with gjs, mainly just how it's exported
+import hljs from '../highlight.js/lib/index.js'
+
+const parser = new Marked(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    }
+  })
+);
+const renderer = {
+  code(code, language, escaped) {
+    language ||= 'plaintext';
+    const encoded = encodeURIComponent(code)
+    return `
+        <div class="code">
+            <div class="code-header"><span>${language}</span><button onClick="copyCode('${encoded}')">Copy</button></div>
+            <pre><code>${code}</code></pre>
+        </div>`
+  }
+};
+
+parser.use({ renderer });
+
 const WebView = Widget.subclass(WebKit2.WebView);
 
 const styleString = readFile(`${App.configDir}/highlight.css`)
@@ -21,7 +50,14 @@ const MessageContent = (msg) => {
     hexpand: true,
     connections: [
       [msg, (view) => {
-        view.load_html(msg.html, null)
+        const content = `<script>
+            function copyCode(encodedCode) {
+              const decodedCode = decodeURIComponent(encodedCode);
+              const tempElement = document.createElement('pre');
+              tempElement.innerHTML = decodedCode;
+              navigator.clipboard.writeText(tempElement.innerText);
+            }</script>` + parser.parse(msg.content);
+        view.load_html(content, 'file://')
       }, 'notify::content'],
       ['load-changed', (view, event) => {
         if(event === 3) {
@@ -36,6 +72,8 @@ const MessageContent = (msg) => {
       }],
     ]
   });
+  view.get_settings().set_javascript_can_access_clipboard(true);
+  view.get_settings().set_enable_write_console_messages_to_stdout(true);
   view.get_user_content_manager().add_style_sheet(stylesheet)
   view.set_background_color(new Gdk.RGBA())
   return Box({

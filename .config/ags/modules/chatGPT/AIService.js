@@ -3,10 +3,6 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Soup from 'gi://Soup?version=3.0';
 import Keys from "../../keys.js";
-import { Marked } from '../../node_modules/marked/lib/marked.esm.js'
-import { markedHighlight } from '../../node_modules/marked-highlight/src/index.js';
-//highlightjs requires some modifications to work with gjs, mainly just how it's exported
-import hljs from '../highlight.js/lib/index.js'
 
 class ChatGPTMessage extends Service {
   static {
@@ -20,35 +16,13 @@ class ChatGPTMessage extends Service {
   _role = '';
   _content = '';
   _thinking = false;
-  _parser;
 
   constructor(role, content, thinking = false){
     super();
     this._role = role;
     this._content = content;
     this._thinking = thinking;
-    this._parser  = new Marked(
-      markedHighlight({
-        langPrefix: 'hljs language-',
-        highlight(code, lang) {
-          const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-          return hljs.highlight(code, { language }).value;
-        }
-      })
-    );
-    const renderer = {
-      code(code, language, escaped) {
-        language ||= 'plaintext';
-        return `
-            <div class="code">
-                <div class="code-header"><span>${language}</span></div>
-                <pre><code>${code}</code></pre>
-            </div>`
-      }
-    };
-
-    this._parser.use({ renderer });
-  }
+ }
 
   get role() { return this._role }
   set role(role) { this._role = role; this.emit('changed')}
@@ -58,11 +32,6 @@ class ChatGPTMessage extends Service {
     this._content = content;
     this.notify('content')
     this.emit('changed')
-  }
-
-  get html(){
-    const html = this._parser.parse(this.content)
-    return html
   }
 
   get thinking() { return this._thinking }
