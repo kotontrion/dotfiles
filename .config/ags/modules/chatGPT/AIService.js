@@ -10,7 +10,7 @@ import hljs from '../highlight.js/lib/index.js'
 
 class ChatGPTMessage extends Service {
   static {
-    Service.register(this, {}, 
+    Service.register(this, {},
       {
         'content': ['string'],
         'thinking': ['boolean']
@@ -51,8 +51,6 @@ class ChatGPTMessage extends Service {
   get html(){
     return this._parser.parse(this.content)
   }
-
-  get label() { return this._parserState.parsed + this._parserState.stack.join('') }
 
   get thinking() { return this._thinking }
   set thinking(thinking) {

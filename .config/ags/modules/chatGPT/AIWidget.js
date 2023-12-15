@@ -31,14 +31,12 @@ const MessageContent = (msg) => {
           })
         }
       }],
-      ['populate-popup', (view, menu) => {
-        menu.destroy();
-      }]
     ]
   });
   view.get_user_content_manager().add_style_sheet(stylesheet)
   view.set_background_color(new Gdk.RGBA())
   return Box({
+    css: 'padding: 1px',
     children: [view]
   });
 };

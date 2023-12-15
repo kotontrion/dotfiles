@@ -1,6 +1,9 @@
 * {
   color: #CDD6F4;
 }
+pre{
+  overflow-x: scroll;
+}
 code.hljs {
   color:#cdd6f4;
   background: transparent;
