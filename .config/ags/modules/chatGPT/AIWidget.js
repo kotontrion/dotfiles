@@ -25,9 +25,12 @@ const MessageContent = (msg) => {
       }, 'notify::content'],
       ['load-changed', (view, event) => {
         if(event === 3) {
-          view.evaluate_javascript('document.body.scrollHeight', -1, null, null, null, (v, result) => {
-            const height = v.evaluate_javascript_finish(result)?.to_int32() || -1
-            v.get_parent().css = `min-height: ${height}px;`
+          view.evaluate_javascript('document.body.scrollHeight', -1, null, null, null, (view, result) => {
+            const height = view.evaluate_javascript_finish(result)?.to_int32() || -1
+            view.get_parent().css = `min-height: ${height}px;`
+            const scrolledWindow = view.get_parent().get_parent().get_parent().get_parent().get_parent()
+            const adjustment = scrolledWindow.get_vadjustment();
+            adjustment.set_value(adjustment.get_upper() - adjustment.get_page_size());
           })
         }
       }],

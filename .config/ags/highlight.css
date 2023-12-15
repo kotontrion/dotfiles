@@ -1,7 +1,22 @@
 * {
   color: #CDD6F4;
+  font-size: 0.9rem;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.code {
+  background: #0e0e0e;
+  border-radius: 0.5rem;
+}
+.code-header {
+  background: #1e1e1e;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  padding: 5px;
 }
 pre{
+  padding: 5px;
   overflow-x: scroll;
 }
 code.hljs {

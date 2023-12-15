@@ -36,6 +36,18 @@ class ChatGPTMessage extends Service {
         }
       })
     );
+    const renderer = {
+      code(code, language, escaped) {
+        language ||= 'plaintext';
+        return `
+            <div class="code">
+                <div class="code-header"><span>${language}</span></div>
+                <pre><code>${code}</code></pre>
+            </div>`
+      }
+    };
+
+    this._parser.use({ renderer });
   }
 
   get role() { return this._role }
@@ -49,7 +61,8 @@ class ChatGPTMessage extends Service {
   }
 
   get html(){
-    return this._parser.parse(this.content)
+    const html = this._parser.parse(this.content)
+    return html
   }
 
   get thinking() { return this._thinking }

@@ -3,7 +3,7 @@
     margin-bottom: 3px;
     .ai-message-corner {
         background-color: $primary_bg;
-        border-radius: 1rem;        
+        border-radius: 1rem;
       }
     .ai-message {
       min-width: 20rem;
@@ -19,6 +19,8 @@
       }
       .ai-role {
         color: $primary_fg;
+        font-size: 0.9rem;
+        font-weight: bold;
       }
       .ai-content {
         &.thinking {
