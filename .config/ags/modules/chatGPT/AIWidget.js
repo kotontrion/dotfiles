@@ -31,7 +31,7 @@ const renderer = {
     const encoded = encodeURIComponent(code)
     return `
         <div class="code">
-            <div class="code-header"><span>${language}</span><button onClick="copyCode('${encoded}')">Copy</button></div>
+            <div class="code-header"><span data-language="${language}">${language}</span><button onClick="copyCode('${encoded}')">Copy</button></div>
             <pre><code>${code}</code></pre>
         </div>`
   }
@@ -45,7 +45,7 @@ const styleString = readFile(`${App.configDir}/highlight.css`)
 const stylesheet = new WebKit2.UserStyleSheet(
   styleString, 0, 0, null, null)
 
-const MessageContent = (msg) => {
+const MessageContent = (msg, scrollable) => {
   const view = WebView({
     hexpand: true,
     connections: [
@@ -64,8 +64,7 @@ const MessageContent = (msg) => {
           view.evaluate_javascript('document.body.scrollHeight', -1, null, null, null, (view, result) => {
             const height = view.evaluate_javascript_finish(result)?.to_int32() || -1
             view.get_parent().css = `min-height: ${height}px;`
-            const scrolledWindow = view.get_parent().get_parent().get_parent().get_parent().get_parent()
-            const adjustment = scrolledWindow.get_vadjustment();
+            const adjustment = scrollable.get_vadjustment();
             adjustment.set_value(adjustment.get_upper() - adjustment.get_page_size());
           })
         }
@@ -83,27 +82,19 @@ const MessageContent = (msg) => {
 };
 
 
-const Message = (msg) => Box({
-  hpack: msg.role === 'user' ? 'end' : 'start',
+const Message = (msg, scrollable) => Box({
+  class_name: `ai-message ${msg.role}`,
+  vertical: true,
   children: [
-    msg.role === 'assistant' && RoundedCorner('bottomright', {class_name: 'ai-message-corner'}),
-    Box({
-      class_name: `ai-message ${msg.role}`,
-      vertical: true,
-      children: [
-        Label({
-          label: Keys[msg.role] || msg.role,
-          xalign: 0,
-          hpack: msg.role === 'user' ? 'end' : 'start',
-          class_name: 'ai-role',
-          hexpand: true,
-          wrap: true,
-          selectable: true,
-        }),
-        MessageContent(msg),
-      ]
+    Label({
+      label: Keys[msg.role] || msg.role,
+      xalign: 0,
+      class_name: `ai-role ${msg.role}`,
+      hexpand: true,
+      wrap: true,
+      selectable: true,
     }),
-    msg.role === 'user' && RoundedCorner('bottomleft', {class_name: 'ai-message-corner'}),
+    MessageContent(msg, scrollable),
   ]
 })
 
@@ -122,7 +113,7 @@ export default () => {
           connections: [[ChatGPT, (box, idx) => {
               const msg = ChatGPT.messages[idx];
               if (!msg) return;
-              const msgWidget = Message(msg)
+              const msgWidget = Message(msg, box.get_parent())
               box.add(msgWidget)
             }, 'newMsg'],
           [ChatGPT, box => { box.children = [] }, 'clear']]
@@ -132,9 +123,10 @@ export default () => {
         spacing: 5,
         children: [
           Entry({
-            on_accept: (e) => {
-              ChatGPT.send(e.text);
-              e.text = '';
+            on_accept: (entry) => {
+              if (!entry || !entry.text || entry.text.length == 0) return;
+              ChatGPT.send(entry.text);
+              entry.text = '';
             },
             hexpand: true,
             connections: [

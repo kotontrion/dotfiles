@@ -26,7 +26,7 @@ const ModuleSettingsIcon = (props = {}) => Widget.Button({
     class_name: 'sidebar-iconbutton',
     tooltip_text: 'Open Settings',
     on_clicked: () => {
-        execAsync(['bash', '-c', 'XDG_CURRENT_DESKTOP="gnome" gnome-control-center', '&']);
+        execAsync(['bash', '-c', 'XDG_CURRENT_DESKTOP="gnome" gnome-control-center']);
         App.toggleWindow('sideright');
     },
     child: Widget.Icon({
