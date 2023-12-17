@@ -36,11 +36,11 @@ globalThis.Network = Network
 globalThis.Notifications = Notifications
 globalThis.SystemTray = SystemTray
 
-exec(`sassc ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);
 
 const applyScss = () => {
     // Compile scss
     exec(`sassc ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);
+    exec(`sassc ${App.configDir}/scss/highlight.scss ${App.configDir}/highlight.css`);
     console.log('Scss compiled');
 
     // Apply compiled css
@@ -50,6 +50,7 @@ const applyScss = () => {
 };
 
 DirectoryMonitorService.connect('changed', () => applyScss())
+applyScss()
 
 export default {
     style: `${App.configDir}/style.css`,
@@ -71,3 +72,4 @@ export default {
         PopupNotifications(),
     ],
 }
+

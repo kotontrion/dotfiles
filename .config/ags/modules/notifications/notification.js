@@ -32,7 +32,19 @@ const Notification = notification => Widget.Box({
     class_name: 'notification',
     vertical: true,
     children: [
-        Widget.Box({
+        Widget.EventBox({
+          on_primary_click: (box) => {
+            const label = box.child.children[1].children[1]
+            if (label.lines < 0) {
+              label.lines = 3
+              label.truncate = 'end'
+            }
+            else {
+              label.lines = -1
+              label.truncate = 'none' 
+            }
+          },
+          child: Widget.Box({
             children: [
                 NotificationIcon(notification),
                 Widget.Box({
@@ -65,6 +77,8 @@ const Notification = notification => Widget.Box({
                             class_name: "notification-body",
                             justification: 'left',
                             max_width_chars: 24,
+                            lines: 3,
+                            truncate: 'end',
                             wrap_mode: Pango.WrapMode.WORD_CHAR,
                             xalign: 0,
                             wrap: true,
@@ -77,6 +91,7 @@ const Notification = notification => Widget.Box({
                     ]
                 })
             ]
+          })
         }),
         Widget.Box({
             spacing: 5,

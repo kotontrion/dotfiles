@@ -6,7 +6,7 @@ import Keys from "../../keys.js";
 
 class ChatGPTMessage extends Service {
   static {
-    Service.register(this, {}, 
+    Service.register(this, {},
       {
         'content': ['string'],
         'thinking': ['boolean']
@@ -22,7 +22,7 @@ class ChatGPTMessage extends Service {
     this._role = role;
     this._content = content;
     this._thinking = thinking;
-  }
+ }
 
   get role() { return this._role }
   set role(role) { this._role = role; this.emit('changed')}
@@ -33,8 +33,6 @@ class ChatGPTMessage extends Service {
     this.notify('content')
     this.emit('changed')
   }
-
-  get label() { return this._parserState.parsed + this._parserState.stack.join('') }
 
   get thinking() { return this._thinking }
   set thinking(thinking) {
@@ -106,6 +104,15 @@ class ChatGPTService extends Service {
     const aiResponse = new ChatGPTMessage('assistant', 'thinking...', true)
     this.messages.push(aiResponse);
     this.emit('newMsg', this.messages.length - 1);
+
+//    aiResponse.content = `<html><head>
+//<title>Test HTML File</title>
+//<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+//</head>
+//<body>
+//<p>This is a very simple HTML file.</p>
+//</body></html>`
+//    return;
 
     const body = {
       model: "gpt-3.5-turbo",

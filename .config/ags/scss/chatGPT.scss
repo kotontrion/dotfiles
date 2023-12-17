@@ -1,36 +1,16 @@
 .ai-container {
   .ai-message-list {
     margin-bottom: 3px;
-    .ai-message-corner {
-        background-color: $primary_bg;
-        border-radius: 1rem;        
-      }
     .ai-message {
-      min-width: 1rem;
-      margin-top: 5px;
-      border-radius: 1rem;
-      background-color: $primary_bg;
-      padding: 8px;
-      &.user {
-        border-bottom-right-radius: 0px;
-      }
-      &.assistant {
-        border-bottom-left-radius: 0px;
-      }
       .ai-role {
-        color: $primary_fg;
-      }
-      .ai-content {
-        &.thinking {
-          font-weight: 600;
-          animation: shine 3s infinite linear;
+        &.user {
+          color: $primary_fg
         }
-        @keyframes shine {
-          0% { color: $primary_bg_t; }
-          20% { color: $primary_fg; }
-          80% { color: $primary_fg; }
-          100% { color: $primary_bg_t; }
+        &.assistant {
+          color: $secondary_fg;
         }
+        font-size: 0.9rem;
+        font-weight: bold;
       }
     }
   }
