@@ -114,6 +114,11 @@ export default () => {
         hscroll: 'never',
         vscroll: 'automatic',
         vexpand: true,
+        setup: self => {
+          const viewport = self.child;
+          //prevent jump to the top of clicked element
+          viewport.set_focus_vadjustment(new Gtk.Adjustment(undefined));
+        },
         child: Box({
           vertical: true,
           connections: [[ChatGPT, (box, idx) => {
