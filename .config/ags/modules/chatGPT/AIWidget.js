@@ -31,7 +31,7 @@ const renderer = {
     const encoded = encodeURIComponent(code)
     return `
         <div class="code">
-            <div class="code-header"><span data-language="${language}">${language}</span><button onClick="copyCode('${encoded}')">Copy</button></div>
+            <div class="code-header"><span data-language="${language}">${language}</span><button onClick="copyCode(this, '${encoded}')">Copy</button></div>
             <pre><code>${code}</code></pre>
         </div>`
   }
@@ -51,11 +51,13 @@ const MessageContent = (msg, scrollable) => {
     connections: [
       [msg, (view) => {
         const content = `<script>
-            function copyCode(encodedCode) {
+            function copyCode(button, encodedCode) {
               const decodedCode = decodeURIComponent(encodedCode);
               const tempElement = document.createElement('pre');
               tempElement.innerHTML = decodedCode;
               navigator.clipboard.writeText(tempElement.innerText);
+              button.innerText = 'Copied';
+              setTimeout(() => button.innerText = 'Copy', 2000);
             }</script>` + parser.parse(msg.content);
         view.load_html(content, 'file://')
       }, 'notify::content'],

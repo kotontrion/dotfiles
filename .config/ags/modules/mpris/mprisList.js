@@ -2,12 +2,13 @@ import Widget, {Box} from "resource:///com/github/Aylur/ags/widget.js";
 import icons from "../icons/index.js";
 import Mpris from "resource:///com/github/Aylur/ags/service/mpris.js";
 import GLib from "gi://GLib";
+import { lookUpIcon } from "resource:///com/github/Aylur/ags/utils.js";
 
 const CoverArt = player => Widget.Box({
     class_name: 'music-cover',
     children: [
         Widget.Icon({
-            icon: icons.mpris.fallback,
+      icon: lookUpIcon(player.name) ? player.name : icons.mpris.fallback,
             vpack: 'center',
             hpack: 'center',
         })
