@@ -69,6 +69,10 @@ const MessageContent = (msg, scrollable) => {
           })
         }
       }],
+      // HACK: evil way to disable context menu
+      ['context-menu', (view, menu, event, result) => {
+        menu.remove_all()
+      }]
     ]
   });
   view.get_settings().set_javascript_can_access_clipboard(true);

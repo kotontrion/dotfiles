@@ -72,3 +72,4 @@ export default {
         PopupNotifications(),
     ],
 }
+
