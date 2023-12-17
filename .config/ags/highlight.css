@@ -112,6 +112,12 @@ html, body {
   color: #cba6f7;
   padding-right: 0.5rem; }
 
+[data-language="typescript"]:before {
+  content: "󰛦";
+  font-size: 1.1rem;
+  color: #cba6f7;
+  padding-right: 0.5rem; }
+
 pre {
   padding: 5px;
   overflow-x: scroll; }

@@ -5,198 +5,206 @@ async function require(lang) {
   return hl.default
 }
 
-hljs.registerLanguage('1c', await require('./languages/1c'));
-hljs.registerLanguage('abnf', await require('./languages/abnf'));
-hljs.registerLanguage('accesslog', await require('./languages/accesslog'));
-hljs.registerLanguage('actionscript', await require('./languages/actionscript'));
-hljs.registerLanguage('ada', await require('./languages/ada'));
-hljs.registerLanguage('angelscript', await require('./languages/angelscript'));
-hljs.registerLanguage('apache', await require('./languages/apache'));
-hljs.registerLanguage('applescript', await require('./languages/applescript'));
-hljs.registerLanguage('arcade', await require('./languages/arcade'));
-hljs.registerLanguage('arduino', await require('./languages/arduino'));
-hljs.registerLanguage('armasm', await require('./languages/armasm'));
-hljs.registerLanguage('xml', await require('./languages/xml'));
-hljs.registerLanguage('asciidoc', await require('./languages/asciidoc'));
-hljs.registerLanguage('aspectj', await require('./languages/aspectj'));
-hljs.registerLanguage('autohotkey', await require('./languages/autohotkey'));
-hljs.registerLanguage('autoit', await require('./languages/autoit'));
-hljs.registerLanguage('avrasm', await require('./languages/avrasm'));
-hljs.registerLanguage('awk', await require('./languages/awk'));
-hljs.registerLanguage('axapta', await require('./languages/axapta'));
-hljs.registerLanguage('bash', await require('./languages/bash'));
-hljs.registerLanguage('basic', await require('./languages/basic'));
-hljs.registerLanguage('bnf', await require('./languages/bnf'));
-hljs.registerLanguage('brainfuck', await require('./languages/brainfuck'));
-hljs.registerLanguage('c', await require('./languages/c'));
-hljs.registerLanguage('cal', await require('./languages/cal'));
-hljs.registerLanguage('capnproto', await require('./languages/capnproto'));
-hljs.registerLanguage('ceylon', await require('./languages/ceylon'));
-hljs.registerLanguage('clean', await require('./languages/clean'));
-hljs.registerLanguage('clojure', await require('./languages/clojure'));
-hljs.registerLanguage('clojure-repl', await require('./languages/clojure-repl'));
-hljs.registerLanguage('cmake', await require('./languages/cmake'));
-hljs.registerLanguage('coffeescript', await require('./languages/coffeescript'));
-hljs.registerLanguage('coq', await require('./languages/coq'));
-hljs.registerLanguage('cos', await require('./languages/cos'));
-hljs.registerLanguage('cpp', await require('./languages/cpp'));
-hljs.registerLanguage('crmsh', await require('./languages/crmsh'));
-hljs.registerLanguage('crystal', await require('./languages/crystal'));
-hljs.registerLanguage('csharp', await require('./languages/csharp'));
-hljs.registerLanguage('csp', await require('./languages/csp'));
-hljs.registerLanguage('css', await require('./languages/css'));
-hljs.registerLanguage('d', await require('./languages/d'));
-hljs.registerLanguage('markdown', await require('./languages/markdown'));
-hljs.registerLanguage('dart', await require('./languages/dart'));
-hljs.registerLanguage('delphi', await require('./languages/delphi'));
-hljs.registerLanguage('diff', await require('./languages/diff'));
-hljs.registerLanguage('django', await require('./languages/django'));
-hljs.registerLanguage('dns', await require('./languages/dns'));
-hljs.registerLanguage('dockerfile', await require('./languages/dockerfile'));
-hljs.registerLanguage('dos', await require('./languages/dos'));
-hljs.registerLanguage('dsconfig', await require('./languages/dsconfig'));
-hljs.registerLanguage('dts', await require('./languages/dts'));
-hljs.registerLanguage('dust', await require('./languages/dust'));
-hljs.registerLanguage('ebnf', await require('./languages/ebnf'));
-hljs.registerLanguage('elixir', await require('./languages/elixir'));
-hljs.registerLanguage('elm', await require('./languages/elm'));
-hljs.registerLanguage('ruby', await require('./languages/ruby'));
-hljs.registerLanguage('erb', await require('./languages/erb'));
-hljs.registerLanguage('erlang-repl', await require('./languages/erlang-repl'));
-hljs.registerLanguage('erlang', await require('./languages/erlang'));
-hljs.registerLanguage('excel', await require('./languages/excel'));
-hljs.registerLanguage('fix', await require('./languages/fix'));
-hljs.registerLanguage('flix', await require('./languages/flix'));
-hljs.registerLanguage('fortran', await require('./languages/fortran'));
-hljs.registerLanguage('fsharp', await require('./languages/fsharp'));
-hljs.registerLanguage('gams', await require('./languages/gams'));
-hljs.registerLanguage('gauss', await require('./languages/gauss'));
-hljs.registerLanguage('gcode', await require('./languages/gcode'));
-hljs.registerLanguage('gherkin', await require('./languages/gherkin'));
-hljs.registerLanguage('glsl', await require('./languages/glsl'));
-hljs.registerLanguage('gml', await require('./languages/gml'));
-hljs.registerLanguage('go', await require('./languages/go'));
-hljs.registerLanguage('golo', await require('./languages/golo'));
-hljs.registerLanguage('gradle', await require('./languages/gradle'));
-hljs.registerLanguage('graphql', await require('./languages/graphql'));
-hljs.registerLanguage('groovy', await require('./languages/groovy'));
-hljs.registerLanguage('haml', await require('./languages/haml'));
-hljs.registerLanguage('handlebars', await require('./languages/handlebars'));
-hljs.registerLanguage('haskell', await require('./languages/haskell'));
-hljs.registerLanguage('haxe', await require('./languages/haxe'));
-hljs.registerLanguage('hsp', await require('./languages/hsp'));
-hljs.registerLanguage('http', await require('./languages/http'));
-hljs.registerLanguage('hy', await require('./languages/hy'));
-hljs.registerLanguage('inform7', await require('./languages/inform7'));
-hljs.registerLanguage('ini', await require('./languages/ini'));
-hljs.registerLanguage('irpf90', await require('./languages/irpf90'));
-hljs.registerLanguage('isbl', await require('./languages/isbl'));
-hljs.registerLanguage('java', await require('./languages/java'));
-hljs.registerLanguage('javascript', await require('./languages/javascript'));
-hljs.registerLanguage('jboss-cli', await require('./languages/jboss-cli'));
-hljs.registerLanguage('json', await require('./languages/json'));
-hljs.registerLanguage('julia', await require('./languages/julia'));
-hljs.registerLanguage('julia-repl', await require('./languages/julia-repl'));
-hljs.registerLanguage('kotlin', await require('./languages/kotlin'));
-hljs.registerLanguage('lasso', await require('./languages/lasso'));
-hljs.registerLanguage('latex', await require('./languages/latex'));
-hljs.registerLanguage('ldif', await require('./languages/ldif'));
-hljs.registerLanguage('leaf', await require('./languages/leaf'));
-hljs.registerLanguage('less', await require('./languages/less'));
-hljs.registerLanguage('lisp', await require('./languages/lisp'));
-hljs.registerLanguage('livecodeserver', await require('./languages/livecodeserver'));
-hljs.registerLanguage('livescript', await require('./languages/livescript'));
-hljs.registerLanguage('llvm', await require('./languages/llvm'));
-hljs.registerLanguage('lsl', await require('./languages/lsl'));
-hljs.registerLanguage('lua', await require('./languages/lua'));
-hljs.registerLanguage('makefile', await require('./languages/makefile'));
-hljs.registerLanguage('mathematica', await require('./languages/mathematica'));
-hljs.registerLanguage('matlab', await require('./languages/matlab'));
-hljs.registerLanguage('maxima', await require('./languages/maxima'));
-hljs.registerLanguage('mel', await require('./languages/mel'));
-hljs.registerLanguage('mercury', await require('./languages/mercury'));
-hljs.registerLanguage('mipsasm', await require('./languages/mipsasm'));
-hljs.registerLanguage('mizar', await require('./languages/mizar'));
-hljs.registerLanguage('perl', await require('./languages/perl'));
-hljs.registerLanguage('mojolicious', await require('./languages/mojolicious'));
-hljs.registerLanguage('monkey', await require('./languages/monkey'));
-hljs.registerLanguage('moonscript', await require('./languages/moonscript'));
-hljs.registerLanguage('n1ql', await require('./languages/n1ql'));
-hljs.registerLanguage('nestedtext', await require('./languages/nestedtext'));
-hljs.registerLanguage('nginx', await require('./languages/nginx'));
-hljs.registerLanguage('nim', await require('./languages/nim'));
-hljs.registerLanguage('nix', await require('./languages/nix'));
-hljs.registerLanguage('node-repl', await require('./languages/node-repl'));
-hljs.registerLanguage('nsis', await require('./languages/nsis'));
-hljs.registerLanguage('objectivec', await require('./languages/objectivec'));
-hljs.registerLanguage('ocaml', await require('./languages/ocaml'));
-hljs.registerLanguage('openscad', await require('./languages/openscad'));
-hljs.registerLanguage('oxygene', await require('./languages/oxygene'));
-hljs.registerLanguage('parser3', await require('./languages/parser3'));
-hljs.registerLanguage('pf', await require('./languages/pf'));
-hljs.registerLanguage('pgsql', await require('./languages/pgsql'));
-hljs.registerLanguage('php', await require('./languages/php'));
-hljs.registerLanguage('php-template', await require('./languages/php-template'));
-hljs.registerLanguage('plaintext', await require('./languages/plaintext'));
-hljs.registerLanguage('pony', await require('./languages/pony'));
-hljs.registerLanguage('powershell', await require('./languages/powershell'));
-hljs.registerLanguage('processing', await require('./languages/processing'));
-hljs.registerLanguage('profile', await require('./languages/profile'));
-hljs.registerLanguage('prolog', await require('./languages/prolog'));
-hljs.registerLanguage('properties', await require('./languages/properties'));
-hljs.registerLanguage('protobuf', await require('./languages/protobuf'));
-hljs.registerLanguage('puppet', await require('./languages/puppet'));
-hljs.registerLanguage('purebasic', await require('./languages/purebasic'));
-hljs.registerLanguage('python', await require('./languages/python'));
-hljs.registerLanguage('python-repl', await require('./languages/python-repl'));
-hljs.registerLanguage('q', await require('./languages/q'));
-hljs.registerLanguage('qml', await require('./languages/qml'));
-hljs.registerLanguage('r', await require('./languages/r'));
-hljs.registerLanguage('reasonml', await require('./languages/reasonml'));
-hljs.registerLanguage('rib', await require('./languages/rib'));
-hljs.registerLanguage('roboconf', await require('./languages/roboconf'));
-hljs.registerLanguage('routeros', await require('./languages/routeros'));
-hljs.registerLanguage('rsl', await require('./languages/rsl'));
-hljs.registerLanguage('ruleslanguage', await require('./languages/ruleslanguage'));
-hljs.registerLanguage('rust', await require('./languages/rust'));
-hljs.registerLanguage('sas', await require('./languages/sas'));
-hljs.registerLanguage('scala', await require('./languages/scala'));
-hljs.registerLanguage('scheme', await require('./languages/scheme'));
-hljs.registerLanguage('scilab', await require('./languages/scilab'));
-hljs.registerLanguage('scss', await require('./languages/scss'));
-hljs.registerLanguage('shell', await require('./languages/shell'));
-hljs.registerLanguage('smali', await require('./languages/smali'));
-hljs.registerLanguage('smalltalk', await require('./languages/smalltalk'));
-hljs.registerLanguage('sml', await require('./languages/sml'));
-hljs.registerLanguage('sqf', await require('./languages/sqf'));
-hljs.registerLanguage('sql', await require('./languages/sql'));
-hljs.registerLanguage('stan', await require('./languages/stan'));
-hljs.registerLanguage('stata', await require('./languages/stata'));
-hljs.registerLanguage('step21', await require('./languages/step21'));
-hljs.registerLanguage('stylus', await require('./languages/stylus'));
-hljs.registerLanguage('subunit', await require('./languages/subunit'));
-hljs.registerLanguage('swift', await require('./languages/swift'));
-hljs.registerLanguage('taggerscript', await require('./languages/taggerscript'));
-hljs.registerLanguage('yaml', await require('./languages/yaml'));
-hljs.registerLanguage('tap', await require('./languages/tap'));
-hljs.registerLanguage('tcl', await require('./languages/tcl'));
-hljs.registerLanguage('thrift', await require('./languages/thrift'));
-hljs.registerLanguage('tp', await require('./languages/tp'));
-hljs.registerLanguage('twig', await require('./languages/twig'));
-hljs.registerLanguage('typescript', await require('./languages/typescript'));
-hljs.registerLanguage('vala', await require('./languages/vala'));
-hljs.registerLanguage('vbnet', await require('./languages/vbnet'));
-hljs.registerLanguage('vbscript', await require('./languages/vbscript'));
-hljs.registerLanguage('vbscript-html', await require('./languages/vbscript-html'));
-hljs.registerLanguage('verilog', await require('./languages/verilog'));
-hljs.registerLanguage('vhdl', await require('./languages/vhdl'));
-hljs.registerLanguage('vim', await require('./languages/vim'));
-hljs.registerLanguage('wasm', await require('./languages/wasm'));
-hljs.registerLanguage('wren', await require('./languages/wren'));
-hljs.registerLanguage('x86asm', await require('./languages/x86asm'));
-hljs.registerLanguage('xl', await require('./languages/xl'));
-hljs.registerLanguage('xquery', await require('./languages/xquery'));
-hljs.registerLanguage('zephir', await require('./languages/zephir'));
+async function register(lang) {
+  require(`./languages/${lang}`).then(f => hljs.registerLanguage(`${lang}`, f))
+}
+
+const languages = [
+  '1c',
+  'abnf',
+  'accesslog',
+  'actionscript',
+  'ada',
+  'angelscript',
+  'apache',
+  'applescript',
+  'arcade',
+  'arduino',
+  'armasm',
+  'xml',
+  'asciidoc',
+  'aspectj',
+  'autohotkey',
+  'autoit',
+  'avrasm',
+  'awk',
+  'axapta',
+  'bash',
+  'basic',
+  'bnf',
+  'brainfuck',
+  'c',
+  'cal',
+  'capnproto',
+  'ceylon',
+  'clean',
+  'clojure',
+  'clojure-repl',
+  'cmake',
+  'coffeescript',
+  'coq',
+  'cos',
+  'cpp',
+  'crmsh',
+  'crystal',
+  'csharp',
+  'csp',
+  'css',
+  'd',
+  'markdown',
+  'dart',
+  'delphi',
+  'diff',
+  'django',
+  'dns',
+  'dockerfile',
+  'dos',
+  'dsconfig',
+  'dts',
+  'dust',
+  'ebnf',
+  'elixir',
+  'elm',
+  'ruby',
+  'erb',
+  'erlang-repl',
+  'erlang',
+  'excel',
+  'fix',
+  'flix',
+  'fortran',
+  'fsharp',
+  'gams',
+  'gauss',
+  'gcode',
+  'gherkin',
+  'glsl',
+  'gml',
+  'go',
+  'golo',
+  'gradle',
+  'graphql',
+  'groovy',
+  'haml',
+  'handlebars',
+  'haskell',
+  'haxe',
+  'hsp',
+  'http',
+  'hy',
+  'inform7',
+  'ini',
+  'irpf90',
+  'isbl',
+  'java',
+  'javascript',
+  'jboss-cli',
+  'json',
+  'julia',
+  'julia-repl',
+  'kotlin',
+  'lasso',
+  'latex',
+  'ldif',
+  'leaf',
+  'less',
+  'lisp',
+  'livecodeserver',
+  'livescript',
+  'llvm',
+  'lsl',
+  'lua',
+  'makefile',
+  'mathematica',
+  'matlab',
+  'maxima',
+  'mel',
+  'mercury',
+  'mipsasm',
+  'mizar',
+  'perl',
+  'mojolicious',
+  'monkey',
+  'moonscript',
+  'n1ql',
+  'nestedtext',
+  'nginx',
+  'nim',
+  'nix',
+  'node-repl',
+  'nsis',
+  'objectivec',
+  'ocaml',
+  'openscad',
+  'oxygene',
+  'parser3',
+  'pf',
+  'pgsql',
+  'php',
+  'php-template',
+  'plaintext',
+  'pony',
+  'powershell',
+  'processing',
+  'profile',
+  'prolog',
+  'properties',
+  'protobuf',
+  'puppet',
+  'purebasic',
+  'python',
+  'python-repl',
+  'q',
+  'qml',
+  'r',
+  'reasonml',
+  'rib',
+  'roboconf',
+  'routeros',
+  'rsl',
+  'ruleslanguage',
+  'rust',
+  'sas',
+  'scala',
+  'scheme',
+  'scilab',
+  'scss',
+  'shell',
+  'smali',
+  'smalltalk',
+  'sml',
+  'sqf',
+  'sql',
+  'stan',
+  'stata',
+  'step21',
+  'stylus',
+  'subunit',
+  'swift',
+  'taggerscript',
+  'yaml',
+  'tap',
+  'tcl',
+  'thrift',
+  'tp',
+  'twig',
+  'typescript',
+  'vala',
+  'vbnet',
+  'vbscript',
+  'vbscript-html',
+  'verilog',
+  'vhdl',
+  'vim',
+  'wasm',
+  'wren',
+  'x86asm',
+  'xl',
+  'xquery',
+  'zephir'
+];
+
+languages.map(lang => register(lang))
 
 export default hljs;
 
