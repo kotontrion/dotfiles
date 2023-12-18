@@ -9,8 +9,9 @@
     border-radius: 1rem;
     margin-bottom: 5px;
   }
+
   .search-scroll {
-    
+
     scrollbar, scrollbar * {
       all: unset;
     }
@@ -18,21 +19,26 @@
     .search-results {
       //color for letter highlighting
       color: #CBA6F7;
+
       .app-button {
         color: $default_fg;
         padding: 5px;
         border-radius: 1rem;
-        .app-icon{
+
+        .app-icon {
           font-size: 3rem;
           margin-right: 5px;
         }
-        .app-name{
+
+        .app-name {
           font-weight: bold;
           font-size: 1.2rem;
         }
-        .app-description{
+
+        .app-description {
           font-size: 0.8rem;
         }
+
         &.focused {
           background-color: $primary_bg_t;
         }

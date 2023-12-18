@@ -1,5 +1,5 @@
 import AIContainer from './AIWidget.js'
 import ChatGPT from './AIService.js'
 
-export { ChatGPT }
+export {ChatGPT}
 export default AIContainer;

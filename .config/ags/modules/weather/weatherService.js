@@ -2,7 +2,7 @@ import Service from 'resource:///com/github/Aylur/ags/service.js';
 import Soup from 'gi://Soup?version=3.0';
 import GLib from 'gi://GLib'
 import icons from '../icons/index.js'
-import { interval } from 'resource:///com/github/Aylur/ags/utils.js'
+import {interval} from 'resource:///com/github/Aylur/ags/utils.js'
 
 class WeatherService extends Service {
   static {
@@ -24,18 +24,32 @@ class WeatherService extends Service {
   _url = GLib.Uri.parse('http://wttr.in/?format=j1', GLib.UriFlags.NONE);
   _decoder = new TextDecoder()
 
-  get feels_like() {return this._feels_like}
-  get temp() {return this._temp}
-  get icon() {return this._icon}
-  get description() {return this._description}
-  get weather_data() {return this._weather_data}
+  get feels_like() {
+    return this._feels_like
+  }
+
+  get temp() {
+    return this._temp
+  }
+
+  get icon() {
+    return this._icon
+  }
+
+  get description() {
+    return this._description
+  }
+
+  get weather_data() {
+    return this._weather_data
+  }
 
   constructor() {
     super()
     interval(900000, this._getWeather.bind(this)) // every 15 min
   }
 
-  _getWeather(){
+  _getWeather() {
     const session = new Soup.Session();
     const message = new Soup.Message({
       method: 'GET',
@@ -54,8 +68,8 @@ class WeatherService extends Service {
       const curHour = new Date().getHours();
       const timeOfDay = curHour > sunriseHour && curHour < sunsetHour + 12 ? 'day' : 'night'
       this.updateProperty('icon', icons.weather[timeOfDay][weatherCode]
-                  || icons.weather['day'][weatherCode] // fallback to day
-                  || '')
+        || icons.weather['day'][weatherCode] // fallback to day
+        || '')
     });
   }
 }

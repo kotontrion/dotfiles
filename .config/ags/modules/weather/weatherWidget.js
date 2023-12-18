@@ -7,14 +7,14 @@ const WeatherBox = () => Widget.Box({
   children: [
     Widget.Label({
       class_name: 'weather-icon',
-      binds: [['label', Weather, 'icon']]
+      label: Weather.bind('icon')
     }),
     Widget.Label({
       class_name: 'weather-temp',
-      binds: [['label', Weather, 'temp', out => out + '°C']]
+      label: Weather.bind('temp').transform(temp => temp + '°C')
     })
   ],
-  binds: [['tooltip-markup', Weather, 'description']]
+  tooltip_markup: Weather.bind('description')
 })
 
 export default WeatherBox

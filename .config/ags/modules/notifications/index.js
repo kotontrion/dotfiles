@@ -6,28 +6,24 @@ import PopupNotifications from './popupNotification.js'
 import NotificationList from './notificationList.js'
 
 const NotificationsIndicator = () => Widget.Icon({
-    icon: icons.notifications.noisy,
-    class_name: "notification-indicator",
-    connections: [
-        [Notifications, (icon) => {
-            icon.visible = Notifications.notifications.length > 0 && !Notifications.dnd
-        }]
-    ]
+  icon: icons.notifications.noisy,
+  class_name: "notification-indicator",
+  visible: Notifications.bind('notifications').transform(nots => nots.length > 0 && !Notifications.dnd)
 })
 
 const DNDIndicator = () => Widget.Icon({
-    icon: icons.notifications.silent,
-    class_name: "notification-indicator",
-    binds: [["visible", Notifications, "dnd"]]
+  icon: icons.notifications.silent,
+  class_name: "notification-indicator",
+  visible: Notifications.bind('dnd')
 })
 
 export const NotificationIndicator = () => Widget.Box({
-    class_name: "notification-indicator-container",
-    children: [
-        NotificationsIndicator(),
-        DNDIndicator()
-    ]
+  class_name: "notification-indicator-container",
+  children: [
+    NotificationsIndicator(),
+    DNDIndicator()
+  ]
 })
 
-export { Notification, PopupNotifications }
+export {Notification, PopupNotifications}
 export default NotificationList

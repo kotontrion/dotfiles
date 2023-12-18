@@ -1,10 +1,9 @@
 import Applications from 'resource:///com/github/Aylur/ags/service/applications.js'
 import App from 'resource:///com/github/Aylur/ags/app.js'
-import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js'
 import PopupWindow from "../popupwindow/index.js";
 import Widget from 'resource:///com/github/Aylur/ags/widget.js'
 import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js'
-import { Fzf } from '../../node_modules/fzf/dist/fzf.es.js'
+import {Fzf} from '../../node_modules/fzf/dist/fzf.es.js'
 import Gtk from 'gi://Gtk'
 
 const AppIcon = app => {
@@ -24,10 +23,7 @@ const AppButton = app => Widget.Button({
     //app._frequency++;
     App.closeWindow('launcher')
   },
-  setup: (button) => {
-    button.app = app;
-    button.connect('destroy', () => print('BUTTON DESTROY', app.name))
-  },
+  attribute: {'app': app},
   tooltip_text: app.description,
   class_name: 'app-button',
   child: Widget.Box({
@@ -55,21 +51,40 @@ const AppButton = app => Widget.Button({
       })
     ]
   }),
-  connections: [
-    ['focus-in-event', (self) => {
-      self.toggleClassName('focused', true);
-    }],
-    ['focus-out-event', (self) => {
-      self.toggleClassName('focused', false);
-    }],
-  ],
+}).on('focus-in-event', (self) => {
+  self.toggleClassName('focused', true);
+})
+  .on('focus-out-event', (self) => {
+    self.toggleClassName('focused', false);
+  })
+
+const fzf = new Fzf(Applications.list.map(AppButton), {
+  selector: (item) => item.attribute.app.name,
+  tiebreakers: [(a, b, sel) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
 })
 
+function searchApps(entry, results) {
+  const text = entry.text;
+  results.children.forEach(c => results.remove(c));
+  const fzfResults = fzf.find(text)
+  const context = results.get_style_context()
+  const color = context.get_color(Gtk.StateFlags.NORMAL)
+  const hexcolor = '#' + (color.red * 0xff).toString(16).padStart(2, '0')
+    + (color.green * 0xff).toString(16).padStart(2, '0')
+    + (color.blue * 0xff).toString(16).padStart(2, '0')
+  fzfResults.forEach(entry => {
+    const nameChars = entry.item.attribute.app.name.normalize().split("");
+    entry.item.child.children[1].children[0].label = nameChars.map((char, i) => {
+      if (entry.positions.has(i))
+        return `<span foreground="${hexcolor}">${char}</span>`;
+      else
+        return char;
+    }).join('')
+  });
+  results.children = fzfResults.map(e => e.item)
+}
+
 const SearchBox = () => {
-  const fzf = new Fzf(Applications.list.map(AppButton), {
-    selector: (item) => item.app.name,
-    tiebreakers: [(a, b, sel) => b.item.app._frequency - a.item.app._frequency]
-  })
   const results = Widget.Box({
     vertical: true,
     vexpand: true,
@@ -77,35 +92,12 @@ const SearchBox = () => {
   });
   const entry = Widget.Entry({
     class_name: 'search-entry',
-    connections: [
-      ['notify::text', (entry) => {
-        const text = entry.text;
-        results.children.forEach(c => results.remove(c));
-        const fzfResults = fzf.find(text)
-        const context = results.get_style_context()
-        const color = context.get_color(Gtk.StateFlags.NORMAL)
-        const hexcolor = '#' + (color.red * 0xff).toString(16).padStart(2, 0)
-                             + (color.green * 0xff).toString(16).padStart(2, 0)
-                             + (color.blue * 0xff).toString(16).padStart(2, 0)
-        fzfResults.forEach(entry => {
-          const nameChars = entry.item.app.name.normalize().split("");
-          const nameMarkup = nameChars.map((char, i) => {
-            if (entry.positions.has(i))
-              return `<span foreground="${hexcolor}">${char}</span>`;
-            else
-              return char;
-          }).join('');
-          entry.item.child.children[1].children[0].label = nameMarkup          
-        });
-        results.children = fzfResults.map(e => e.item)
-      }],
-      [App, (app, name, visible) => {
-        if (name !== 'launcher' || !visible) return
-        entry.text = ''
-        entry.grab_focus()
-      }, 'window-toggled']
-    ]
-  })
+  }).on('notify::text', (entry) => searchApps(entry, results))
+    .hook(App, (app, name, visible) => {
+      if (name !== 'launcher' || !visible) return
+      entry.text = ''
+      entry.grab_focus()
+    }, 'window-toggled')
   return Widget.Box({
     vertical: true,
     class_name: 'launcher',

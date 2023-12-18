@@ -1,19 +1,23 @@
 .ai-container {
   .ai-message-list {
     margin-bottom: 3px;
+
     .ai-message {
       .ai-role {
         &.user {
           color: $primary_fg
         }
+
         &.assistant {
           color: $secondary_fg;
         }
+
         font-size: 0.9rem;
         font-weight: bold;
       }
     }
   }
+
   .ai-send-button {
     min-width: 2rem;
     border-radius: 5px;

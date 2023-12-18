@@ -1,6 +1,6 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js'
 import App from 'resource:///com/github/Aylur/ags/app.js'
-import { monitorFile } from 'resource:///com/github/Aylur/ags/utils.js'
+import {monitorFile} from 'resource:///com/github/Aylur/ags/utils.js'
 import Gio from 'gi://Gio';
 
 class DirectoryMonitorService extends Service {
@@ -26,11 +26,11 @@ class DirectoryMonitorService extends Service {
 
     let fileInfo;
     while ((fileInfo = enumerator.next_file(null)) !== null) {
-        const childPath = directoryPath + '/' + fileInfo.get_name();
-        if (fileInfo.get_file_type() === Gio.FileType.DIRECTORY) {
-            this.recursiveDirectoryMonitor(childPath);
-        }
-     }
+      const childPath = directoryPath + '/' + fileInfo.get_name();
+      if (fileInfo.get_file_type() === Gio.FileType.DIRECTORY) {
+        this.recursiveDirectoryMonitor(childPath);
+      }
+    }
   }
 }
 

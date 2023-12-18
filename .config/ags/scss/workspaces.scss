@@ -1,6 +1,7 @@
 .ws-container {
   background-color: $primary_bg_t;
   padding: 3px;
+
   .ws-button {
     transition: all 200ms;
 
@@ -32,7 +33,7 @@
         color: $primary_bg;
         border-radius: 1rem;
       }
-   }
+    }
 
     .ws-button-label {
       min-width: 2rem;
