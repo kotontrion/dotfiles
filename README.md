@@ -13,7 +13,7 @@ This branch includes a version of highlight.js in the modules directory, which w
 ### Dependencies
 this list is probably incomplete, I won't list themes here.
 - Hyprland
-- ags (install all of its optional dependencies too)
+- ags (you need the git version, install all of its optional dependencies too)
 - sassc
 
 ### Usage
