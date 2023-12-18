@@ -110,7 +110,7 @@ const Notification = notification => Widget.Box({
 const NotificationReveal = (notification, visible = false) => {
 
 
-  const widget = Widget.Revealer({
+  const secondRevealer = Widget.Revealer({
     child: Notification(notification),
     reveal_child: visible,
     transition: 'slide_left',
@@ -122,12 +122,22 @@ const NotificationReveal = (notification, visible = false) => {
     },
   });
 
+  const firstRevealer = Widget.Revealer({
+    child: secondRevealer,
+    reveal_child: true,
+    transition: 'slide_down',
+    transition_duration: 200,
+  });
+
   let box;
 
   const destroyWithAnims = () => {
-    widget.reveal_child = false;
+    secondRevealer.reveal_child = false;
     timeout(200, () => {
-      box.destroy()
+      firstRevealer.reveal_child = false;
+      timeout(200, () => {
+        box.destroy()
+      })
     })
   }
   box = Widget.Box({
@@ -137,7 +147,7 @@ const NotificationReveal = (notification, visible = false) => {
       'destroyWithAnims': destroyWithAnims,
       'count': 0
     },
-    children: [widget],
+    children: [firstRevealer],
   })
   return box
 }
