@@ -2,9 +2,10 @@
 my personal dotfiles, use at your own risk.
 These files are always evolving, there are currently a few issues with them, which probably will be fixed eventually.
 
-### showcase ( as of 2023-11-26 )
+### showcase ( as of 2023-12-18 )
 
-https://github.com/kotontrion/dotfiles/assets/141950090/9b7aafdb-04d4-4378-82ce-8f251f27d914
+https://github.com/kotontrion/dotfiles/assets/141950090/1f3b9f4c-1836-4530-9597-9d68792b9641
+
 
 ### Notes
 This branch includes a version of highlight.js in the modules directory, which was modified to work with gjs.
