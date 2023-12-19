@@ -1,11 +1,11 @@
-import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 
 /**
  * @param {Object} param
  * @param {string} param.title
  * @param {string} param.icon
  * @param {import('gi://Gtk').default.Widget} param.content
- * @param {import('gi://Gtk').default.Widget} param.headerChild
+ * @param {import('gi://Gtk').default.Widget} [param.headerChild]
  * @return {import('types/widgets/box').default}
  */
 export default ({title, icon, content, headerChild = Widget.Box()}) => Widget.Box({

@@ -3,12 +3,12 @@ import Gtk from 'gi://Gtk';
 import Variable from 'resource:///com/github/Aylur/ags/variable.js';
 
 const Cava = ({
-                bars = 20,
-                barHeight = 100,
-                align = 'end',
-                vertical = false,
-                smooth = false,
-              }) => Widget.DrawingArea({
+  bars = 20,
+  barHeight = 100,
+  align = 'end',
+  vertical = false,
+  smooth = false,
+}) => Widget.DrawingArea({
   class_name: 'cava',
   attribute: {
     'cavaVar': Variable([], {
@@ -28,7 +28,7 @@ const Cava = ({
                     cava -p /dev/stdin`
         ],
         out => {
-          return out.split(';').slice(0, -1)
+          return out.split(';').slice(0, -1);
         }]
     })
   },
@@ -38,7 +38,7 @@ const Cava = ({
     const varHandler = widget.attribute.cavaVar.connect('changed', () => widget.queue_draw());
     widget.on('destroy', () => {
       widget.attribute.cavaVar.disconnect(varHandler);
-    })
+    });
   },
 }).on('draw', (widget, cr) => {
   const context = widget.get_style_context();
@@ -54,8 +54,8 @@ const Cava = ({
 
   cr.setSourceRGBA(fg.red, fg.green, fg.blue, fg.alpha);
   if (!smooth) {
-    for (let i = 0; i < widget._cavaVar.value.length; i++) {
-      const height = h * (widget._cavaVar.value[i] / barHeight)
+    for (let i = 0; i < widget.attribute.cavaVar.value.length; i++) {
+      const height = h * (widget.attribute.cavaVar.value[i] / barHeight);
       let y = 0;
       let x = 0;
       switch (align) {
@@ -79,21 +79,20 @@ const Cava = ({
     }
   } else {
     let lastX = 0;
-    let lastY = h - h * (widget._cavaVar.value[0] / barHeight)
-    cr.moveTo(lastX, lastY)
-    for (let i = 1; i < widget._cavaVar.value.length; i++) {
-      const height = h * (widget._cavaVar.value[i] / barHeight)
+    let lastY = h - h * (widget.attribute.cavaVar.value[0] / barHeight);
+    cr.moveTo(lastX, lastY);
+    for (let i = 1; i < widget.attribute.cavaVar.value.length; i++) {
+      const height = h * (widget.attribute.cavaVar.value[i] / barHeight);
       let y = h - height;
-      let x = w - height;
       cr.curveTo(lastX + w / (bars - 1) / 2, lastY, lastX + w / (bars - 1) / 2, y, i * (w / (bars - 1)), y);
-      lastX = i * (w / (bars - 1))
-      lastY = y
+      lastX = i * (w / (bars - 1));
+      lastY = y;
     }
-    cr.lineTo(w, h)
-    cr.lineTo(0, h)
+    cr.lineTo(w, h);
+    cr.lineTo(0, h);
     cr.fill();
   }
-})
+});
 
 
-export default Cava
+export default Cava;

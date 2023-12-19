@@ -1,42 +1,42 @@
 import icons from '../icons/index.js';
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import {execAsync, timeout} from "resource:///com/github/Aylur/ags/utils.js";
-import Audio from 'resource:///com/github/Aylur/ags/service/audio.js'
-import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js'
-import Menu from '../sidepanel/menu.js'
+import {execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
+import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
+import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
+import Menu from '../sidepanel/menu.js';
 
-const sorm = (type) => type === "sink" ? "speaker" : "microphone";
-const sorms = (type) => type === "sink" ? "speakers" : "microphones";
+const sorm = (type) => type === 'sink' ? 'speaker' : 'microphone';
+const sorms = (type) => type === 'sink' ? 'speakers' : 'microphones';
 const iconSubstitute = (item, type) => {
   const microphoneSubstitutes = {
-    "audio-headset-analog-usb": "audio-headset-symbolic",
-    "audio-headset-bluetooth": "audio-headphones-symbolic",
-    "audio-card-analog-usb": "audio-input-microphone-symbolic",
-    "audio-card-analog-pci": "audio-input-microphone-symbolic",
-    "audio-card-analog": "audio-input-microphone-symbolic",
-    "camera-web-analog-usb": "camera-web-symbolic"
-  }
+    'audio-headset-analog-usb': 'audio-headset-symbolic',
+    'audio-headset-bluetooth': 'audio-headphones-symbolic',
+    'audio-card-analog-usb': 'audio-input-microphone-symbolic',
+    'audio-card-analog-pci': 'audio-input-microphone-symbolic',
+    'audio-card-analog': 'audio-input-microphone-symbolic',
+    'camera-web-analog-usb': 'camera-web-symbolic'
+  };
   const substitues = {
-    "audio-headset-bluetooth": "audio-headphones-symbolic",
-    "audio-card-analog-usb": "audio-speakers-symbolic",
-    "audio-card-analog-pci": "audio-speakers-symbolic",
-    "audio-card-analog": "audio-speakers-symbolic",
-    "audio-headset-analog-usb": "audio-headset-symbolic"
-  }
+    'audio-headset-bluetooth': 'audio-headphones-symbolic',
+    'audio-card-analog-usb': 'audio-speakers-symbolic',
+    'audio-card-analog-pci': 'audio-speakers-symbolic',
+    'audio-card-analog': 'audio-speakers-symbolic',
+    'audio-headset-analog-usb': 'audio-headset-symbolic'
+  };
 
-  if (type === "sink") {
-    return substitues[item] || item
+  if (type === 'sink') {
+    return substitues[item] || item;
   }
-  return microphoneSubstitutes[item] || item
+  return microphoneSubstitutes[item] || item;
 };
 
 const streamIconSubstiture = stream => {
   const subs = {
     'spotify': 'spotify',
     'Firefox': 'firefox',
-  }
+  };
   return subs[stream.name] || stream.icon_name;
-}
+};
 
 const TypeIndicator = (type = 'sink') => Widget.Button({
   on_clicked: () => execAsync(`pactl set-${type}-mute @DEFAULT_${type.toUpperCase()}@ toggle`),
@@ -55,7 +55,7 @@ const PercentLabel = (type = 'sink') => Widget.Label({
     if (Audio[sorm(type)])
       // @ts-ignore
       label.label = `${Math.floor(Audio[sorm(type)].volume * 100)}%`;
-  }, sorm(type) + '-changed')
+  }, sorm(type) + '-changed');
 
 const VolumeSlider = (type = 'sink') => Widget.Slider({
   hexpand: true,
@@ -71,7 +71,7 @@ const VolumeSlider = (type = 'sink') => Widget.Slider({
     slider.sensitive = !Audio[sorm(type)].is_muted;
     // @ts-ignore
     slider.value = Audio[sorm(type)].volume;
-  }, sorm(type) + '-changed')
+  }, sorm(type) + '-changed');
 
 export const Volume = (type = 'sink') => Widget.Box({
   class_name: 'audio-volume-box',
@@ -92,7 +92,7 @@ const MixerItem = stream => Widget.EventBox({
     class_name: 'mixer-item',
     children: [
       Widget.Icon()
-        .bind('icon', stream, 'icon-name', icon => streamIconSubstiture(stream))
+        .bind('icon', stream, 'icon-name', () => streamIconSubstiture(stream))
         .bind('tooltip-text', stream, 'name'),
       Widget.Box({
         children: [
@@ -169,7 +169,7 @@ export const AppMixer = () => Menu({
       Widget.Box({vertical: true})
         .hook(Audio, box => {
           box.children = Audio.apps.map(MixerItem);
-        }, "notify::apps")
+        }, 'notify::apps')
     ],
   }),
   headerChild: SettingsButton(1),
@@ -177,7 +177,7 @@ export const AppMixer = () => Menu({
 
 export const SinkSelector = (type = 'sink') => Menu({
   title: type + ' Selector',
-  icon: type === "sink" ? icons.audio.type.headset : icons.audio.mic.unmuted,
+  icon: type === 'sink' ? icons.audio.type.headset : icons.audio.mic.unmuted,
   content: Widget.Box({
     class_name: 'sink-selector',
     vertical: true,
@@ -196,7 +196,7 @@ export const SinkSelector = (type = 'sink') => Menu({
 
 const AudioContent = () => Widget.Box({
   vertical: true,
-  class_name: "qs-page",
+  class_name: 'qs-page',
   children: [
     Volume('sink'),
     Volume('source'),
@@ -204,6 +204,6 @@ const AudioContent = () => Widget.Box({
     SinkSelector('source'),
     AppMixer(),
   ]
-})
+});
 
-export default AudioContent
+export default AudioContent;

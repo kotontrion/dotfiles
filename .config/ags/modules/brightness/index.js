@@ -1,5 +1,5 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js';
-import {exec, execAsync, monitorFile, readFile} from "resource:///com/github/Aylur/ags/utils.js";
+import {exec, execAsync, monitorFile, readFile} from 'resource:///com/github/Aylur/ags/utils.js';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -27,8 +27,7 @@ class BrightnessService extends Service {
       .then(() => {
         this.emit('screen-changed', percent);
         this.notify('screen-value');
-      })
-      .catch(print);
+      });
   }
 
   _readBrightness(){
@@ -41,13 +40,13 @@ class BrightnessService extends Service {
   constructor() {
     super();
     this._max = Number(exec('brightnessctl m'));
-    this._readBrightness()
+    this._readBrightness();
     monitorFile('/sys/class/backlight/intel_backlight/brightness', (file) => {
-      const brightness = Number(readFile(file))
+      const brightness = Number(readFile(file));
       this._screenValue = brightness / this._max;
       this.emit('screen-changed', this._screenValue);
       this.notify('screen-value');
-    })
+    });
   }
 
   connect(event = 'screen-changed', callback) {

@@ -1,19 +1,19 @@
-import {exec} from 'resource:///com/github/Aylur/ags/utils.js'
-import Bar from './modules/bar/index.js'
+import {exec} from 'resource:///com/github/Aylur/ags/utils.js';
+import Bar from './modules/bar/index.js';
 import {
   CornerTopleft,
   CornerTopright,
   CornerBottomright,
   CornerBottomleft
-} from './modules/roundedCorner/index.js'
-import {IndicatorWidget} from "./modules/indicator/index.js";
-import Sidepanel from './modules/sidepanel/index.js'
-import Launcher from './modules/applauncher/index.js'
-import PowerMenu from './modules/powermenu/index.js'
-import {PopupNotifications} from './modules/notifications/index.js'
-import DirectoryMonitorService from './directoryMonitorService.js'
+} from './modules/roundedCorner/index.js';
+import {IndicatorWidget} from './modules/indicator/index.js';
+import Sidepanel from './modules/sidepanel/index.js';
+import Launcher from './modules/applauncher/index.js';
+import PowerMenu from './modules/powermenu/index.js';
+import {PopupNotifications} from './modules/notifications/index.js';
+import DirectoryMonitorService from './directoryMonitorService.js';
 
-import App from 'resource:///com/github/Aylur/ags/app.js'
+import App from 'resource:///com/github/Aylur/ags/app.js';
 
 const applyScss = () => {
   // Compile scss
@@ -27,8 +27,8 @@ const applyScss = () => {
   console.log('Compiled css applied');
 };
 
-DirectoryMonitorService.connect('changed', () => applyScss())
-applyScss()
+DirectoryMonitorService.connect('changed', () => applyScss());
+applyScss();
 
 export default {
   style: `${App.configDir}/style.css`,
@@ -49,5 +49,5 @@ export default {
     PowerMenu(),
     PopupNotifications(),
   ],
-}
+};
 

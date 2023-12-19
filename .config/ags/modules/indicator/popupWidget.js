@@ -1,13 +1,14 @@
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import AgsBox from 'resource:///com/github/Aylur/ags/widgets/box.js';
-import GLib from 'gi://GLib';
-import Gtk from 'gi://Gtk'
-// import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
-// import Brightness from '../brightness/index.js';
 import Indicator from './indicatorService.js';
-import GObject from "gi://GObject";
 
-//TODO: figure out a way to type this properly
+/**
+ *
+ * @param {string} name
+ * @param {import('types/service').Binding} label
+ * @param {import('types/service').Binding} progress
+ * @param {import('types/widgets/box').BoxProps} props
+ * @returns {import('types/widgets/box').default}
+ */
 const OsdValue = (name, label, progress, props = {}) => Widget.Box({
   ...props,
   vertical: true,
@@ -40,7 +41,7 @@ const OsdValue = (name, label, progress, props = {}) => Widget.Box({
 const brightnessIndicator = OsdValue('Brightness',
   Indicator.bind('brightness').transform(bright => `${Math.round(bright*100)}`),
   Indicator.bind('brightness')
-)
+);
 
 const volumeIndicator = OsdValue('Volume',
   Indicator.bind('volume').transform(volume => `${Math.round(volume*100)}`),
@@ -60,11 +61,11 @@ const IndicatorValues = () => Widget.Revealer({
 })
   .hook(Indicator, (revealer, value) => {
     revealer.reveal_child = (value > -1);
-  }, 'popup')
+  }, 'popup');
 
 
 export default () => Widget.Window({
-  name: `indicator`,
+  name: 'indicator',
   class_name: 'indicator',
   layer: 'overlay',
   visible: true,

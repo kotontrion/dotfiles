@@ -1,5 +1,5 @@
-import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js'
-import Widget from 'resource:///com/github/Aylur/ags/widget.js'
+import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 
 const WorkspaceButton = (i) => Widget.EventBox({
   class_name: 'ws-button',
@@ -10,8 +10,8 @@ const WorkspaceButton = (i) => Widget.EventBox({
   })
 })
   .hook(Hyprland.active.workspace, (button) => {
-    button.toggleClassName('active', Hyprland.active.workspace.id === i)
-  })
+    button.toggleClassName('active', Hyprland.active.workspace.id === i);
+  });
 
 const Workspaces = () => Widget.EventBox({
   child: Widget.Box({
@@ -20,15 +20,15 @@ const Workspaces = () => Widget.EventBox({
   })
     .hook(Hyprland, (box) => {
       box.children.forEach((button, i) => {
-        const ws = Hyprland.getWorkspace(i + 1)
-        const ws_before = Hyprland.getWorkspace(i)
-        const ws_after = Hyprland.getWorkspace(i + 2)
-        button.toggleClassName("occupied", ws?.windows > 0)
-        button.toggleClassName("occupied-left", !ws_before || ws_before?.windows <= 0)
-        button.toggleClassName("occupied-right", !ws_after || ws_after?.windows <= 0)
-      })
+        const ws = Hyprland.getWorkspace(i + 1);
+        const ws_before = Hyprland.getWorkspace(i);
+        const ws_after = Hyprland.getWorkspace(i + 2);
+        button.toggleClassName('occupied', ws?.windows > 0);
+        button.toggleClassName('occupied-left', !ws_before || ws_before?.windows <= 0);
+        button.toggleClassName('occupied-right', !ws_after || ws_after?.windows <= 0);
+      });
     }, 'notify::workspaces')
-})
+});
 
 
 export default Workspaces;

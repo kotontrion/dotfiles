@@ -1,10 +1,9 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js'
-import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
-import icons from '../icons/index.js'
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
+import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js';
+import icons from '../icons/index.js';
 import GLib from 'gi://GLib';
-import Gtk from 'gi://Gtk';
-import Pango from 'gi://Pango'
-import {timeout} from 'resource:///com/github/Aylur/ags/utils.js'
+import Pango from 'gi://Pango';
+import {timeout} from 'resource:///com/github/Aylur/ags/utils.js';
 
 const NotificationIcon = notification => {
   let icon;
@@ -18,14 +17,14 @@ const NotificationIcon = notification => {
                   background-size: auto 100%;
                   background-repeat: no-repeat;
                   background-position: center;`,
-    })
-  } else if (lookUpIcon(notification.app_icon)) icon = notification.app_icon
-  else icon = icons.notifications.chat
+    });
+  } else if (lookUpIcon(notification.app_icon)) icon = notification.app_icon;
+  else icon = icons.notifications.chat;
   return Widget.Icon({
     class_name: 'notification-icon',
     icon: icon
-  })
-}
+  });
+};
 
 const Notification = notification => Widget.Box({
   class_name: 'notification',
@@ -34,13 +33,13 @@ const Notification = notification => Widget.Box({
     Widget.EventBox({
       on_primary_click: (box) => {
         // @ts-ignore
-        const label = box.child.children[1].children[1]
+        const label = box.child.children[1].children[1];
         if (label.lines < 0) {
-          label.lines = 3
-          label.truncate = 'end'
+          label.lines = 3;
+          label.truncate = 'end';
         } else {
-          label.lines = -1
-          label.truncate = 'none'
+          label.lines = -1;
+          label.truncate = 'none';
         }
       },
       child: Widget.Box({
@@ -52,7 +51,7 @@ const Notification = notification => Widget.Box({
               Widget.Box({
                 children: [
                   Widget.Label({
-                    class_name: "notification-title",
+                    class_name: 'notification-title',
                     label: notification.summary,
                     justification: 'left',
                     max_width_chars: 24,
@@ -62,20 +61,20 @@ const Notification = notification => Widget.Box({
                     hexpand: true,
                   }),
                   Widget.Label({
-                    class_name: "notification-time",
+                    class_name: 'notification-time',
                     label: GLib.DateTime.new_from_unix_local(notification.time).format('%H:%M'),
                   }),
                   Widget.Button({
-                    class_name: "notification-close",
+                    class_name: 'notification-close',
                     child: Widget.Icon(icons.notifications.close),
                     on_clicked: () => {
-                      notification.close()
+                      notification.close();
                     },
                   })
                 ]
               }),
               Widget.Label({
-                class_name: "notification-body",
+                class_name: 'notification-body',
                 justification: 'left',
                 max_width_chars: 24,
                 lines: 3,
@@ -87,7 +86,7 @@ const Notification = notification => Widget.Box({
                 label: notification.body.replace(/(\r\n|\n|\r)/gm, ' '),
               }),
               notification.hints.value && Widget.ProgressBar({
-                class_name: "notification-progress",
+                class_name: 'notification-progress',
                 value: (notification.hints.value.unpack() || 0) / 100
               })
             ]
@@ -100,12 +99,12 @@ const Notification = notification => Widget.Box({
       children: notification.actions.map(action => Widget.Button({
         child: Widget.Label(action.label),
         on_clicked: () => notification.invoke(action.id),
-        class_name: "notification-action-button",
+        class_name: 'notification-action-button',
         hexpand: true,
       }))
     })
   ]
-})
+});
 
 const NotificationReveal = (notification, visible = false) => {
 
@@ -117,8 +116,8 @@ const NotificationReveal = (notification, visible = false) => {
     transition_duration: 200,
     setup: (revealer) => {
       timeout(1, () => {
-        revealer.reveal_child = true
-      })
+        revealer.reveal_child = true;
+      });
     },
   });
 
@@ -136,10 +135,10 @@ const NotificationReveal = (notification, visible = false) => {
     timeout(200, () => {
       firstRevealer.reveal_child = false;
       timeout(200, () => {
-        box.destroy()
-      })
-    })
-  }
+        box.destroy();
+      });
+    });
+  };
   box = Widget.Box({
     hexpand: true,
     hpack: 'end',
@@ -148,8 +147,8 @@ const NotificationReveal = (notification, visible = false) => {
       'count': 0
     },
     children: [firstRevealer],
-  })
-  return box
-}
+  });
+  return box;
+};
 
 export default NotificationReveal;

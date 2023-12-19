@@ -1,9 +1,9 @@
-import icons from "../icons/index.js";
-
-const {Gdk, Gtk} = imports.gi;
+import icons from '../icons/index.js';
+import Gdk from 'gi://Gdk?version=3.0';
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import {exec, execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
-import App from 'resource:///com/github/Aylur/ags/app.js'
+import {execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
+import App from 'resource:///com/github/Aylur/ags/app.js';
+
 
 const SessionButton = (name, icon, command, props = {}) => {
   const buttonDescription = Widget.Revealer({
@@ -50,40 +50,36 @@ const SessionButton = (name, icon, command, props = {}) => {
     .on('focus-out-event', (self) => {
       buttonDescription.reveal_child = false;
       self.toggleClassName('session-button-focused', false);
-    })
-}
+    });
+};
 
 const SessionScreen = () => {
   // lock, logout, sleep
   const lockButton = SessionButton('Lock', icons.powermenu.lock, () => {
     App.closeWindow('session');
-    execAsync('gtklock')
+    execAsync('gtklock');
   });
   const logoutButton = SessionButton('Logout', icons.powermenu.logout, () => {
     App.closeWindow('session');
-    execAsync(['bash', '-c', 'loginctl terminate-user $USER'])
+    execAsync(['bash', '-c', 'loginctl terminate-user $USER']);
   });
   const sleepButton = SessionButton('Sleep', icons.powermenu.sleep, () => {
     App.closeWindow('session');
-    execAsync('systemctl suspend')
+    execAsync('systemctl suspend');
   });
   // hibernate, shutdown, reboot
   //const hibernateButton = SessionButton('Hibernate', 'downloading', () => { App.closeWindow('session'); execAsync('systemctl hibernate') });
   const shutdownButton = SessionButton('Shutdown', icons.powermenu.shutdown, () => {
     App.closeWindow('session');
-    execAsync('systemctl poweroff')
+    execAsync('systemctl poweroff');
   });
   const rebootButton = SessionButton('Reboot', icons.powermenu.reboot, () => {
     App.closeWindow('session');
-    execAsync('systemctl reboot')
+    execAsync('systemctl reboot');
   });
   const cancelButton = SessionButton('Cancel', icons.powermenu.close, () => App.closeWindow('session'));
   return Widget.Box({
-    className: 'session-bg',
-    //css: `
-    //min-width: ${1600 * 2}px;
-    //min-height: ${900 * 2}px;
-    //`, // Hack to draw over reserved bar space
+    class_name: 'session-bg',
     vertical: true,
     children: [
       Widget.EventBox({
@@ -136,8 +132,8 @@ const SessionScreen = () => {
   })
     .hook(App, (_b, name, visible) => {
       if (visible) lockButton.grab_focus(); // Lock is the default option
-    })
-}
+    });
+};
 
 export default () => Widget.Window({
   name: 'session',
@@ -148,4 +144,4 @@ export default () => Widget.Window({
   layer: 'overlay',
   anchor: ['top', 'bottom', 'left', 'right'],
   child: SessionScreen(),
-})
+});

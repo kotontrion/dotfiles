@@ -3,9 +3,9 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 // @ts-ignore
 import Soup from 'gi://Soup?version=3.0';
-import Keys from "../../keys.js";
+import Keys from '../../keys.js';
 
-class ChatGPTMessage extends Service {
+export class ChatGPTMessage extends Service {
   static {
     Service.register(this, {},
       {
@@ -26,32 +26,32 @@ class ChatGPTMessage extends Service {
   }
 
   get role() {
-    return this._role
+    return this._role;
   }
 
   set role(role) {
     this._role = role;
-    this.emit('changed')
+    this.emit('changed');
   }
 
   get content() {
-    return this._content
+    return this._content;
   }
 
   set content(content) {
     this._content = content;
-    this.notify('content')
-    this.emit('changed')
+    this.notify('content');
+    this.emit('changed');
   }
 
   get thinking() {
-    return this._thinking
+    return this._thinking;
   }
 
   set thinking(thinking) {
     this._thinking = thinking;
-    this.notify('thinking')
-    this.emit('changed')
+    this.notify('thinking');
+    this.emit('changed');
   }
 
   addDelta(delta) {
@@ -77,15 +77,15 @@ class ChatGPTService extends Service {
   url = GLib.Uri.parse('https://api.openai.com/v1/chat/completions', GLib.UriFlags.NONE);
 
   get messages() {
-    return this._messages
+    return this._messages;
   }
 
   get lastMessage() {
-    return this.messages[this.messages.length - 1]
+    return this.messages[this.messages.length - 1];
   }
 
   clear() {
-    this._messages = []
+    this._messages = [];
     this.emit('clear');
   }
 
@@ -116,21 +116,21 @@ class ChatGPTService extends Service {
   send(msg) {
     this.messages.push(new ChatGPTMessage('user', msg));
     this.emit('newMsg', this.messages.length - 1);
-    const aiResponse = new ChatGPTMessage('assistant', 'thinking...', true)
+    const aiResponse = new ChatGPTMessage('assistant', 'thinking...', true);
     this.messages.push(aiResponse);
     this.emit('newMsg', this.messages.length - 1);
 
-//    aiResponse.content = `<html><head>
-//<title>Test HTML File</title>
-//<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-//</head>
-//<body>
-//<p>This is a very simple HTML file.</p>
-//</body></html>`
-//    return;
+    //    aiResponse.content = `<html><head>
+    //<title>Test HTML File</title>
+    //<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    //</head>
+    //<body>
+    //<p>This is a very simple HTML file.</p>
+    //</body></html>`
+    //    return;
 
     const body = {
-      model: "gpt-3.5-turbo",
+      model: 'gpt-3.5-turbo',
       messages: this.messages.map(msg => {
         let m = {role: msg.role, content: msg.content};
         return m;

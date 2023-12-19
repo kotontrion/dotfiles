@@ -1,7 +1,7 @@
-import {Box, Button, Icon, Label} from "resource:///com/github/Aylur/ags/widget.js";
-import Network from "resource:///com/github/Aylur/ags/service/network.js";
-import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
-import icons from "../icons/index.js";
+import {Box, Button, Icon, Label} from 'resource:///com/github/Aylur/ags/widget.js';
+import Network from 'resource:///com/github/Aylur/ags/service/network.js';
+import {execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
+import icons from '../icons/index.js';
 
 
 export const WifiList = () => Box({
@@ -12,11 +12,11 @@ export const WifiList = () => Box({
     box.children =
       Network.wifi?.access_points.map(ap => Button({
         on_clicked: () => execAsync(`nmcli device wifi connect ${ap.bssid}`).catch(e => {
-          const cmd = ["notify-send", "Wi-Fi", e, "-A", "open=Open network manager"]
+          const cmd = ['notify-send', 'Wi-Fi', e, '-A', 'open=Open network manager'];
           execAsync(cmd)
             .then(e => {
-              if (e == 'open') execAsync('nm-connection-editor')
-            }).catch(e => console.error(e))
+              if (e == 'open') execAsync('nm-connection-editor');
+            }).catch(e => console.error(e));
         }).catch(e => console.error(e)),
         child: Box({
           children: [
@@ -31,7 +31,7 @@ export const WifiList = () => Box({
             }),
           ],
         }),
-      }))
-  })
+      }));
+  });
 
-export default WifiList
+export default WifiList;

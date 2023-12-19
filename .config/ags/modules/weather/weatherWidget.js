@@ -1,5 +1,5 @@
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import Weather from './index.js'
+import Weather from './index.js';
 
 const WeatherBox = () => Widget.Box({
   class_name: 'weather-container',
@@ -15,6 +15,6 @@ const WeatherBox = () => Widget.Box({
     })
   ],
   tooltip_markup: Weather.bind('description')
-})
+});
 
-export default WeatherBox
+export default WeatherBox;

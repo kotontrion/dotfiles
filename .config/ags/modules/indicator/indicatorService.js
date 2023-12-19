@@ -1,9 +1,7 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js';
-import {timeout} from 'resource:///com/github/Aylur/ags/utils.js'
-import Brightness from '../brightness/index.js'
-import Audio from 'resource:///com/github/Aylur/ags/service/audio.js'
-
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+import {timeout} from 'resource:///com/github/Aylur/ags/utils.js';
+import Brightness from '../brightness/index.js';
+import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 
 class IndicatorService extends Service {
   static {
@@ -26,30 +24,30 @@ class IndicatorService extends Service {
   constructor() {
     super();
     Brightness.connect('notify::screen-value', () => {
-      this._current = 'brightness'
-      this.notify('brightness')
-      this.notify('current')
-      this.popup()
-    })
+      this._current = 'brightness';
+      this.notify('brightness');
+      this.notify('current');
+      this.popup();
+    });
     Audio.connect('speaker-changed', () => {
-      if(!Audio.speaker || Audio.speaker.volume == this._volume) return
-      this._current = 'volume'
-      this._volume = Audio.speaker.volume
-      this.notify('volume')
-      this.notify('current')
-      this.popup()
-    })
+      if(!Audio.speaker || Audio.speaker.volume == this._volume) return;
+      this._current = 'volume';
+      this._volume = Audio.speaker.volume;
+      this.notify('volume');
+      this.notify('current');
+      this.popup();
+    });
   }
 
-  get current() { return this._current }
+  get current() { return this._current; }
 
-  get brightness() { return Brightness.screen_value}
-  set brightness(value) { Brightness.screen_value = value}
+  get brightness() { return Brightness.screen_value;}
+  set brightness(value) { Brightness.screen_value = value;}
 
-  get volume() { return this._volume }
+  get volume() { return this._volume; }
   set volume(value) {
-    if (!Audio.speaker) return
-    Audio.speaker.volume = value
+    if (!Audio.speaker) return;
+    Audio.speaker.volume = value;
   }
 
   popup(value) {

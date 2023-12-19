@@ -1,4 +1,4 @@
-import App from 'resource:///com/github/Aylur/ags/app.js'
+import App from 'resource:///com/github/Aylur/ags/app.js';
 
 export default {
   settings: 'org.gnome.Settings-symbolic',

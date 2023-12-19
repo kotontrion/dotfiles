@@ -1,6 +1,6 @@
-import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 // @ts-ignore
-import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
+import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js';
 
 const BluetoothList = () => Widget.Box({
   hexpand: true,
@@ -18,12 +18,13 @@ const BluetoothList = () => Widget.Box({
             active: true
           }) :
           Widget.Switch({active: device.connected})
-            .on('notify::active', ({active}) => {
+            .on('notify::active', (sw) => {
+              const active = sw.active;
               if (active !== device.connected)
                 device.setConnection(active);
             })
       ],
     }));
-  })
+  });
 
-export default BluetoothList
+export default BluetoothList;

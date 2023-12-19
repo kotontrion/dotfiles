@@ -1,7 +1,6 @@
 import SystemTray from 'resource:///com/github/Aylur/ags/service/systemtray.js';
-import Widget from 'resource:///com/github/Aylur/ags/widget.js'
-
-const {Gravity} = imports.gi.Gdk;
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
+import Gdk from 'gi://Gdk?version=3.0';
 
 const SysTrayItem = item => Widget.Button({
   class_name: 'systray-item',
@@ -10,11 +9,11 @@ const SysTrayItem = item => Widget.Button({
     icon: item.bind('icon')
   }),
   tooltip_markup: item.bind('tooltip-markup'),
-  on_clicked: btn => item.menu.popup_at_widget(btn, Gravity.SOUTH, Gravity.NORTH, null),
-  on_secondary_click: btn => item.menu.popup_at_widget(btn, Gravity.SOUTH, Gravity.NORTH, null),
-})
+  on_clicked: btn => item.menu.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  on_secondary_click: btn => item.menu.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+});
 
-const Tray = (props = {}) => Widget.Box({
+const Tray = () => Widget.Box({
   class_name: 'systray-container',
   spacing: 8,
   attribute: {
@@ -40,7 +39,7 @@ const Tray = (props = {}) => Widget.Box({
   },
 })
   .hook(SystemTray, (box, id) => box.attribute.onAdded(box, id), 'added')
-  .hook(SystemTray, (box, id) => box.attribute.onRemoved(box, id), 'removed')
+  .hook(SystemTray, (box, id) => box.attribute.onRemoved(box, id), 'removed');
 
 
 export default Tray;

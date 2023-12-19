@@ -1,11 +1,11 @@
-import Service from 'resource:///com/github/Aylur/ags/service.js'
-import App from 'resource:///com/github/Aylur/ags/app.js'
-import {monitorFile} from 'resource:///com/github/Aylur/ags/utils.js'
+import Service from 'resource:///com/github/Aylur/ags/service.js';
+import App from 'resource:///com/github/Aylur/ags/app.js';
+import {monitorFile} from 'resource:///com/github/Aylur/ags/utils.js';
 import Gio from 'gi://Gio';
 
 class DirectoryMonitorService extends Service {
   static {
-    Service.register(this, {}, {})
+    Service.register(this, {}, {});
   }
 
   constructor() {
@@ -34,5 +34,5 @@ class DirectoryMonitorService extends Service {
   }
 }
 
-const service = new DirectoryMonitorService()
+const service = new DirectoryMonitorService();
 export default service;

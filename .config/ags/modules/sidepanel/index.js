@@ -1,14 +1,12 @@
-import PopupWindow from "../popupwindow/index.js";
+import PopupWindow from '../popupwindow/index.js';
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import App from "resource:///com/github/Aylur/ags/app.js"
-import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
-import QuickSettings, {QSState} from './quicksettings.js'
-import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
-import icons from "../icons/index.js";
-import Calendar from './calendar/index.js'
-import Cava from '../cava/index.js'
-import Gdk from "gi://Gdk";
-import {WeatherWidget} from "../weather/index.js";
+import App from 'resource:///com/github/Aylur/ags/app.js';
+import {execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
+import QuickSettings, {QSState} from './quicksettings.js';
+import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
+import icons from '../icons/index.js';
+import Gdk from 'gi://Gdk?version=3.0';
+import {WeatherWidget} from '../weather/index.js';
 
 const ModuleReloadIcon = (props = {}) => Widget.Button({
   ...props,
@@ -19,7 +17,7 @@ const ModuleReloadIcon = (props = {}) => Widget.Button({
     App.toggleWindow('sideright');
   },
   child: Widget.Icon({icon: icons.header.refresh})
-})
+});
 
 const ModuleSettingsIcon = (props = {}) => Widget.Button({
   ...props,
@@ -32,7 +30,7 @@ const ModuleSettingsIcon = (props = {}) => Widget.Button({
   child: Widget.Icon({
     icon: icons.header.settings
   })
-})
+});
 
 const ModulePowerIcon = (props = {}) => Widget.Button({
   ...props,
@@ -45,7 +43,7 @@ const ModulePowerIcon = (props = {}) => Widget.Button({
   child: Widget.Icon({
     icon: icons.header.power
   })
-})
+});
 
 const Header = () => Widget.Box({
   spacing: 8,
@@ -53,24 +51,22 @@ const Header = () => Widget.Box({
     WeatherWidget(),
     Widget.Label()
       .poll(5000, label => {
-        execAsync([`date`, "+%H:%M"]).then(timeString => {
+        execAsync(['date', '+%H:%M']).then(timeString => {
           label.label = `• ${timeString}`;
-        }).catch(print);
+        });
       }),
     Widget.Label({hpack: 'center'})
       .poll(5000, label => {
-        execAsync(['bash', '-c', `uptime -p | sed -e 's/up //;s/ hours,/h/;s/ minutes*/m/'`]).then(upTimeString => {
+        execAsync(['bash', '-c', 'uptime -p | sed -e \'s/up //;s/ hours,/h/;s/ minutes*/m/\'']).then(upTimeString => {
           label.label = `• uptime ${upTimeString}`;
-        }).catch(print);
+        });
       }),
     Widget.Box({hexpand: true}),
     ModuleReloadIcon({hpack: 'end'}),
     ModuleSettingsIcon({hpack: 'end'}),
     ModulePowerIcon({hpack: 'end'}),
   ]
-})
-
-let i = 0;
+});
 
 const SidebarRight = () => Widget.Box({
   // vertical: true,
@@ -104,15 +100,15 @@ export default () => PopupWindow({
   child: SidebarRight(),
 })
   .on('key-press-event', (_, event) => {
-    const keyval = event.get_keyval()[1]
+    const keyval = event.get_keyval()[1];
     if (
       (keyval === Gdk.KEY_n)
       && ((event.get_state()[1]) & Gdk.ModifierType.CONTROL_MASK) > 0
     )
-      QSState.next()
+      QSState.next();
     if (
       (keyval === Gdk.KEY_p)
       && ((event.get_state()[1]) & Gdk.ModifierType.CONTROL_MASK) > 0
     )
-      QSState.prev()
-  })
+      QSState.prev();
+  });

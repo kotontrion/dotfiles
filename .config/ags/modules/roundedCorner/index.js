@@ -1,13 +1,12 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js'
-import Gtk from 'gi://Gtk'
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
+import Gtk from 'gi://Gtk';
 
 export const RoundedCorner = (place, props) => Widget.DrawingArea({
   ...props,
   hpack: place.includes('left') ? 'start' : 'end',
   vpack: place.includes('top') ? 'start' : 'end',
   setup: widget => {
-    const c = widget.get_style_context().get_property('background-color', Gtk.StateFlags.NORMAL);
-    const r = 25 //widget.get_style_context().get_property('border-radius', Gtk.StateFlags.NORMAL);
+    const r = 25; //widget.get_style_context().get_property('border-radius', Gtk.StateFlags.NORMAL);
     widget.set_size_request(r, r);
     widget.on('draw', (widget, cr) => {
       const c = widget.get_style_context().get_property('background-color', Gtk.StateFlags.NORMAL);
@@ -19,17 +18,14 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
           cr.arc(r, r, r, Math.PI, 3 * Math.PI / 2);
           cr.lineTo(0, 0);
           break;
-
         case 'topright':
           cr.arc(0, r, r, 3 * Math.PI / 2, 2 * Math.PI);
           cr.lineTo(r, 0);
           break;
-
         case 'bottomleft':
           cr.arc(r, 0, r, Math.PI / 2, Math.PI);
           cr.lineTo(0, r);
           break;
-
         case 'bottomright':
           cr.arc(0, 0, r, 0, Math.PI / 2);
           cr.lineTo(r, r);
@@ -39,7 +35,7 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
       cr.closePath();
       cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
       cr.fill();
-    })
+    });
   }
 });
 
@@ -49,54 +45,54 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
   hexpand: true,
   setup: widget => {
     const ratio = 1.5;
-    const r = widget.get_allocated_height()
+    const r = widget.get_allocated_height();
     widget.set_size_request(ratio * r, r);
     widget.on('draw', (widget, cr) => {
       const context = widget.get_style_context();
       const c = context.get_property('background-color', Gtk.StateFlags.NORMAL);
       const border_color = context.get_property('color', Gtk.StateFlags.NORMAL);
       const border_width = context.get_border(Gtk.StateFlags.NORMAL).bottom;
-      const r = widget.get_allocated_height()
+      const r = widget.get_allocated_height();
       widget.set_size_request(ratio * r, r);
       switch (place) {
         case 'topleft':
-          cr.moveTo(0, 0)
+          cr.moveTo(0, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, ratio * r, r);
           cr.lineTo(ratio * r, 0);
 
-          cr.moveTo(0, 0)
+          cr.moveTo(0, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, ratio * r, r);
           cr.lineTo(ratio * r, 0);
           cr.closePath();
           cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
           cr.fillPreserve();
-          cr.clip()
-          cr.moveTo(0, 0)
+          cr.clip();
+          cr.moveTo(0, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, ratio * r, r);
           cr.setLineWidth(border_width * 2);
           cr.setSourceRGBA(border_color.red, border_color.green, border_color.blue, border_color.alpha);
-          cr.stroke()
+          cr.stroke();
           break;
 
         case 'topright':
-          cr.moveTo(ratio * r, 0)
+          cr.moveTo(ratio * r, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, 0, r);
           cr.lineTo(0, 0);
           cr.closePath();
           cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
           cr.fillPreserve();
-          cr.clip()
-          cr.moveTo(ratio * r, 0)
+          cr.clip();
+          cr.moveTo(ratio * r, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, 0, r);
           cr.setLineWidth(border_width * 2);
           cr.setSourceRGBA(border_color.red, border_color.green, border_color.blue, border_color.alpha);
-          cr.stroke()
+          cr.stroke();
           break;
       }
 
       // cr.setLineWidth(border_width);
       // cr.setSourceRGBA(border_color.red, border_color.green, border_color.blue, border_color.alpha);
-    })
+    });
   }
 });
 

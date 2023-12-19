@@ -1,8 +1,8 @@
-import Widget, {Box} from "resource:///com/github/Aylur/ags/widget.js";
-import icons from "../icons/index.js";
-import Mpris from "resource:///com/github/Aylur/ags/service/mpris.js";
-import GLib from "gi://GLib";
-import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
+import Widget, {Box} from 'resource:///com/github/Aylur/ags/widget.js';
+import icons from '../icons/index.js';
+import Mpris from 'resource:///com/github/Aylur/ags/service/mpris.js';
+import GLib from 'gi://GLib';
+import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js';
 
 const CoverArt = player => Widget.Box({
   class_name: 'music-cover',
@@ -18,7 +18,7 @@ const CoverArt = player => Widget.Box({
     const coverPath = player.cover_path || '';
     self.children[0].visible = !GLib.file_test(coverPath, GLib.FileTest.EXISTS);
     self.css = `background-image: url('${coverPath}');`;
-  })
+  });
 
 const MprisPlayer = player => Widget.Box({
   class_name: 'music-container',
@@ -32,14 +32,14 @@ const MprisPlayer = player => Widget.Box({
           children: [
             Widget.Label({
               max_width_chars: 35,
-              truncate: "end",
+              truncate: 'end',
               class_name: 'music-title',
               xalign: 0,
               label: player.bind('track-title')
             }),
             Widget.Label({
               max_width_chars: 35,
-              truncate: "end",
+              truncate: 'end',
               class_name: 'music-artist',
               xalign: 0,
               label: player.bind('track-artists').transform(art => art.join(', '))
@@ -71,21 +71,21 @@ const MprisPlayer = player => Widget.Box({
                 start_at: 0.75,
                 child: Widget.Icon()
                   .hook(Mpris, (icon) => {
-                    let icn = icons.mpris.stopped
+                    let icn = icons.mpris.stopped;
                     if (player.play_back_status === 'Playing')
-                      icn = icons.mpris.playing
+                      icn = icons.mpris.playing;
                     else if (player.play_back_status === 'Paused')
-                      icn = icons.mpris.paused
-                    icon.icon = icn
+                      icn = icons.mpris.paused;
+                    icon.icon = icn;
                   }),
               })
                 .hook(Mpris, (prog) => {
-                  if (!player) return
-                  prog.value = player.position / player.length
+                  if (!player) return;
+                  prog.value = player.position / player.length;
                 })
                 .poll(1000, (prog) => {
-                  if (!player) return
-                  prog.value = player.position / player.length
+                  if (!player) return;
+                  prog.value = player.position / player.length;
                 })
             })
           ]
@@ -98,19 +98,19 @@ const MprisPlayer = player => Widget.Box({
     const coverPath = player.cover_path || '';
     const bg = GLib.file_test(coverPath, GLib.FileTest.EXISTS)
       ? `url('${coverPath}')`
-      : 'none'
+      : 'none';
     self.css = `background-image: ${bg};
                     background-position: center;
                     background-size: cover;
                     `;
-  })
+  });
 
 const PlayerList = () => Box({
   vertical: true,
   spacing: 5,
   attribute: {
-    "player": new Map(),
-    "onAdded": (box, id) => {
+    'player': new Map(),
+    'onAdded': (box, id) => {
       const player = Mpris.getPlayer(id);
       if (!id || !player || box.attribute.player.has(id)) return;
       const playerWidget = MprisPlayer(player);
@@ -118,8 +118,8 @@ const PlayerList = () => Box({
       box.pack_start(playerWidget, false, false, 0);
       box.show_all();
     },
-    "onRemoved": (box, id) => {
-      if (!id || !box.attribute.player.has(id)) return
+    'onRemoved': (box, id) => {
+      if (!id || !box.attribute.player.has(id)) return;
       box.attribute.player.get(id).destroy();
       box.attribute.player.delete(id);
       box.show_all();
@@ -127,6 +127,6 @@ const PlayerList = () => Box({
   }
 })
   .hook(Mpris, (box, id) => box.attribute.onAdded(box, id), 'player-added')
-  .hook(Mpris, (box, id) => box.attribute.onRemoved(box, id), 'player-closed')
+  .hook(Mpris, (box, id) => box.attribute.onRemoved(box, id), 'player-closed');
 
-export default PlayerList
+export default PlayerList;

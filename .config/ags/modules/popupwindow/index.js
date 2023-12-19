@@ -1,7 +1,5 @@
-import Widget from "resource:///com/github/Aylur/ags/widget.js"
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import App from 'resource:///com/github/Aylur/ags/app.js';
-import AgsWindow from 'resource:///com/github/Aylur/ags/widgets/window.js'
-import Gtk from 'gi://Gtk'
 
 const PopupRevealer = (windowName, transition, child) => Widget.Box({
   css: 'padding: 1px;',
@@ -11,9 +9,9 @@ const PopupRevealer = (windowName, transition, child) => Widget.Box({
     transition_duration: 350,
   })
     .hook(App, (revealer, name, visible) => {
-        if (name === windowName)
-          revealer.reveal_child = visible;
-      }
+      if (name === windowName)
+        revealer.reveal_child = visible;
+    }
     )
   ],
 });
