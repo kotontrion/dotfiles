@@ -20,7 +20,8 @@ class IndicatorService extends Service {
 
   _delay = 1500;
   _count = 0;
-  _current = 'volume'
+  _current = 'volume';
+  _volume = 0;
 
   constructor() {
     super();
@@ -31,7 +32,9 @@ class IndicatorService extends Service {
       this.popup()
     })
     Audio.connect('speaker-changed', () => {
+      if(!Audio.speaker || Audio.speaker.volume == this._volume) return
       this._current = 'volume'
+      this._volume = Audio.speaker.volume
       this.notify('volume')
       this.notify('current')
       this.popup()
@@ -43,7 +46,7 @@ class IndicatorService extends Service {
   get brightness() { return Brightness.screen_value}
   set brightness(value) { Brightness.screen_value = value}
 
-  get volume() { return Audio.speaker?.volume || 0 }
+  get volume() { return this._volume }
   set volume(value) {
     if (!Audio.speaker) return
     Audio.speaker.volume = value
