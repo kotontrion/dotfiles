@@ -1,6 +1,6 @@
 {
     "name": "ags-config",
-    "version": "1.5.5",
+    "version": "1.6.1",
     "description": "personal AGS configuration",
     "main": "config.js",
     "author": "kotontrion",

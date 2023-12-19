@@ -1,5 +1,5 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js';
-import {exec, execAsync} from "resource:///com/github/Aylur/ags/utils.js";
+import {exec, execAsync, monitorFile, readFile} from "resource:///com/github/Aylur/ags/utils.js";
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -13,6 +13,7 @@ class BrightnessService extends Service {
   }
 
   _screenValue = 0;
+  _maxValue = 0;
 
   get screen_value() {
     return this._screenValue;
@@ -24,21 +25,29 @@ class BrightnessService extends Service {
 
     execAsync(`brightnessctl s ${percent * 100}% -q`)
       .then(() => {
-        // signals has to be explicity emitted
         this.emit('screen-changed', percent);
         this.notify('screen-value');
-
-        // or use Service.changed(propName: string) which does the above two
-        // this.changed('screen');
       })
       .catch(print);
   }
 
+  _readBrightness(){
+    const current = Number(exec('brightnessctl g'));
+    this._screenValue = current / this._max;
+    this.emit('screen-changed', this._screenValue);
+    this.notify('screen-value');
+  }
+
   constructor() {
     super();
-    const current = Number(exec('brightnessctl g'));
-    const max = Number(exec('brightnessctl m'));
-    this._screenValue = current / max;
+    this._max = Number(exec('brightnessctl m'));
+    this._readBrightness()
+    monitorFile('/sys/class/backlight/intel_backlight/brightness', (file) => {
+      const brightness = Number(readFile(file))
+      this._screenValue = brightness / this._max;
+      this.emit('screen-changed', this._screenValue);
+      this.notify('screen-value');
+    })
   }
 
   connect(event = 'screen-changed', callback) {

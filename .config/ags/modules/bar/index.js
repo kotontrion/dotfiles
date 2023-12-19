@@ -25,12 +25,10 @@ const Right = () => Widget.EventBox({
         on_scroll_up: (box, evt) => {
           if (Audio.speaker == null) return;
           Audio.speaker.volume += 0.03;
-          Indicator.popup(1);
         },
         on_scroll_down: () => {
           if (Audio.speaker == null) return;
           Audio.speaker.volume -= 0.03;
-          Indicator.popup(1);
         },
         child: Widget.Box({
           children: [
@@ -52,11 +50,9 @@ const Center = () => Widget.Box({
 const Left = () => Widget.EventBox({
   on_scroll_up: (box, evt) => {
     Brightness.screen_value += 0.03
-    Indicator.popup(1);
   },
   on_scroll_down: () => {
     Brightness.screen_value -= 0.03;
-    Indicator.popup(1);
   },
   child: Widget.Box({
     children: [

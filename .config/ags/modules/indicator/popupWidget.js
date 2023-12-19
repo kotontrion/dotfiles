@@ -2,13 +2,13 @@ import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import AgsBox from 'resource:///com/github/Aylur/ags/widgets/box.js';
 import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk'
-import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
-import Brightness from '../brightness/index.js';
+// import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
+// import Brightness from '../brightness/index.js';
 import Indicator from './indicatorService.js';
 import GObject from "gi://GObject";
 
 //TODO: figure out a way to type this properly
-const OsdValue = (name, labelConnections, progressConnections, props = {}) => Widget.Box({
+const OsdValue = (name, label, progress, props = {}) => Widget.Box({
   ...props,
   vertical: true,
   class_name: 'osd-indicator',
@@ -24,52 +24,37 @@ const OsdValue = (name, labelConnections, progressConnections, props = {}) => Wi
         }),
         Widget.Label({
           hexpand: false, class_name: 'osd-value-txt',
-          label: '100'
+          label: label
         })
-          // @ts-ignore
-          .hook(...labelConnections)
       ]
     }),
     Widget.ProgressBar({
       class_name: 'osd-progress',
       hexpand: true,
-      vertical: false
+      vertical: false,
+      value: progress
     })
-      // @ts-ignore
-      .hook(...progressConnections),
   ],
 });
 
 const brightnessIndicator = OsdValue('Brightness',
-  [Brightness, self => {
-    self.label = `${Math.round(Brightness.screen_value * 100)}`;
-  }, 'notify::screen-value'],
-  [Brightness, (progress) => {
-    const updateValue = Brightness.screen_value;
-    progress.value = updateValue;
-  }, 'notify::screen-value'],
+  Indicator.bind('brightness').transform(bright => `${Math.round(bright*100)}`),
+  Indicator.bind('brightness')
 )
 
 const volumeIndicator = OsdValue('Volume',
-  [Audio, (label) => {
-    // @ts-ignore
-    label.label = `${Math.round(Audio.speaker?.volume * 100)}`;
-  }], [Audio, (progress) => {
-    // @ts-ignore
-    const updateValue = Math.min(Audio.speaker?.volume, 1);
-    // @ts-ignore
-    if (!isNaN(updateValue)) progress.value = updateValue;
-  }],
+  Indicator.bind('volume').transform(volume => `${Math.round(volume*100)}`),
+  Indicator.bind('volume').transform(volume => Math.min(volume, 1))
 );
 
 const IndicatorValues = () => Widget.Revealer({
   transition: 'slide_down',
-  child: Widget.Box({
-    hpack: 'center',
-    vertical: true,
-    children: [
-      brightnessIndicator,
-      volumeIndicator,
+  child: Widget.Stack({
+    transition: 'slide_up_down',
+    visible_child_name: Indicator.bind('current'),
+    items: [
+      ['brightness', brightnessIndicator],
+      ['volume', volumeIndicator],
     ]
   })
 })
@@ -78,13 +63,12 @@ const IndicatorValues = () => Widget.Revealer({
   }, 'popup')
 
 
-export default (monitor) => Widget.Window({
-  name: `indicator${monitor}`,
-  monitor,
+export default () => Widget.Window({
+  name: `indicator`,
   class_name: 'indicator',
   layer: 'overlay',
   visible: true,
-  anchor: ['top', 'right'],
+  anchor: ['top', 'left'],
   child: Widget.EventBox({
     on_hover: () => {
       Indicator.popup(-1);

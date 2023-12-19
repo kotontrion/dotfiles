@@ -39,8 +39,8 @@ globalThis.SystemTray = SystemTray
 
 const applyScss = () => {
   // Compile scss
-  exec(`sassc ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);
-  exec(`sassc ${App.configDir}/scss/highlight.scss ${App.configDir}/highlight.css`);
+  exec(`sass ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);
+  exec(`sass ${App.configDir}/scss/highlight.scss ${App.configDir}/highlight.css`);
   console.log('Scss compiled');
 
   // Apply compiled css
