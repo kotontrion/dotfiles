@@ -1,6 +1,11 @@
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import App from 'resource:///com/github/Aylur/ags/app.js';
 
+/**
+ * @param {string} windowName
+ * @param {import('types/widgets/revealer').Transition} transition
+ * @param {import('node_modules/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} child
+ */
 const PopupRevealer = (windowName, transition, child) => Widget.Box({
   css: 'padding: 1px;',
   children: [Widget.Revealer({
@@ -18,7 +23,7 @@ const PopupRevealer = (windowName, transition, child) => Widget.Box({
 
 /** @param {import('types/widgets/window').WindowProps & {
  *      name: string
- *      child: import('types/widgets/box').default
+ *      child: import('node_modules/@girs/gtk-3.0/gtk-3.0').Gtk.Widget
  *      transition?: import('types/widgets/revealer').RevealerProps['transition']
  *  }} o
  */

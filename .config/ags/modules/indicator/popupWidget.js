@@ -4,8 +4,8 @@ import Indicator from './indicatorService.js';
 /**
  *
  * @param {string} name
- * @param {import('types/service').Binding} label
- * @param {import('types/service').Binding} progress
+ * @param {import('types/service').Binding<any, any, string>} label
+ * @param {import('types/service').Binding<any, any, number>} progress
  * @param {import('types/widgets/box').BoxProps} props
  * @returns {import('types/widgets/box').default}
  */

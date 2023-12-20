@@ -5,8 +5,12 @@ import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 import Menu from '../sidepanel/menu.js';
 
+/** @param {string} type */
 const sorm = (type) => type === 'sink' ? 'speaker' : 'microphone';
+/** @param {string} type */
 const sorms = (type) => type === 'sink' ? 'speakers' : 'microphones';
+/** @param {string | null} item
+ *  @param {string} type */
 const iconSubstitute = (item, type) => {
   const microphoneSubstitutes = {
     'audio-headset-analog-usb': 'audio-headset-symbolic',
@@ -30,6 +34,7 @@ const iconSubstitute = (item, type) => {
   return microphoneSubstitutes[item] || item;
 };
 
+/** @param {import('types/service/audio').Stream} stream */
 const streamIconSubstiture = stream => {
   const subs = {
     'spotify': 'spotify',
@@ -38,6 +43,7 @@ const streamIconSubstiture = stream => {
   return subs[stream.name] || stream.icon_name;
 };
 
+/** @param {string} type */
 const TypeIndicator = (type = 'sink') => Widget.Button({
   on_clicked: () => execAsync(`pactl set-${type}-mute @DEFAULT_${type.toUpperCase()}@ toggle`),
   child: Widget.Icon()
@@ -48,6 +54,7 @@ const TypeIndicator = (type = 'sink') => Widget.Button({
     }, sorm(type) + '-changed')
 });
 
+/** @param {string} type */
 const PercentLabel = (type = 'sink') => Widget.Label({
   class_name: 'audio-volume-label',
 })
@@ -57,6 +64,7 @@ const PercentLabel = (type = 'sink') => Widget.Label({
       label.label = `${Math.floor(Audio[sorm(type)].volume * 100)}%`;
   }, sorm(type) + '-changed');
 
+/** @param {string} type */
 const VolumeSlider = (type = 'sink') => Widget.Slider({
   hexpand: true,
   draw_value: false,
@@ -73,6 +81,7 @@ const VolumeSlider = (type = 'sink') => Widget.Slider({
     slider.value = Audio[sorm(type)].volume;
   }, sorm(type) + '-changed');
 
+/** @param {string} type */
 export const Volume = (type = 'sink') => Widget.Box({
   class_name: 'audio-volume-box',
   children: [
@@ -82,7 +91,7 @@ export const Volume = (type = 'sink') => Widget.Box({
   ],
 });
 
-
+/** @param {import('types/service/audio').Stream} stream */
 const MixerItem = stream => Widget.EventBox({
   on_primary_click: () => stream.is_muted = !stream.is_muted,
   on_scroll_up: () => stream.volume += 0.03,
@@ -92,7 +101,7 @@ const MixerItem = stream => Widget.EventBox({
     class_name: 'mixer-item',
     children: [
       Widget.Icon()
-        .bind('icon', stream, 'icon-name', () => streamIconSubstiture(stream))
+        .bind('icon', stream, 'icon_name', () => streamIconSubstiture(stream))
         .bind('tooltip-text', stream, 'name'),
       Widget.Box({
         children: [
@@ -107,7 +116,7 @@ const MixerItem = stream => Widget.EventBox({
                     hexpand: true,
                     class_name: 'mixer-item-title',
                     truncate: 'end',
-                    label: stream.bind('description'),
+                    label: stream.bind('description').transform(desc => desc || ''),
                   }),
                   Widget.Label({
                     xalign: 0,
@@ -133,16 +142,20 @@ const MixerItem = stream => Widget.EventBox({
   })
 });
 
+/**
+ * @param {string} type
+ * @returns {function(import('types/service/audio').Stream): import('types/widgets/button').default}
+ */
 const SinkItem = (type) => stream => Widget.Button({
   on_clicked: () => Audio[sorm(type)] = stream,
   child: Widget.Box({
     spacing: 5,
     children: [
       Widget.Icon({
-        icon: iconSubstitute(stream.iconName, type),
-        tooltip_text: stream.iconName,
+        icon: iconSubstitute(stream.icon_name, type),
+        tooltip_text: stream.icon_name,
       }),
-      Widget.Label(stream.description.split(' ').slice(0, 4).join(' ')),
+      Widget.Label(stream.description?.split(' ').slice(0, 4).join(' ')),
       Widget.Icon({
         icon: icons.tick,
         hexpand: true,
@@ -154,6 +167,7 @@ const SinkItem = (type) => stream => Widget.Button({
   }),
 });
 
+/** @param {number} tab */
 const SettingsButton = (tab = 0) => Widget.Button({
   on_clicked: () => Hyprland.sendMessage('dispatch exec pavucontrol -t ' + tab),
   child: Widget.Icon(icons.settings),

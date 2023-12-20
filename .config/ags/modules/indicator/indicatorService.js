@@ -50,8 +50,9 @@ class IndicatorService extends Service {
     Audio.speaker.volume = value;
   }
 
-  popup(value) {
-    this.emit('popup', value ??= 1);
+  /** @param {number} [value = 1] */
+  popup(value = 1) {
+    this.emit('popup', value);
     this._count++;
     timeout(this._delay, () => {
       this._count--;

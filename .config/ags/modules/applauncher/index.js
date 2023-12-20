@@ -6,8 +6,11 @@ import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js';
 import {Fzf} from '../../node_modules/fzf/dist/fzf.es.js';
 import Gtk from 'gi://Gtk';
 
+/**
+ * @param {import('types/service/applications.js').Application} app
+ */
 const AppIcon = app => {
-  const icon = lookUpIcon(app.icon_name)
+  const icon = app.icon_name && lookUpIcon(app.icon_name)
     ? app.icon_name
     : 'image-missing';
   return Widget.Icon({
@@ -16,6 +19,9 @@ const AppIcon = app => {
   });
 };
 
+/**
+ * @param {import('types/service/applications.js').Application} app
+ */
 const AppButton = app => Widget.Button({
   on_clicked: () => {
     app.launch();
@@ -60,12 +66,19 @@ const AppButton = app => Widget.Button({
   });
 
 const fzf = new Fzf(Applications.list.map(AppButton), {
+  /**
+   * @param {import('types/widgets/box').default} item
+   * @returns {string}
+   */
   selector: (item) => item.attribute.app.name,
   tiebreakers: [(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
 });
 
-function searchApps(entry, results) {
-  const text = entry.text;
+/**
+ * @param {string} text
+ * @param {import('types/widgets/box').default} results
+ */
+function searchApps(text, results) {
   results.children.forEach(c => results.remove(c));
   const fzfResults = fzf.find(text);
   const context = results.get_style_context();
@@ -93,7 +106,7 @@ const SearchBox = () => {
   });
   const entry = Widget.Entry({
     class_name: 'search-entry',
-  }).on('notify::text', (entry) => searchApps(entry, results))
+  }).on('notify::text', (entry) => searchApps(entry.text || '', results))
     .hook(App, (app, name, visible) => {
       if (name !== 'launcher' || !visible) return;
       entry.text = '';

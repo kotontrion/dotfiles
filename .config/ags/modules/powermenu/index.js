@@ -4,7 +4,11 @@ import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import {execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
 import App from 'resource:///com/github/Aylur/ags/app.js';
 
-
+/**
+ * @param {string} name
+ * @param icon
+ * @param {function(import('types/widgets/button').default): void} command
+ */
 const SessionButton = (name, icon, command, props = {}) => {
   const buttonDescription = Widget.Revealer({
     vpack: 'end',

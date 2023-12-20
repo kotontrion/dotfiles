@@ -47,9 +47,13 @@ const styleString = readFile(`${App.configDir}/highlight.css`);
 const stylesheet = new WebKit2.UserStyleSheet(
   styleString, 0, 0, null, null);
 
+/**
+ * @param {ChatGPTMessage} msg
+ * @param {Widget.Scrollable} scrollable
+ */
 const MessageContent = (msg, scrollable) => {
   const view = WebView({hexpand: true})
-    .hook(msg, (view) => {
+    .hook(msg, (/** @type WebKit2.WebView */view) => {
       const content = `<script>
             function copyCode(button, encodedCode) {
               const decodedCode = decodeURIComponent(encodedCode);

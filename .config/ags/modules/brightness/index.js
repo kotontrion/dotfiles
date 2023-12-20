@@ -1,6 +1,11 @@
 import Service from 'resource:///com/github/Aylur/ags/service.js';
 import {exec, execAsync, monitorFile, readFile} from 'resource:///com/github/Aylur/ags/utils.js';
 
+/**
+ * @param {number} num
+ * @param {number} min
+ * @param {number} max
+ */
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 class BrightnessService extends Service {

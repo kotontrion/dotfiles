@@ -15,16 +15,24 @@ const NotificationList = () => Box({
   },
   attribute: {
     'notifications': new Map(),
+    /**
+     * @param {import('types/widgets/box').default} box
+     * @param {number} id
+    */
     'onAdded': (box, id) => {
       const notif = Notifications.getNotification(id);
       if (!notif) return;
       const replace = box.attribute.notifications.get(id);
       if (replace) replace.destroy();
-      const notification = Notification(Notifications.getNotification(id), !!replace);
+      const notification = Notification(notif, !!replace);
       box.attribute.notifications.set(id, notification);
       box.pack_start(notification, false, false, 0);
       box.show_all();
     },
+    /**
+     * @param {import('types/widgets/box').default} box
+     * @param {number} id
+    */
     'onRemoved': (box, id) => {
       if (!box.attribute.notifications.has(id)) return;
       box.attribute.notifications.get(id).attribute.destroyWithAnims();

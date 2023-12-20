@@ -5,6 +5,9 @@ import GLib from 'gi://GLib';
 import Pango from 'gi://Pango';
 import {timeout} from 'resource:///com/github/Aylur/ags/utils.js';
 
+/**
+ * @param {import('types/service/notifications').Notification} notification
+ */
 const NotificationIcon = notification => {
   let icon;
   if (notification.image) {
@@ -26,6 +29,9 @@ const NotificationIcon = notification => {
   });
 };
 
+/**
+ * @param {import('types/service/notifications').Notification} notification
+ */
 const Notification = notification => Widget.Box({
   class_name: 'notification',
   vertical: true,
@@ -85,10 +91,11 @@ const Notification = notification => Widget.Box({
                 // HACK: remove linebreaks, so lines property works properly
                 label: notification.body.replace(/(\r\n|\n|\r)/gm, ' '),
               }),
-              notification.hints.value && Widget.ProgressBar({
-                class_name: 'notification-progress',
-                value: (notification.hints.value.unpack() || 0) / 100
-              })
+              notification.hints.value ?
+                Widget.ProgressBar({
+                  class_name: 'notification-progress',
+                  value: Number(notification.hints.value.unpack()) / 100
+                }) : Widget.Box()
             ]
           })
         ]
@@ -106,8 +113,11 @@ const Notification = notification => Widget.Box({
   ]
 });
 
+/**
+ * @param {import('types/service/notifications').Notification} notification
+ * @param {boolean} visible
+ */
 const NotificationReveal = (notification, visible = false) => {
-
 
   const secondRevealer = Widget.Revealer({
     child: Notification(notification),

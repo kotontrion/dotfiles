@@ -66,7 +66,9 @@ const QuickSettingsHeader = () => Widget.Box({
   ]
 });
 
-
+/**
+ * @param {import('gi://Gtk').default.Widget} content
+ */
 const QuickSettingsPage = content => Widget.Scrollable({
   class_name: 'qs-page',
   vexpand: true,

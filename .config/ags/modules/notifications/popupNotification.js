@@ -8,6 +8,10 @@ const Popups = () => Box({
   hpack: 'end',
   attribute: {
     'map': new Map(),
+    /**
+     * @param {import('types/widgets/box').default} box
+     * @param {number} id
+    */
     'dismiss': (box, id) => {
       if (!box.attribute.map.has(id))
         return;
@@ -18,20 +22,25 @@ const Popups = () => Box({
         notif.attribute.destroyWithAnims();
       }
     },
+    /**
+     * @param {import('types/widgets/box').default} box
+     * @param {number} id
+    */
     'notify': (box, id) => {
-      if (Notifications.dnd || !Notifications.getNotification(id))
+      const notif = Notifications.getNotification(id);
+      if (Notifications.dnd || !notif)
         return;
-      const notif = box.attribute.map.get(id);
-      if (!notif) {
-        const notification = Notification(Notifications.getNotification(id));
+      const replace = box.attribute.map.get(id);
+      if (!replace) {
+        const notification = Notification(notif);
         box.attribute.map.set(id, notification);
         notification.attribute.count = 1;
         box.pack_start(notification, false, false, 0);
       } else {
-        const notification = Notification(Notifications.getNotification(id), true);
-        notification.attribute.count = notif.attribute.count + 1;
-        box.remove(notif);
-        notif.destroy();
+        const notification = Notification(notif, true);
+        notification.attribute.count = replace.attribute.count + 1;
+        box.remove(replace);
+        replace.destroy();
         box.pack_start(notification, false, false, 0);
         box.attribute.map.set(id, notification);
       }
@@ -50,10 +59,9 @@ const PopupList = () => Box({
   ],
 });
 
-export default monitor => Window({
-  monitor,
+export default () => Window({
   layer: 'overlay',
-  name: `notifications${monitor}`,
+  name: 'popupNotifications',
   anchor: ['top', 'right'],
   child: PopupList(),
 });

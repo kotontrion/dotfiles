@@ -8,8 +8,13 @@ class StackState extends Variable {
     });
   }
 
+  /** @type string[] */
   items = [];
 
+  /**
+  * @param {string} value
+  * @constructor
+  */
   constructor(value) {
     super(value);
   }

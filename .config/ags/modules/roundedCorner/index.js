@@ -1,6 +1,9 @@
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import Gtk from 'gi://Gtk';
 
+/**
+ * @param {string} place
+ */
 export const RoundedCorner = (place, props) => Widget.DrawingArea({
   ...props,
   hpack: place.includes('left') ? 'start' : 'end',
@@ -39,6 +42,9 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
   }
 });
 
+/**
+ * @param {string} place
+ */
 export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
   ...props,
   vexpand: true,

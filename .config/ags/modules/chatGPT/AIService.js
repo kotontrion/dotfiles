@@ -18,6 +18,12 @@ export class ChatGPTMessage extends Service {
   _content = '';
   _thinking = false;
 
+  /**
+   * @param {string} role
+   * @param {string} content
+   * @param {boolean} [thinking=false]
+   * @constructor
+   */
   constructor(role, content, thinking = false) {
     super();
     this._role = role;
@@ -54,6 +60,9 @@ export class ChatGPTMessage extends Service {
     this.emit('changed');
   }
 
+  /**
+   * @param {string} delta
+  */
   addDelta(delta) {
     if (this.thinking) {
       this.thinking = false;
@@ -72,6 +81,7 @@ class ChatGPTService extends Service {
     });
   }
 
+  /** @type {ChatGPTMessage[]} */
   _messages = [];
   _decoder = new TextDecoder();
   url = GLib.Uri.parse('https://api.openai.com/v1/chat/completions', GLib.UriFlags.NONE);
@@ -89,6 +99,10 @@ class ChatGPTService extends Service {
     this.emit('clear');
   }
 
+  /**
+   * @param {Gio.DataInputStream} stream
+   * @param {ChatGPTMessage} aiResponse
+  */
   readResponse(stream, aiResponse) {
     stream.read_line_async(
       0, null,
@@ -113,6 +127,7 @@ class ChatGPTService extends Service {
       });
   }
 
+  /** @param {string} msg } */
   send(msg) {
     this.messages.push(new ChatGPTMessage('user', msg));
     this.emit('newMsg', this.messages.length - 1);

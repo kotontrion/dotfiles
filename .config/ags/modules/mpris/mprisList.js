@@ -4,6 +4,9 @@ import Mpris from 'resource:///com/github/Aylur/ags/service/mpris.js';
 import GLib from 'gi://GLib';
 import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js';
 
+/**
+ * @param {import('types/service/mpris').MprisPlayer} player
+ */
 const CoverArt = player => Widget.Box({
   class_name: 'music-cover',
   children: [
@@ -20,6 +23,9 @@ const CoverArt = player => Widget.Box({
     self.css = `background-image: url('${coverPath}');`;
   });
 
+/**
+ * @param {import('types/service/mpris').MprisPlayer} player
+ */
 const MprisPlayer = player => Widget.Box({
   class_name: 'music-container',
   children: [
@@ -35,14 +41,14 @@ const MprisPlayer = player => Widget.Box({
               truncate: 'end',
               class_name: 'music-title',
               xalign: 0,
-              label: player.bind('track-title')
+              label: player.bind('track_title')
             }),
             Widget.Label({
               max_width_chars: 35,
               truncate: 'end',
               class_name: 'music-artist',
               xalign: 0,
-              label: player.bind('track-artists').transform(art => art.join(', '))
+              label: player.bind('track_artists').transform(art => art.join(', '))
             }),
           ]
         }),
@@ -110,6 +116,10 @@ const PlayerList = () => Box({
   spacing: 5,
   attribute: {
     'player': new Map(),
+    /**
+     * @param {import('types/widgets/box').default} box
+     * @param {string} id
+    */
     'onAdded': (box, id) => {
       const player = Mpris.getPlayer(id);
       if (!id || !player || box.attribute.player.has(id)) return;
@@ -118,6 +128,10 @@ const PlayerList = () => Box({
       box.pack_start(playerWidget, false, false, 0);
       box.show_all();
     },
+    /**
+     * @param {import('types/widgets/box').default} box
+     * @param {string} id
+    */
     'onRemoved': (box, id) => {
       if (!id || !box.attribute.player.has(id)) return;
       box.attribute.player.get(id).destroy();
