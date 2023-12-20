@@ -144,6 +144,14 @@ export default () => {
             },
             hexpand: true,
           })
+            .on('key-press-event', (entry, event) => {
+              const keyval = event.get_keyval()[1];
+              if (
+                (keyval === Gdk.KEY_c)
+                && ((event.get_state()[1]) & Gdk.ModifierType.CONTROL_MASK) > 0) {
+                ChatGPT.clear();
+              }
+            })
             .hook(QSState, (entry) => {
               if (QSState.value === 'chatgpt')
                 entry.grab_focus();
