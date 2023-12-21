@@ -1,5 +1,5 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import Indicator from './indicatorService.js';
+import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import Indicator from "./indicatorService.js";
 
 /**
  *
@@ -12,7 +12,7 @@ import Indicator from './indicatorService.js';
 const OsdValue = (name, label, progress, props = {}) => Widget.Box({
   ...props,
   vertical: true,
-  class_name: 'osd-indicator',
+  class_name: "osd-indicator",
   hexpand: true,
   children: [
     Widget.Box({
@@ -20,17 +20,17 @@ const OsdValue = (name, label, progress, props = {}) => Widget.Box({
       children: [
         Widget.Label({
           xalign: 0, yalign: 0, hexpand: true,
-          class_name: 'osd-label',
+          class_name: "osd-label",
           label: `${name}`,
         }),
         Widget.Label({
-          hexpand: false, class_name: 'osd-value-txt',
+          hexpand: false, class_name: "osd-value-txt",
           label: label
         })
       ]
     }),
     Widget.ProgressBar({
-      class_name: 'osd-progress',
+      class_name: "osd-progress",
       hexpand: true,
       vertical: false,
       value: progress
@@ -38,45 +38,45 @@ const OsdValue = (name, label, progress, props = {}) => Widget.Box({
   ],
 });
 
-const brightnessIndicator = OsdValue('Brightness',
-  Indicator.bind('brightness').transform(bright => `${Math.round(bright*100)}`),
-  Indicator.bind('brightness')
+const brightnessIndicator = OsdValue("Brightness",
+  Indicator.bind("brightness").transform(bright => `${Math.round(bright*100)}`),
+  Indicator.bind("brightness")
 );
 
-const volumeIndicator = OsdValue('Volume',
-  Indicator.bind('volume').transform(volume => `${Math.round(volume*100)}`),
-  Indicator.bind('volume').transform(volume => Math.min(volume, 1))
+const volumeIndicator = OsdValue("Volume",
+  Indicator.bind("volume").transform(volume => `${Math.round(volume*100)}`),
+  Indicator.bind("volume").transform(volume => Math.min(volume, 1))
 );
 
 const IndicatorValues = () => Widget.Revealer({
-  transition: 'slide_down',
+  transition: "slide_down",
   child: Widget.Stack({
-    transition: 'slide_up_down',
-    visible_child_name: Indicator.bind('current'),
+    transition: "slide_up_down",
+    visible_child_name: Indicator.bind("current"),
     items: [
-      ['brightness', brightnessIndicator],
-      ['volume', volumeIndicator],
+      ["brightness", brightnessIndicator],
+      ["volume", volumeIndicator],
     ]
   })
 })
   .hook(Indicator, (revealer, value) => {
     revealer.reveal_child = (value > -1);
-  }, 'popup');
+  }, "popup");
 
 
 export default () => Widget.Window({
-  name: 'indicator',
-  class_name: 'indicator',
-  layer: 'overlay',
+  name: "indicator",
+  class_name: "indicator",
+  layer: "overlay",
   visible: true,
-  anchor: ['top', 'left'],
+  anchor: ["top", "left"],
   child: Widget.EventBox({
     on_hover: () => {
       Indicator.popup(-1);
     },
     child: Widget.Box({
       vertical: true,
-      css: 'min-height: 2px;',
+      css: "min-height: 2px;",
       children: [
         IndicatorValues(),
       ]

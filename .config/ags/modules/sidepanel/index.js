@@ -1,31 +1,31 @@
-import PopupWindow from '../popupwindow/index.js';
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import App from 'resource:///com/github/Aylur/ags/app.js';
-import {execAsync} from 'resource:///com/github/Aylur/ags/utils.js';
-import QuickSettings, {QSState} from './quicksettings.js';
-import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
-import icons from '../icons/index.js';
-import Gdk from 'gi://Gdk?version=3.0';
-import {WeatherWidget} from '../weather/index.js';
+import PopupWindow from "../popupwindow/index.js";
+import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import App from "resource:///com/github/Aylur/ags/app.js";
+import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
+import QuickSettings, {QSState} from "./quicksettings.js";
+import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
+import icons from "../icons/index.js";
+import Gdk from "gi://Gdk?version=3.0";
+import {WeatherWidget} from "../weather/index.js";
 
 const ModuleReloadIcon = (props = {}) => Widget.Button({
   ...props,
-  class_name: 'sidebar-iconbutton',
-  tooltip_text: 'Reload Hyprland',
+  class_name: "sidebar-iconbutton",
+  tooltip_text: "Reload Hyprland",
   on_clicked: () => {
-    Hyprland.sendMessage('reload');
-    App.toggleWindow('sideright');
+    Hyprland.sendMessage("reload");
+    App.toggleWindow("sideright");
   },
   child: Widget.Icon({icon: icons.header.refresh})
 });
 
 const ModuleSettingsIcon = (props = {}) => Widget.Button({
   ...props,
-  class_name: 'sidebar-iconbutton',
-  tooltip_text: 'Open Settings',
+  class_name: "sidebar-iconbutton",
+  tooltip_text: "Open Settings",
   on_clicked: () => {
-    execAsync(['bash', '-c', 'XDG_CURRENT_DESKTOP="gnome" gnome-control-center']);
-    App.toggleWindow('sideright');
+    execAsync(["bash", "-c", "XDG_CURRENT_DESKTOP=\"gnome\" gnome-control-center"]);
+    App.toggleWindow("sideright");
   },
   child: Widget.Icon({
     icon: icons.header.settings
@@ -34,11 +34,11 @@ const ModuleSettingsIcon = (props = {}) => Widget.Button({
 
 const ModulePowerIcon = (props = {}) => Widget.Button({
   ...props,
-  class_name: 'txt-small sidebar-iconbutton',
-  tooltip_text: 'Session',
+  class_name: "txt-small sidebar-iconbutton",
+  tooltip_text: "Session",
   on_clicked: () => {
-    App.toggleWindow('session');
-    App.closeWindow('sideright');
+    App.toggleWindow("session");
+    App.closeWindow("sideright");
   },
   child: Widget.Icon({
     icon: icons.header.power
@@ -51,20 +51,20 @@ const Header = () => Widget.Box({
     WeatherWidget(),
     Widget.Label()
       .poll(5000, label => {
-        execAsync(['date', '+%H:%M']).then(timeString => {
+        execAsync(["date", "+%H:%M"]).then(timeString => {
           label.label = `• ${timeString}`;
         });
       }),
-    Widget.Label({hpack: 'center'})
+    Widget.Label({hpack: "center"})
       .poll(5000, label => {
-        execAsync(['bash', '-c', 'uptime -p | sed -e \'s/up //;s/ hours,/h/;s/ minutes*/m/\'']).then(upTimeString => {
+        execAsync(["bash", "-c", "uptime -p | sed -e 's/up //;s/ hours,/h/;s/ minutes*/m/'"]).then(upTimeString => {
           label.label = `• uptime ${upTimeString}`;
         });
       }),
     Widget.Box({hexpand: true}),
-    ModuleReloadIcon({hpack: 'end'}),
-    ModuleSettingsIcon({hpack: 'end'}),
-    ModulePowerIcon({hpack: 'end'}),
+    ModuleReloadIcon({hpack: "end"}),
+    ModuleSettingsIcon({hpack: "end"}),
+    ModulePowerIcon({hpack: "end"}),
   ]
 });
 
@@ -74,15 +74,15 @@ const SidebarRight = () => Widget.Box({
   hexpand: true,
   children: [
     Widget.EventBox({
-      on_primary_click: () => App.closeWindow('sideright'),
-      on_secondary_click: () => App.closeWindow('sideright'),
-      on_middle_click: () => App.closeWindow('sideright'),
+      on_primary_click: () => App.closeWindow("sideright"),
+      on_secondary_click: () => App.closeWindow("sideright"),
+      on_middle_click: () => App.closeWindow("sideright"),
     }),
     Widget.Box({
       vertical: true,
       vexpand: true,
       spacing: 8,
-      class_name: 'sidebar-right',
+      class_name: "sidebar-right",
       children: [
         Header(),
         QuickSettings(),
@@ -95,11 +95,11 @@ const SidebarRight = () => Widget.Box({
 });
 
 export default () => PopupWindow({
-  anchor: ['right', 'top', 'bottom'],
-  name: 'sideright',
+  anchor: ["right", "top", "bottom"],
+  name: "sideright",
   child: SidebarRight(),
 })
-  .on('key-press-event', (_, event) => {
+  .on("key-press-event", (_, event) => {
     const keyval = event.get_keyval()[1];
     if (
       (keyval === Gdk.KEY_n)

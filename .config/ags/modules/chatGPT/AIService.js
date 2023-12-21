@@ -1,21 +1,21 @@
-import Service from 'resource:///com/github/Aylur/ags/service.js';
-import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
+import Service from "resource:///com/github/Aylur/ags/service.js";
+import Gio from "gi://Gio";
+import GLib from "gi://GLib";
 // @ts-ignore
-import Soup from 'gi://Soup?version=3.0';
-import Keys from '../../keys.js';
+import Soup from "gi://Soup?version=3.0";
+import Keys from "../../keys.js";
 
 export class ChatGPTMessage extends Service {
   static {
     Service.register(this, {},
       {
-        'content': ['string'],
-        'thinking': ['boolean']
+        "content": ["string"],
+        "thinking": ["boolean"]
       });
   }
 
-  _role = '';
-  _content = '';
+  _role = "";
+  _content = "";
   _thinking = false;
 
   /**
@@ -37,7 +37,7 @@ export class ChatGPTMessage extends Service {
 
   set role(role) {
     this._role = role;
-    this.emit('changed');
+    this.emit("changed");
   }
 
   get content() {
@@ -46,8 +46,8 @@ export class ChatGPTMessage extends Service {
 
   set content(content) {
     this._content = content;
-    this.notify('content');
-    this.emit('changed');
+    this.notify("content");
+    this.emit("changed");
   }
 
   get thinking() {
@@ -56,8 +56,8 @@ export class ChatGPTMessage extends Service {
 
   set thinking(thinking) {
     this._thinking = thinking;
-    this.notify('thinking');
-    this.emit('changed');
+    this.notify("thinking");
+    this.emit("changed");
   }
 
   /**
@@ -76,15 +76,15 @@ export class ChatGPTMessage extends Service {
 class ChatGPTService extends Service {
   static {
     Service.register(this, {
-      'newMsg': ['int'],
-      'clear': [],
+      "newMsg": ["int"],
+      "clear": [],
     });
   }
 
   /** @type {ChatGPTMessage[]} */
   _messages = [];
   _decoder = new TextDecoder();
-  url = GLib.Uri.parse('https://api.openai.com/v1/chat/completions', GLib.UriFlags.NONE);
+  url = GLib.Uri.parse("https://api.openai.com/v1/chat/completions", GLib.UriFlags.NONE);
 
   get messages() {
     return this._messages;
@@ -96,7 +96,7 @@ class ChatGPTService extends Service {
 
   clear() {
     this._messages = [];
-    this.emit('clear');
+    this.emit("clear");
   }
 
   /**
@@ -112,15 +112,15 @@ class ChatGPTService extends Service {
         }
         const [bytes] = stream.read_line_finish(res);
         const line = this._decoder.decode(bytes);
-        if (line && line != '') {
+        if (line && line != "") {
           let data = line.substr(6);
-          if (data == '[DONE]') return;
+          if (data == "[DONE]") return;
           try {
             const result = JSON.parse(data);
-            if (result.choices[0].finish_reason === 'stop') return;
+            if (result.choices[0].finish_reason === "stop") return;
             aiResponse.addDelta(result.choices[0].delta.content);
           } catch {
-            aiResponse.addDelta(line + '\n');
+            aiResponse.addDelta(line + "\n");
           }
         }
         this.readResponse(stream, aiResponse);
@@ -129,11 +129,11 @@ class ChatGPTService extends Service {
 
   /** @param {string} msg } */
   send(msg) {
-    this.messages.push(new ChatGPTMessage('user', msg));
-    this.emit('newMsg', this.messages.length - 1);
-    const aiResponse = new ChatGPTMessage('assistant', 'thinking...', true);
+    this.messages.push(new ChatGPTMessage("user", msg));
+    this.emit("newMsg", this.messages.length - 1);
+    const aiResponse = new ChatGPTMessage("assistant", "thinking...", true);
     this.messages.push(aiResponse);
-    this.emit('newMsg', this.messages.length - 1);
+    this.emit("newMsg", this.messages.length - 1);
 
     //    aiResponse.content = `<html><head>
     //<title>Test HTML File</title>
@@ -145,7 +145,7 @@ class ChatGPTService extends Service {
     //    return;
 
     const body = {
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       messages: this.messages.map(msg => {
         let m = {role: msg.role, content: msg.content};
         return m;
@@ -155,12 +155,12 @@ class ChatGPTService extends Service {
 
     const session = new Soup.Session();
     const message = new Soup.Message({
-      method: 'POST',
+      method: "POST",
       uri: this.url,
     });
-    message.request_headers.append('Authorization', 'Bearer ' + Keys.OPENAI_API_KEY);
+    message.request_headers.append("Authorization", "Bearer " + Keys.OPENAI_API_KEY);
     // @ts-ignore
-    message.set_request_body_from_bytes('application/json', new GLib.Bytes(JSON.stringify(body)));
+    message.set_request_body_from_bytes("application/json", new GLib.Bytes(JSON.stringify(body)));
 
     // @ts-ignore
     session.send_async(message, GLib.DEFAULT_PRIORITY, null, (_, result) => {

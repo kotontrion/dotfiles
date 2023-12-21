@@ -1,4 +1,4 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
+import Widget from "resource:///com/github/Aylur/ags/widget.js";
 
 /**
  * @param {Object} param
@@ -11,11 +11,11 @@ import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 export default ({title, icon, content, headerChild = Widget.Box()}) => Widget.Box({
   children: [
     Widget.Box({
-      class_name: 'qs-menu',
+      class_name: "qs-menu",
       vertical: true,
       children: [
         Widget.Box({
-          class_name: 'qs-title',
+          class_name: "qs-title",
           spacing: 5,
           children: [
             Widget.Icon(icon),
@@ -26,7 +26,7 @@ export default ({title, icon, content, headerChild = Widget.Box()}) => Widget.Bo
         }),
         Widget.Separator(),
         Widget.Box({
-          class_name: 'qs-content',
+          class_name: "qs-content",
           children: [content],
         }),
       ],

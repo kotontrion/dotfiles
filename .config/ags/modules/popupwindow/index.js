@@ -1,5 +1,5 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import App from 'resource:///com/github/Aylur/ags/app.js';
+import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import App from "resource:///com/github/Aylur/ags/app.js";
 
 /**
  * @param {string} windowName
@@ -7,7 +7,7 @@ import App from 'resource:///com/github/Aylur/ags/app.js';
  * @param {import('node_modules/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} child
  */
 const PopupRevealer = (windowName, transition, child) => Widget.Box({
-  css: 'padding: 1px;',
+  css: "padding: 1px;",
   children: [Widget.Revealer({
     transition,
     child,
@@ -32,7 +32,7 @@ export default ({name, child, ...rest}) =>
     name,
     child: Widget.Box({
       children: [
-        PopupRevealer(name, 'slide_left', child)
+        PopupRevealer(name, "slide_left", child)
       ]
     }),
     popup: true,

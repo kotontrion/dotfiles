@@ -1,7 +1,7 @@
-import Service from 'resource:///com/github/Aylur/ags/service.js';
-import App from 'resource:///com/github/Aylur/ags/app.js';
-import {monitorFile} from 'resource:///com/github/Aylur/ags/utils.js';
-import Gio from 'gi://Gio';
+import Service from "resource:///com/github/Aylur/ags/service.js";
+import App from "resource:///com/github/Aylur/ags/app.js";
+import {monitorFile} from "resource:///com/github/Aylur/ags/utils.js";
+import Gio from "gi://Gio";
 
 class DirectoryMonitorService extends Service {
   static {
@@ -17,16 +17,16 @@ class DirectoryMonitorService extends Service {
 
     monitorFile(directoryPath, (_, eventType) => {
       if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {
-        this.emit('changed');
+        this.emit("changed");
       }
-    }, 'directory');
+    }, "directory");
 
     const directory = Gio.File.new_for_path(directoryPath);
-    const enumerator = directory.enumerate_children('standard::*', Gio.FileQueryInfoFlags.NONE, null);
+    const enumerator = directory.enumerate_children("standard::*", Gio.FileQueryInfoFlags.NONE, null);
 
     let fileInfo;
     while ((fileInfo = enumerator.next_file(null)) !== null) {
-      const childPath = directoryPath + '/' + fileInfo.get_name();
+      const childPath = directoryPath + "/" + fileInfo.get_name();
       if (fileInfo.get_file_type() === Gio.FileType.DIRECTORY) {
         this.recursiveDirectoryMonitor(childPath);
       }

@@ -1,67 +1,67 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import icons from '../icons/index.js';
-import MprisPlayerList from '../mpris/index.js';
-import AudioContent from '../audio/index.js';
-import AIContent, {ChatGPT} from '../chatGPT/index.js';
-import Menu from './menu.js';
-import Notifications from 'resource:///com/github/Aylur/ags/service/notifications.js';
-import NotificationList from '../notifications/index.js';
-import WifiList from '../network/index.js';
-import BluetoothList from '../bluetooth/index.js';
+import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import icons from "../icons/index.js";
+import MprisPlayerList from "../mpris/index.js";
+import AudioContent from "../audio/index.js";
+import AIContent, {ChatGPT} from "../chatGPT/index.js";
+import Menu from "./menu.js";
+import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
+import NotificationList from "../notifications/index.js";
+import WifiList from "../network/index.js";
+import BluetoothList from "../bluetooth/index.js";
 // @ts-ignore
-import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js';
-import Network from 'resource:///com/github/Aylur/ags/service/network.js';
-import StackState from '../stackState/stackState.js';
+import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
+import Network from "resource:///com/github/Aylur/ags/service/network.js";
+import StackState from "../stackState/stackState.js";
 
-export const QSState = new StackState('audio');
+export const QSState = new StackState("audio");
 
 const QuickSettingsButton = ({icon, title, ...props}) => Widget.Button({
   child: Widget.Icon(icon),
-  class_name: 'qs-button',
+  class_name: "qs-button",
   ...props,
   on_clicked: () => {
     QSState.value = title;
   },
 })
   .hook(QSState, (button) => {
-    button.toggleClassName('active', title === QSState.value);
+    button.toggleClassName("active", title === QSState.value);
   });
 
 const QuickSettingsHeader = () => Widget.Box({
   homogeneous: true,
   spacing: 5,
-  class_name: 'qs-header',
+  class_name: "qs-header",
   children: [
     QuickSettingsButton({
       icon: icons.notifications.chat,
-      title: 'notifications',
-      class_name: 'qs-button active',
-      tooltip_text: 'Notifications',
+      title: "notifications",
+      class_name: "qs-button active",
+      tooltip_text: "Notifications",
     }),
     QuickSettingsButton({
-      icon: 'network-wireless-signal-good-symbolic',
-      title: 'wifi',
-      tooltip_text: 'Wi-Fi',
+      icon: "network-wireless-signal-good-symbolic",
+      title: "wifi",
+      tooltip_text: "Wi-Fi",
     }),
     QuickSettingsButton({
       icon: icons.bluetooth.enabled,
-      title: 'bluetooth',
-      tooltip_text: 'Bluetooth',
+      title: "bluetooth",
+      tooltip_text: "Bluetooth",
     }),
     QuickSettingsButton({
       icon: icons.audio.volume.high,
-      title: 'audio',
-      tooltip_text: 'Audio',
+      title: "audio",
+      tooltip_text: "Audio",
     }),
     QuickSettingsButton({
       icon: icons.mpris.fallback,
-      title: 'mpris',
-      tooltip_text: 'Media',
+      title: "mpris",
+      tooltip_text: "Media",
     }),
     QuickSettingsButton({
       icon: icons.ai,
-      title: 'chatgpt',
-      tooltip_text: 'ChatGPT',
+      title: "chatgpt",
+      tooltip_text: "ChatGPT",
     })
   ]
 });
@@ -70,18 +70,18 @@ const QuickSettingsHeader = () => Widget.Box({
  * @param {import('gi://Gtk').default.Widget} content
  */
 const QuickSettingsPage = content => Widget.Scrollable({
-  class_name: 'qs-page',
+  class_name: "qs-page",
   vexpand: true,
-  hscroll: 'never',
+  hscroll: "never",
   child: content
 });
 
 const QuickSettingsContent = () => Widget.Stack({
-  transition: 'slide_left_right',
+  transition: "slide_left_right",
   visible_child_name: QSState.bind(),
   items: [
-    ['notifications', QuickSettingsPage(Menu({
-      title: 'Notifications',
+    ["notifications", QuickSettingsPage(Menu({
+      title: "Notifications",
       icon: icons.notifications.chat,
       content: NotificationList(),
       headerChild: Widget.Box({
@@ -91,18 +91,18 @@ const QuickSettingsContent = () => Widget.Stack({
             on_clicked: () => Notifications.clear(),
             child: Widget.Box({
               children: [
-                Widget.Label('clear'),
+                Widget.Label("clear"),
                 Widget.Icon(icons.trash.empty)
               ]
             }),
-            visible: Notifications.bind('notifications').transform(notifs => notifs.length > 0)
+            visible: Notifications.bind("notifications").transform(notifs => notifs.length > 0)
           }),
           Widget.Switch()
             .hook(Notifications, (sw) => {
               if (sw.active === Notifications.dnd)
                 sw.active = !Notifications.dnd;
             })
-            .on('notify::active', ({active}) => {
+            .on("notify::active", ({active}) => {
               if (active === Notifications.dnd)
                 Notifications.dnd = !active;
             })
@@ -110,23 +110,23 @@ const QuickSettingsContent = () => Widget.Stack({
       })
     }
     ))],
-    ['wifi', QuickSettingsPage(Menu({
-      title: 'Wi-Fi',
-      icon: 'network-wireless-signal-good-symbolic',
+    ["wifi", QuickSettingsPage(Menu({
+      title: "Wi-Fi",
+      icon: "network-wireless-signal-good-symbolic",
       content: WifiList(),
       headerChild: Widget.Switch()
         .hook(Network, (sw) => {
           if (sw.active !== Network.wifi.enabled)
             sw.active = Network.wifi.enabled;
         })
-        .on('notify::active', ({active}) => {
+        .on("notify::active", ({active}) => {
           if (active !== Network.wifi.enabled)
             Network.wifi.enabled = active;
         })
     }))],
-    ['bluetooth', QuickSettingsPage(
+    ["bluetooth", QuickSettingsPage(
       Menu({
-        title: 'Bluetooth',
+        title: "Bluetooth",
         icon: icons.bluetooth.enabled,
         content: BluetoothList(),
         headerChild: Widget.Switch()
@@ -134,35 +134,35 @@ const QuickSettingsContent = () => Widget.Stack({
             if (sw.active !== Bluetooth.enabled)
               sw.active = Bluetooth.enabled;
           })
-          .on('notify::active', ({active}) => {
+          .on("notify::active", ({active}) => {
             if (active !== Bluetooth.enabled)
               Bluetooth.enabled = active;
           })
       }))],
-    ['audio', QuickSettingsPage(
+    ["audio", QuickSettingsPage(
       Menu({
-        title: 'Audio',
+        title: "Audio",
         icon: icons.audio.volume.high,
         content: AudioContent()
       })
     )],
-    ['mpris', QuickSettingsPage(
+    ["mpris", QuickSettingsPage(
       Menu({
-        title: 'Player',
+        title: "Player",
         icon: icons.mpris.fallback,
         content: MprisPlayerList(),
       })
     )],
-    ['chatgpt', QuickSettingsPage(
+    ["chatgpt", QuickSettingsPage(
       Menu({
-        title: 'ChatGPT',
+        title: "ChatGPT",
         icon: icons.ai,
         content: AIContent(),
         headerChild: Widget.Button({
           on_clicked: () => ChatGPT.clear(),
           child: Widget.Box({
             children: [
-              Widget.Label('Clear '),
+              Widget.Label("Clear "),
               Widget.Icon(icons.trash.empty),
             ]
           }),

@@ -1,18 +1,18 @@
-import Notifications from 'resource:///com/github/Aylur/ags/service/notifications.js';
-import {Box, Window} from 'resource:///com/github/Aylur/ags/widget.js';
-import Notification from './notification.js';
+import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
+import {Box, Window} from "resource:///com/github/Aylur/ags/widget.js";
+import Notification from "./notification.js";
 
 const Popups = () => Box({
   vertical: true,
   spacing: 5,
-  hpack: 'end',
+  hpack: "end",
   attribute: {
-    'map': new Map(),
+    "map": new Map(),
     /**
      * @param {import('types/widgets/box').default} box
      * @param {number} id
     */
-    'dismiss': (box, id) => {
+    "dismiss": (box, id) => {
       if (!box.attribute.map.has(id))
         return;
       const notif = box.attribute.map.get(id);
@@ -26,7 +26,7 @@ const Popups = () => Box({
      * @param {import('types/widgets/box').default} box
      * @param {number} id
     */
-    'notify': (box, id) => {
+    "notify": (box, id) => {
       const notif = Notifications.getNotification(id);
       if (Notifications.dnd || !notif)
         return;
@@ -47,21 +47,21 @@ const Popups = () => Box({
     },
   },
 })
-  .hook(Notifications, (box, id) => box.attribute.notify(box, id), 'notified')
-  .hook(Notifications, (box, id) => box.attribute.dismiss(box, id), 'dismissed')
-  .hook(Notifications, (box, id) => box.attribute.dismiss(box, id, true), 'closed');
+  .hook(Notifications, (box, id) => box.attribute.notify(box, id), "notified")
+  .hook(Notifications, (box, id) => box.attribute.dismiss(box, id), "dismissed")
+  .hook(Notifications, (box, id) => box.attribute.dismiss(box, id, true), "closed");
 
 const PopupList = () => Box({
-  class_name: 'notifications-popup-list',
-  css: 'padding: 1px; min-width: 1px',
+  class_name: "notifications-popup-list",
+  css: "padding: 1px; min-width: 1px",
   children: [
     Popups(),
   ],
 });
 
 export default () => Window({
-  layer: 'overlay',
-  name: 'popupNotifications',
-  anchor: ['top', 'right'],
+  layer: "overlay",
+  name: "popupNotifications",
+  anchor: ["top", "right"],
   child: PopupList(),
 });

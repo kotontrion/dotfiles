@@ -1,3 +1,3 @@
-import Cava from './cava.js';
+import Cava from "./cava.js";
 
 export default Cava;

@@ -1,5 +1,5 @@
-import {Variable} from 'resource:///com/github/Aylur/ags/variable.js';
-import Service from 'resource:///com/github/Aylur/ags/service.js';
+import {Variable} from "resource:///com/github/Aylur/ags/variable.js";
+import Service from "resource:///com/github/Aylur/ags/service.js";
 
 class StackState extends Variable {
   static {

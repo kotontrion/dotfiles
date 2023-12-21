@@ -1,24 +1,24 @@
-import Widget, {Box} from 'resource:///com/github/Aylur/ags/widget.js';
-import icons from '../icons/index.js';
-import Mpris from 'resource:///com/github/Aylur/ags/service/mpris.js';
-import GLib from 'gi://GLib';
-import {lookUpIcon} from 'resource:///com/github/Aylur/ags/utils.js';
+import Widget, {Box} from "resource:///com/github/Aylur/ags/widget.js";
+import icons from "../icons/index.js";
+import Mpris from "resource:///com/github/Aylur/ags/service/mpris.js";
+import GLib from "gi://GLib";
+import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
 
 /**
  * @param {import('types/service/mpris').MprisPlayer} player
  */
 const CoverArt = player => Widget.Box({
-  class_name: 'music-cover',
+  class_name: "music-cover",
   children: [
     Widget.Icon({
       icon: lookUpIcon(player.name) ? player.name : icons.mpris.fallback,
-      vpack: 'center',
-      hpack: 'center',
+      vpack: "center",
+      hpack: "center",
     })
   ],
 })
   .hook(Mpris, (self) => {
-    const coverPath = player.cover_path || '';
+    const coverPath = player.cover_path || "";
     self.children[0].visible = !GLib.file_test(coverPath, GLib.FileTest.EXISTS);
     self.css = `background-image: url('${coverPath}');`;
   });
@@ -27,7 +27,7 @@ const CoverArt = player => Widget.Box({
  * @param {import('types/service/mpris').MprisPlayer} player
  */
 const MprisPlayer = player => Widget.Box({
-  class_name: 'music-container',
+  class_name: "music-container",
   children: [
     CoverArt(player),
     Widget.Box({
@@ -38,32 +38,32 @@ const MprisPlayer = player => Widget.Box({
           children: [
             Widget.Label({
               max_width_chars: 35,
-              truncate: 'end',
-              class_name: 'music-title',
+              truncate: "end",
+              class_name: "music-title",
               xalign: 0,
-              label: player.bind('track_title')
+              label: player.bind("track_title")
             }),
             Widget.Label({
               max_width_chars: 35,
-              truncate: 'end',
-              class_name: 'music-artist',
+              truncate: "end",
+              class_name: "music-artist",
               xalign: 0,
-              label: player.bind('track_artists').transform(art => art.join(', '))
+              label: player.bind("track_artists").transform(art => art.join(", "))
             }),
           ]
         }),
         Widget.Box({
           children: [
             Widget.Box({
-              vpack: 'center',
+              vpack: "center",
               children: [
                 Widget.Button({
-                  class_name: 'music-button-prev',
+                  class_name: "music-button-prev",
                   on_clicked: () => player.previous(),
                   child: Widget.Icon(icons.mpris.prev),
                 }),
                 Widget.Button({
-                  class_name: 'music-button-next',
+                  class_name: "music-button-next",
                   on_clicked: () => player.next(),
                   child: Widget.Icon(icons.mpris.next)
                 }),
@@ -73,14 +73,14 @@ const MprisPlayer = player => Widget.Box({
             Widget.Button({
               on_clicked: () => player.playPause(),
               child: Widget.CircularProgress({
-                class_name: 'music-progress',
+                class_name: "music-progress",
                 start_at: 0.75,
                 child: Widget.Icon()
                   .hook(Mpris, (icon) => {
                     let icn = icons.mpris.stopped;
-                    if (player.play_back_status === 'Playing')
+                    if (player.play_back_status === "Playing")
                       icn = icons.mpris.playing;
-                    else if (player.play_back_status === 'Paused')
+                    else if (player.play_back_status === "Paused")
                       icn = icons.mpris.paused;
                     icon.icon = icn;
                   }),
@@ -101,10 +101,10 @@ const MprisPlayer = player => Widget.Box({
   ]
 })
   .hook(Mpris, (self) => {
-    const coverPath = player.cover_path || '';
+    const coverPath = player.cover_path || "";
     const bg = GLib.file_test(coverPath, GLib.FileTest.EXISTS)
       ? `url('${coverPath}')`
-      : 'none';
+      : "none";
     self.css = `background-image: ${bg};
                 background-position: center;
                 background-size: cover;
@@ -115,12 +115,12 @@ const PlayerList = () => Box({
   vertical: true,
   spacing: 5,
   attribute: {
-    'player': new Map(),
+    "player": new Map(),
     /**
      * @param {import('types/widgets/box').default} box
      * @param {string} id
     */
-    'onAdded': (box, id) => {
+    "onAdded": (box, id) => {
       const player = Mpris.getPlayer(id);
       if (!id || !player || box.attribute.player.has(id)) return;
       const playerWidget = MprisPlayer(player);
@@ -132,7 +132,7 @@ const PlayerList = () => Box({
      * @param {import('types/widgets/box').default} box
      * @param {string} id
     */
-    'onRemoved': (box, id) => {
+    "onRemoved": (box, id) => {
       if (!id || !box.attribute.player.has(id)) return;
       box.attribute.player.get(id).destroy();
       box.attribute.player.delete(id);
@@ -140,7 +140,7 @@ const PlayerList = () => Box({
     }
   }
 })
-  .hook(Mpris, (box, id) => box.attribute.onAdded(box, id), 'player-added')
-  .hook(Mpris, (box, id) => box.attribute.onRemoved(box, id), 'player-closed');
+  .hook(Mpris, (box, id) => box.attribute.onAdded(box, id), "player-added")
+  .hook(Mpris, (box, id) => box.attribute.onRemoved(box, id), "player-closed");
 
 export default PlayerList;
