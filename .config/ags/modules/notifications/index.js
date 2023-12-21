@@ -8,7 +8,7 @@ import NotificationList from './notificationList.js';
 const NotificationsIndicator = () => Widget.Icon({
   icon: icons.notifications.noisy,
   class_name: 'notification-indicator',
-  visible: Notifications.bind('notifications').transform(nots => nots.length > 0 && !Notifications.dnd)
+  visible: Notifications.bind('notifications').transform(nots => nots.length > 0)
 });
 
 const DNDIndicator = () => Widget.Icon({

@@ -95,7 +95,7 @@ export const Volume = (type = 'sink') => Widget.Box({
 const MixerItem = stream => Widget.EventBox({
   on_primary_click: () => stream.is_muted = !stream.is_muted,
   on_scroll_up: () => stream.volume += 0.03,
-  on_scroll_down: () => stream.volume += 0.03,
+  on_scroll_down: () => stream.volume -= 0.03,
   child: Widget.Box({
     hexpand: true,
     class_name: 'mixer-item',

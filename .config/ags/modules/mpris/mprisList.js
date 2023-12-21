@@ -106,9 +106,9 @@ const MprisPlayer = player => Widget.Box({
       ? `url('${coverPath}')`
       : 'none';
     self.css = `background-image: ${bg};
-                    background-position: center;
-                    background-size: cover;
-                    `;
+                background-position: center;
+                background-size: cover;
+                `;
   });
 
 const PlayerList = () => Box({

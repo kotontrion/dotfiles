@@ -23,8 +23,12 @@ const Workspaces = () => Widget.EventBox({
         const ws = Hyprland.getWorkspace(i + 1);
         const ws_before = Hyprland.getWorkspace(i);
         const ws_after = Hyprland.getWorkspace(i + 2);
+        //toggleClassName is not part od Gtk.Widget, but we know box.children only includes AgsWidgets
+        //@ts-ignore
         button.toggleClassName('occupied', ws?.windows > 0);
+        //@ts-ignore
         button.toggleClassName('occupied-left', !ws_before || ws_before?.windows <= 0);
+        //@ts-ignore
         button.toggleClassName('occupied-right', !ws_after || ws_after?.windows <= 0);
       });
     }, 'notify::workspaces')
