@@ -1,4 +1,4 @@
-import {Box, Label} from "resource:///com/github/Aylur/ags/widget.js";
+import {Box} from "resource:///com/github/Aylur/ags/widget.js";
 import {timeout} from "resource:///com/github/Aylur/ags/utils.js";
 import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
 import {Notification} from "./index.js";

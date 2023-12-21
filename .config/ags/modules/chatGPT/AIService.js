@@ -81,10 +81,21 @@ class ChatGPTService extends Service {
     });
   }
 
+  _systemMessage = {
+    role: "system",
+    content: ""
+  };
+
   /** @type {ChatGPTMessage[]} */
   _messages = [];
   _decoder = new TextDecoder();
+  model = "gpt-3.5-turbo-1106";
   url = GLib.Uri.parse("https://api.openai.com/v1/chat/completions", GLib.UriFlags.NONE);
+
+  /** @param {string} msg */
+  setSystemMessage(msg) {
+    this._systemMessage.content = msg;
+  }
 
   get messages() {
     return this._messages;
@@ -144,12 +155,13 @@ class ChatGPTService extends Service {
     //</body></html>`
     //    return;
 
+    const messages = this.messages.map(msg => {
+      let m = {role: msg.role, content: msg.content};
+      return m;
+    });
     const body = {
-      model: "gpt-3.5-turbo",
-      messages: this.messages.map(msg => {
-        let m = {role: msg.role, content: msg.content};
-        return m;
-      }),
+      model: this.model,
+      messages: this._systemMessage.content != "" ? [this._systemMessage, ...messages] : messages,
       stream: true,
     };
 

@@ -85,13 +85,13 @@ const MessageContent = (msg, scrollable) => {
         decision.ignore();
         return;
       }
-      const uri = decision.get_request().get_uri()
+      const uri = decision.get_request().get_uri();
       if (uri === "file:///") {
         decision.use();
         return;
       }
       decision.ignore();
-      execAsync(["xdg-open", uri])
+      execAsync(["xdg-open", uri]);
     });
   view.get_settings().set_javascript_can_access_clipboard(true);
   view.get_settings().set_enable_write_console_messages_to_stdout(true);
@@ -153,7 +153,12 @@ export default () => {
           Entry({
             on_accept: (entry) => {
               if (!entry || !entry.text || entry.text.length == 0) return;
-              ChatGPT.send(entry.text);
+              if(entry.text.startsWith("/system")){
+                ChatGPT.setSystemMessage(entry.text.substring(7));
+              }
+              else {
+                ChatGPT.send(entry.text);
+              }
               entry.text = "";
             },
             hexpand: true,

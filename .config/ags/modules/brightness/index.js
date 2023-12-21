@@ -1,7 +1,6 @@
 import Service from "resource:///com/github/Aylur/ags/service.js";
-import {exec, execAsync, monitorFile, readFile, writeFile} from "resource:///com/github/Aylur/ags/utils.js";
+import {monitorFile, readFile} from "resource:///com/github/Aylur/ags/utils.js";
 import Gio from "gi://Gio";
-import GLib from 'gi://GLib';
 
 /**
  * @param {number} num
@@ -39,8 +38,8 @@ class BrightnessService extends Service {
     const stream = new Gio.DataOutputStream({
       close_base_stream: true,
       base_stream: this._brightnessFile.open_readwrite(null).get_output_stream()
-    })
-    stream.put_string(Math.floor(percent * this._maxValue).toString(), null)
+    });
+    stream.put_string(Math.floor(percent * this._maxValue).toString(), null);
     this.emit("screen-changed", this._screenValue);
     this.notify("screen-value");
   }
@@ -62,7 +61,7 @@ class BrightnessService extends Service {
     this._brightnessFile = Gio.File.new_for_path(this._brightnessPath);
     this._readBrightness(this._brightnessFile);
     monitorFile(this._brightnessPath, (file) => {
-      this._readBrightness(file)
+      this._readBrightness(file);
     });
   }
 
