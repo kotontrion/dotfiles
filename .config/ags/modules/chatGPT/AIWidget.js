@@ -17,6 +17,7 @@ import {Marked} from "../../node_modules/marked/lib/marked.esm.js";
 import {markedHighlight} from "../../node_modules/marked-highlight/src/index.js";
 //highlightjs requires some modifications to work with gjs, mainly just how it's exported
 import hljs from "../highlight.js/lib/index.js";
+import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
 
 const parser = new Marked(
   markedHighlight({
@@ -78,6 +79,19 @@ const MessageContent = (msg, scrollable) => {
     // HACK: evil way to disable context menu
     .on("context-menu", (view, menu) => {
       menu.remove_all();
+    })
+    .on("decide-policy", (view, decision, type) => {
+      if(type != 0) {
+        decision.ignore();
+        return;
+      }
+      const uri = decision.get_request().get_uri()
+      if (uri === "file:///") {
+        decision.use();
+        return;
+      }
+      decision.ignore();
+      execAsync(["xdg-open", uri])
     });
   view.get_settings().set_javascript_can_access_clipboard(true);
   view.get_settings().set_enable_write_console_messages_to_stdout(true);
