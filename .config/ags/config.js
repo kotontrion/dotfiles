@@ -12,7 +12,6 @@ import Launcher from "./modules/applauncher/index.js";
 import PowerMenu from "./modules/powermenu/index.js";
 import {PopupNotifications} from "./modules/notifications/index.js";
 import DirectoryMonitorService from "./directoryMonitorService.js";
-
 import App from "resource:///com/github/Aylur/ags/app.js";
 
 const applyScss = () => {
