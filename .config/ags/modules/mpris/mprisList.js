@@ -9,16 +9,16 @@ import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
  */
 const CoverArt = player => Widget.Box({
   class_name: "music-cover",
-  css: player.bind('cover_path').transform(coverPath => `background-image: url('${coverPath || ""}');`),
+  css: player.bind("cover_path").transform(coverPath => `background-image: url('${coverPath || ""}');`),
   children: [
     Widget.Icon({
       icon: lookUpIcon(player.name) ? player.name : icons.mpris.fallback,
       vpack: "center",
       hpack: "center",
       visible: player.bind("cover_path").transform(coverPath => !GLib.file_test(coverPath || "", GLib.FileTest.EXISTS))
-    })
+    }),
   ],
-})
+});
 /**
  * @param {import('types/service/mpris').MprisPlayer} player
  */

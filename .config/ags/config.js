@@ -1,4 +1,4 @@
-import {exec} from "resource:///com/github/Aylur/ags/utils.js";
+import {exec, idle} from "resource:///com/github/Aylur/ags/utils.js";
 import Bar from "./modules/bar/index.js";
 import {
   CornerTopleft,
@@ -29,6 +29,7 @@ const applyScss = () => {
 DirectoryMonitorService.connect("changed", () => applyScss());
 applyScss();
 
+
 export default {
   style: `${App.configDir}/style.css`,
   closeWindowDelay: {
@@ -36,17 +37,24 @@ export default {
     launcher: 350,
     bar0: 350,
   },
-  windows: [
-    Bar(0),
-    CornerTopleft(),
-    CornerTopright(),
-    CornerBottomleft(),
-    CornerBottomright(),
-    IndicatorWidget(),
-    Sidepanel(),
-    Launcher(),
-    PowerMenu(),
-    PopupNotifications(),
-  ],
 };
 
+/**
+ * @param {import('gtk-3.0').default.Window[]} windows
+  */
+function addWindows(windows) {
+  windows.forEach(win => App.addWindow(win));
+}
+
+idle(() => addWindows([
+  Bar(0),
+  CornerTopleft(),
+  CornerTopright(),
+  CornerBottomleft(),
+  CornerBottomright(),
+  IndicatorWidget(),
+  Sidepanel(),
+  Launcher(),
+  PowerMenu(),
+  PopupNotifications(),
+]));

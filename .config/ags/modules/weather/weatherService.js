@@ -65,8 +65,8 @@ class WeatherService extends Service {
         this.updateProperty("icon", icons.weather[timeOfDay][weatherCode]
           || icons.weather["day"][weatherCode] // fallback to day
           || "");
-    })
-    .catch(logError)
+      })
+      .catch(logError);
   }
 }
 
