@@ -100,9 +100,10 @@ const MixerItem = stream => Widget.EventBox({
     hexpand: true,
     class_name: "mixer-item",
     children: [
-      Widget.Icon()
-        .bind("icon", stream, "icon_name", () => streamIconSubstiture(stream))
-        .bind("tooltip-text", stream, "name"),
+      Widget.Icon({
+        icon: stream.bind("icon_name").transform(() => streamIconSubstiture(stream)),
+        tooltip_text: stream.bind("name").transform(name => name || "")
+      }),
       Widget.Box({
         children: [
           Widget.Box({
