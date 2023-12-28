@@ -114,7 +114,6 @@ const Message = (msg, scrollable) => Box({
       class_name: `ai-role ${msg.role}`,
       hexpand: true,
       wrap: true,
-      selectable: true,
     }),
     MessageContent(msg, scrollable),
   ]
