@@ -3,6 +3,8 @@
     margin-bottom: 3px;
 
     .ai-message {
+      font-size: 0.9rem;
+      font-weight: bold;
       .ai-role {
         &.user {
           color: $primary_fg
@@ -11,9 +13,6 @@
         &.assistant {
           color: $secondary_fg;
         }
-
-        font-size: 0.9rem;
-        font-weight: bold;
       }
     }
   }

@@ -104,9 +104,12 @@ const SearchBox = () => {
     vexpand: true,
     class_name: "search-results",
   });
-  const entry = Widget.Entry({
-    class_name: "search-entry",
-  }).on("notify::text", (entry) => searchApps(entry.text || "", results))
+  const entry = Widget.Entry({class_name: "search-entry"})
+    .on("notify::text", (entry) => searchApps(entry.text || "", results))
+    .on("activate", () => {
+      results.children[0]?.attribute.app.launch();
+      App.closeWindow("launcher");
+    })
     .hook(App, (app, name, visible) => {
       if (name !== "launcher" || !visible) return;
       entry.text = "";
