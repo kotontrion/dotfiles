@@ -1,5 +1,5 @@
 .launcher {
-  background-color: $primary_bg_t;
+  background-color: $primary_bg;
   border-radius: 1rem;
   padding: 1rem;
   margin: 0.5rem;
@@ -40,7 +40,7 @@
         }
 
         &.focused {
-          background-color: $primary_bg_t;
+          background-color: $primary_bg;
         }
       }
     }

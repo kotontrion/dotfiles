@@ -1,9 +1,10 @@
 .osd-indicator {
-  background-color: $primary_bg_t;
-  min-width: 12rem;
-  min-height: 2rem;
+  background-color: $primary_bg;
+  min-width: 8.864rem;
+  min-height: 3.409rem;
   border-radius: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.023rem;
+  padding-top: 0.313rem;
   margin: 10px;
 
   .osd-label {

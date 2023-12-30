@@ -19,6 +19,10 @@ class StackState extends Variable {
     super(value);
   }
 
+  setIndex(idx){
+    this.value = this.items[Math.max(0, Math.min(idx, this.items.length - 1))];
+  }
+
   next(){
     const index = this.items.indexOf(this.value) + 1;
     this.value = this.items[index % (this.items.length)];

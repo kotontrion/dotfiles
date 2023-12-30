@@ -96,7 +96,6 @@ const MessageContent = (msg, scrollable) => {
   view.get_settings().set_javascript_can_access_clipboard(true);
   view.get_settings().set_enable_write_console_messages_to_stdout(true);
   view.get_user_content_manager().add_style_sheet(stylesheet);
-  view.set_background_color(new Gdk.RGBA());
   return Box({
     css: "padding: 1px",
     children: [view]
@@ -127,7 +126,7 @@ export default () => {
       Scrollable({
         class_name: "ai-message-list",
         hscroll: "never",
-        vscroll: "automatic",
+        vscroll: "always",
         vexpand: true,
         setup: self => {
           const viewport = self.child;
@@ -148,8 +147,11 @@ export default () => {
       }),
       Box({
         spacing: 5,
+        class_name: "ai-entry-box",
         children: [
           Entry({
+            class_name: "ai-entry",
+            placeholder_text: "Ask ChatGPT",
             on_accept: (entry) => {
               if (!entry || !entry.text || entry.text.length == 0) return;
               if(entry.text.startsWith("/system")){

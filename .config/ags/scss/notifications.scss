@@ -3,7 +3,7 @@
 }
 
 .notification-indicator-container {
-  background-color: $primary_bg_t;
+  background-color: $primary_bg;
   padding-right: 8px;
 }
 
@@ -17,8 +17,9 @@
   padding: 5px;
   margin-top: 5px;
   border-radius: 1rem;
-  background-color: $primary_bg_t;
-  min-width: 26.3rem;
+  border: 1px solid $secundary_bg;
+  background-color: $primary_bg;
+  min-width: 26.1rem;
 
   .notification-icon {
     font-size: 5rem;
@@ -47,7 +48,7 @@
   }
 
   .notification-action-button {
-    background-color: mix($primary_fg, $primary_bg_t);
+    background-color: mix($primary_fg, $primary_bg);
     border-radius: 1rem;
     margin: 5px 0px;
   }

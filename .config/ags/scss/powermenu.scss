@@ -1,6 +1,6 @@
 .session-bg {
   margin-top: -2.727rem;
-  background-color: $primary_bg_t
+  background-color: transparentize($primary_bg, 0.4);
 }
 
 .session-button {
@@ -13,7 +13,7 @@
 }
 
 .session-button-focused {
-  background-color: $primary_bg_t;
+  background-color: $primary_bg;
   color: $default_fg;
 }
 

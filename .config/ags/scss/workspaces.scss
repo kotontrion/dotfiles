@@ -1,12 +1,12 @@
 .ws-container {
-  background-color: $primary_bg_t;
+  background-color: $primary_bg;
   padding: 3px;
 
   .ws-button {
     transition: all 200ms;
 
     &.occupied {
-      background-color: $primary_bg;
+      background-color: $secundary_bg;
       border-top: 1px solid $primary_fg;
       border-bottom: 1px solid $primary_fg;
 

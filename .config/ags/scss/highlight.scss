@@ -9,6 +9,7 @@
 html, body {
   padding: 0;
   margin: 0;
+  background-color: $primary_bg;
 }
 
 ::-webkit-scrollbar {
@@ -16,13 +17,14 @@ html, body {
 }
 
 .code {
-  background: $dark-background;
+  background: $light-background;
   border-radius: 0.5rem;
 
   .code-header {
     background: $light-background;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
+    border-bottom: 1px solid $primary_fg;
     padding: 5px;
 
     > button {

@@ -16,10 +16,14 @@
       }
     }
   }
-
-  .ai-send-button {
-    min-width: 2rem;
-    border-radius: 5px;
-    background-color: $primary_bg_t;
+  .ai-entry-box {
+    border: 1px solid $secundary_bg;
+    border-radius: 1rem;
+    padding: 8px;
+    .ai-send-button {
+      min-width: 2rem;
+      border-radius: 5px;
+      background-color: $primary_bg;
+    }
   }
 }

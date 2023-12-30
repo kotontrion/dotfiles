@@ -2,20 +2,6 @@
   .audio-volume-label {
     min-width: 3rem;
   }
-
-  trough {
-    min-height: 6px;
-    min-width: 6px;
-    border-radius: 1rem;
-
-    highlight, progress {
-      border-radius: 1rem;
-    }
-  }
-
-  slider {
-    all: unset
-  }
 }
 
 .mixer-item {
@@ -31,20 +17,6 @@
 
   .mixer-item-title {
     padding-bottom: 5px;
-  }
-
-  trough {
-    min-height: 6px;
-    min-width: 6px;
-    border-radius: 1rem;
-
-    highlight, progress {
-      border-radius: 1rem;
-    }
-  }
-
-  slider {
-    all: unset
   }
 
   image {

@@ -1,6 +1,6 @@
 $primary-color: #CDD6F4;
 $dark-background: #0e0e1e;
-$light-background: #2e2e3e;
+$light-background: #1e1e2e;
 $mauve: #cba6f7;
 $red: #f38ba8;
 $yellow: #f9e2af;
@@ -16,8 +16,7 @@ $lightblue: #74c7ec;
 
 $default_fg: $primary-color;
 $default_bg: #000000;
-$primary_fg: $mauve;
 $primary_bg: $dark-background;
-$primary_bg_t: transparentize($dark-background, 0.4);
+$primary_fg: mix($mauve, $primary_bg, 70%);
 $secondary_fg: $green;
-$secondary_bg: $dark-background;
+$secundary_bg: $light-background;
