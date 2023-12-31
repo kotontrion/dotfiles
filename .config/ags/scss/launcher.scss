@@ -20,7 +20,7 @@
 
     .search-results {
       //color for letter highlighting
-      color: #CBA6F7;
+      color: $primary_fg;
 
       .app-button {
         color: $default_fg;
@@ -42,7 +42,7 @@
         }
 
         &.focused {
-          background-color: $primary_bg;
+          background-color: $secondary_bg;
         }
       }
     }

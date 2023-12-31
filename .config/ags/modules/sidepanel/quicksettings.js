@@ -91,7 +91,7 @@ const QuickSettingsContent = () => Widget.Stack({
             on_clicked: () => Notifications.clear(),
             child: Widget.Box({
               children: [
-                Widget.Label("clear"),
+                Widget.Label("Clear "),
                 Widget.Icon(icons.trash.empty)
               ]
             }),
