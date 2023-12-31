@@ -5,7 +5,7 @@ menu {
   background-color: $primary_bg;
   background-clip: border-box;
   border-radius: 12px;
-  border: 1px solid $secundary_bg;
+  border: 1px solid $secondary_bg;
 
   menuitem {
     transition: background-color 75ms cubic-bezier(0, 0, 0.2, 1);
@@ -17,10 +17,10 @@ menu {
     text-shadow: none;
     border-radius: 6px;
     &:hover, &:active{
-        background-color: $secundary_bg;
+        background-color: $secondary_bg;
     }
     &:disabled {
-      color: $secundary_bg;
+      color: $secondary_bg;
     }
     arrow {
       min-height: 16px;
@@ -32,7 +32,7 @@ menu {
   separator {
     min-height: 1px;
     margin: 4px 0;
-    background-color: $secundary_bg
+    background-color: $secondary_bg
   }
 }
 
@@ -40,7 +40,7 @@ menu > arrow {
   min-height: 16px;
   min-width: 16px;
   padding: 4px;
-  color: $secundary_bg;
+  color: $secondary_bg;
 }
 
 menu > arrow.top {
@@ -63,7 +63,7 @@ radio {
   margin: 4px;
   padding: 0;
   color: transparent;
-  background-color: $secundary_bg;
+  background-color: $secondary_bg;
   transition: all 75ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
@@ -113,7 +113,7 @@ switch {
   margin: 4px 0;
   border: none;
   border-radius: 9999px;
-  background-color: $secundary_bg;
+  background-color: $secondary_bg;
   background-clip: padding-box;
   font-size: 0;
   color: transparent;
@@ -161,7 +161,7 @@ scale slider {
 scale trough {
   transition: background-color 75ms cubic-bezier(0, 0, 0.2, 1);
   outline: none;
-  background-color: $secundary_bg;
+  background-color: $secondary_bg;
 }
 
 scale highlight {
@@ -210,7 +210,22 @@ tooltip.background {
 separator {
   min-width: 1px;
   min-height: 1px;
-  background-color: $secundary_bg;
+  background-color: $secondary_bg;
 }
 
+@keyframes spin {
+  to {
+    -gtk-icon-transform: rotate(1turn);
+  }
+}
 
+spinner {
+  background: none;
+  opacity: 0;
+  -gtk-icon-source: -gtk-icontheme("process-working-symbolic");
+}
+
+spinner:checked {
+  opacity: 1;
+  animation: spin 1s linear infinite;
+}

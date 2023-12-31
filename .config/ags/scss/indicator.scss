@@ -1,39 +1,32 @@
-.osd-indicator {
+.indicator-container {
+  min-width: 10rem;
   background-color: $primary_bg;
-  min-width: 8.864rem;
-  min-height: 3.409rem;
-  border-radius: 1rem;
-  padding: 0.625rem 1.023rem;
-  padding-top: 0.313rem;
-  margin: 10px;
+}
 
-  .osd-label {
+.osd-indicator {
+  padding: 1rem 0rem 1rem 1.5rem;
+
+  .osd-icon {
     color: $default_fg;
-    margin-top: 0.341rem;
+    font-size: 2rem;
   }
 
   .osd-value-txt {
     font-weight: 500;
     color: $default_fg;
+    font-size: 1.2rem;
+    min-width: 2.5rem;
   }
 
   .osd-progress {
-    min-height: 0.955rem;
-    min-width: 0.068rem;
-    padding: 0rem;
     border-radius: 10rem;
 
     trough {
-      min-height: 0.954rem;
-      min-width: 0.068rem;
       border-radius: 10rem;
       background-color: $primary_bg;
     }
 
     progress {
-      min-height: 0.680rem;
-      min-width: 0.680rem;
-      margin: 0rem 0.137rem;
       border-radius: 10rem;
       background-color: $primary_fg;
     }

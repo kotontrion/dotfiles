@@ -105,37 +105,33 @@ const MixerItem = stream => Widget.EventBox({
         tooltip_text: stream.bind("name").transform(name => name || "")
       }),
       Widget.Box({
+        vertical: true,
+        vpack: "center",
         children: [
           Widget.Box({
-            vertical: true,
-            vpack: "center",
             children: [
-              Widget.Box({
-                children: [
-                  Widget.Label({
-                    xalign: 0,
-                    hexpand: true,
-                    class_name: "mixer-item-title",
-                    truncate: "end",
-                    label: stream.bind("description").transform(desc => desc || ""),
-                  }),
-                  Widget.Label({
-                    xalign: 0,
-                    class_name: "mixer-item-volume",
-                    label: stream.bind("volume").transform(volume => `${Math.floor(volume * 100)}%`)
-                  }),
-                ]
-              }),
-              Widget.Slider({
+              Widget.Label({
+                xalign: 0,
                 hexpand: true,
-                class_name: "mixer-item-slider",
-                draw_value: false,
-                value: stream.bind("volume"),
-                on_change: ({value}) => {
-                  stream.volume = value;
-                },
+                class_name: "mixer-item-title",
+                truncate: "end",
+                label: stream.bind("description").transform(desc => desc || ""),
               }),
-            ],
+              Widget.Label({
+                xalign: 0,
+                class_name: "mixer-item-volume",
+                label: stream.bind("volume").transform(volume => `${Math.floor(volume * 100)}%`)
+              }),
+            ]
+          }),
+          Widget.Slider({
+            hexpand: true,
+            class_name: "mixer-item-slider",
+            draw_value: false,
+            value: stream.bind("volume"),
+            on_change: ({value}) => {
+              stream.volume = value;
+            },
           }),
         ],
       }),

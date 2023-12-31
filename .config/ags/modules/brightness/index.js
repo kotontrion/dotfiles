@@ -34,12 +34,14 @@ class BrightnessService extends Service {
    */
   set screen_value(percent) {
     percent = clamp(percent, 0, 1);
+    const fileStream = this._brightnessFile.open_readwrite(null);
     this._screenValue = percent;
     const stream = new Gio.DataOutputStream({
       close_base_stream: true,
-      base_stream: this._brightnessFile.open_readwrite(null).get_output_stream()
+      base_stream: fileStream.get_output_stream()
     });
     stream.put_string(Math.floor(percent * this._maxValue).toString(), null);
+    fileStream.close(null);
     this.emit("screen-changed", this._screenValue);
     this.notify("screen-value");
   }

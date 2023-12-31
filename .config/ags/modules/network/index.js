@@ -19,6 +19,7 @@ export const WifiList = () => Box({
             }).catch(e => console.error(e));
         }).catch(e => console.error(e)),
         child: Box({
+          spacing: 8,
           children: [
             Icon(ap.iconName),
             Label({label: ap.ssid}),
