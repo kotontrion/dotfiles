@@ -7,6 +7,12 @@ import {Fzf} from "../../node_modules/fzf/dist/fzf.es.js";
 import Gtk from "gi://Gtk";
 
 /**
+ * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button').default[]>} FzfAppButton
+ * @typedef {import('node_modules/fzf/dist/types/main').FzfResultItem<import('types/widgets/button').default>}
+ * FzfRestulAppButton
+ */
+
+/**
  * @param {import('types/service/applications.js').Application} app
  */
 const AppIcon = app => {
@@ -65,13 +71,16 @@ const AppButton = app => Widget.Button({
     self.toggleClassName("focused", false);
   });
 
+/**
+ * @type FzfAppButton
+ */
 const fzf = new Fzf(Applications.list.map(AppButton), {
   /**
    * @param {import('types/widgets/box').default} item
    * @returns {string}
    */
   selector: (item) => item.attribute.app.name,
-  tiebreakers: [(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
+  tiebreakers: [/** @param {FzfRestulAppButton} a, @param {FzfRestulAppButton} b*/(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
 });
 
 /**
@@ -88,7 +97,8 @@ function searchApps(text, results) {
     + (color.blue * 0xff).toString(16).padStart(2, "0");
   fzfResults.forEach(entry => {
     const nameChars = entry.item.attribute.app.name.normalize().split("");
-    entry.item.child.children[1].children[0].label = nameChars.map((char, i) => {
+    // @ts-ignore
+    entry.item.child.children[1].children[0].label = nameChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
       if (entry.positions.has(i))
         return `<span foreground="${hexcolor}">${char}</span>`;
       else
@@ -107,10 +117,11 @@ const SearchBox = () => {
   const entry = Widget.Entry({class_name: "search-entry"})
     .on("notify::text", (entry) => searchApps(entry.text || "", results))
     .on("activate", () => {
+      // @ts-ignore
       results.children[0]?.attribute.app.launch();
       App.closeWindow("launcher");
     })
-    .hook(App, (app, name, visible) => {
+    .hook(App, (_, name, visible) => {
       if (name !== "launcher" || !visible) return;
       entry.text = "";
       entry.grab_focus();

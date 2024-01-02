@@ -6,7 +6,7 @@ import App from "resource:///com/github/Aylur/ags/app.js";
 
 /**
  * @param {string} name
- * @param icon
+ * @param {string} icon
  * @param {function(import('types/widgets/button').default): void} command
  */
 const SessionButton = (name, icon, command, props = {}) => {

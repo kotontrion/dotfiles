@@ -122,9 +122,9 @@ class ChatGPTService extends Service {
           return;
         }
         const [bytes] = stream.read_line_finish(res);
-        const line = this._decoder.decode(bytes);
+        const line = this._decoder.decode(bytes ?? undefined);
         if (line && line != "") {
-          let data = line.substr(6);
+          let data = line.substring(6);
           if (data == "[DONE]") return;
           try {
             const result = JSON.parse(data);
@@ -174,8 +174,7 @@ class ChatGPTService extends Service {
     // @ts-ignore
     message.set_request_body_from_bytes("application/json", new GLib.Bytes(JSON.stringify(body)));
 
-    // @ts-ignore
-    session.send_async(message, GLib.DEFAULT_PRIORITY, null, (_, result) => {
+    session.send_async(message, 0, null, /** @type Gio.AsyncReadyCallback*/(_, result) => {
       const stream = session.send_finish(result);
       this.readResponse(new Gio.DataInputStream({
         close_base_stream: true,

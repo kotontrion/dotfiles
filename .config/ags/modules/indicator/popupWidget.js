@@ -4,7 +4,7 @@ import icons from "../icons/index.js";
 import RoundedCorner, { RoundedAngleEnd } from "../roundedCorner/index.js";
 
 /**
- * @param {number} volume
+ * @param {number} brightness
  * @returns {string}
  */
 const brightnessToIcon = brightness => {
@@ -16,7 +16,7 @@ const brightnessToIcon = brightness => {
 };
 
 /**
- * @param {number} brightness
+ * @param {number} volume
  * @returns {string}
  */
 const volumeToIcon = volume => {

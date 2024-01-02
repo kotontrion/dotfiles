@@ -22,6 +22,10 @@ import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
 const parser = new Marked(
   markedHighlight({
     langPrefix: "hljs language-",
+    /**
+     * @param {string} code
+     * @param {string} lang
+     */
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : "plaintext";
       return hljs.highlight(code, {language}).value;
@@ -29,6 +33,10 @@ const parser = new Marked(
   })
 );
 const renderer = {
+  /**
+   * @param {string} code
+   * @param {string} language
+   */
   code(code, language) {
     language ||= "plaintext";
     const encoded = encodeURIComponent(code);
@@ -49,7 +57,7 @@ const stylesheet = new WebKit2.UserStyleSheet(
   styleString, 0, 0, null, null);
 
 /**
- * @param {ChatGPTMessage} msg
+ * @param {import('modules/chatGPT/AIService').ChatGPTMessage} msg
  * @param {Widget.Scrollable} scrollable
  */
 const MessageContent = (msg, scrollable) => {
@@ -66,11 +74,12 @@ const MessageContent = (msg, scrollable) => {
             }</script>` + parser.parse(msg.content);
       view.load_html(content, "file://");
     }, "notify::content")
-    .on("load-changed", (view, event) => {
+    .on("load-changed", /** @param {WebKit2.WebView} view, @param {WebKit2.LoadEvent} event*/(view, event) => {
       if (event === 3) {
         view.evaluate_javascript("document.body.scrollHeight", -1, null, null, null, (view, result) => {
           const height = view.evaluate_javascript_finish(result)?.to_int32() || -1;
           view.get_parent().css = `min-height: ${height}px;`;
+          // @ts-ignore
           const adjustment = scrollable.get_vadjustment();
           adjustment.set_value(adjustment.get_upper() - adjustment.get_page_size());
         });
@@ -102,7 +111,10 @@ const MessageContent = (msg, scrollable) => {
   });
 };
 
-
+/**
+ * @param {import('modules/chatGPT/AIService').ChatGPTMessage} msg
+ * @param {Widget.Scrollable} scrollable
+ */
 const Message = (msg, scrollable) => Box({
   class_name: `ai-message ${msg.role}`,
   vertical: true,
