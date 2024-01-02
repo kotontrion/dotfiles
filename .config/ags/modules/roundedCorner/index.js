@@ -47,8 +47,6 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
  */
 export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
   ...props,
-  vexpand: true,
-  hexpand: true,
   setup: widget => {
     const ratio = 1.5;
     const r = widget.get_allocated_height();
