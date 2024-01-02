@@ -26,6 +26,17 @@ export default {
     apps: "view-app-grid-symbolic",
     search: "folder-saved-search-symbolic",
   },
+  launcher: {
+    search: "magnifying-glass-symbolic",
+    utility: "folder-templates-symbolic",
+    system: "settings-symbolic",
+    education: "applications-education-science-symbolic",
+    development: "cacher-symbolic",
+    network: "folder-publicshare-symbolic",
+    office: "folder-documents-symbolic",
+    game: "folder-games-symbolic",
+    multimedia: "folder-photos-symbolic",
+  },
   bluetooth: {
     enabled: "bluetooth-active-symbolic",
     disabled: "bluetooth-disabled-symbolic",

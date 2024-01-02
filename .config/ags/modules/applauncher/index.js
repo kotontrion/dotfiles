@@ -1,147 +1,172 @@
-import Applications from "resource:///com/github/Aylur/ags/service/applications.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
-import PopupWindow from "../popupwindow/index.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
-import {Fzf} from "../../node_modules/fzf/dist/fzf.es.js";
-import Gtk from "gi://Gtk";
+import {timeout} from "resource:///com/github/Aylur/ags/utils.js";
+import SearchBox from "./search.js";
+import RoundedCorner from "../roundedCorner/index.js";
+import Categories from "./categories.js";
+import StackState from "../stackState/stackState.js";
+import Gdk from "gi://Gdk";
+import icons from "../icons/index.js";
+
+const LauncherState = new StackState("Search");
 
 /**
- * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button').default[]>} FzfAppButton
- * @typedef {import('node_modules/fzf/dist/types/main').FzfResultItem<import('types/widgets/button').default>}
- * FzfRestulAppButton
+ * @param {string} item
  */
-
-/**
- * @param {import('types/service/applications.js').Application} app
- */
-const AppIcon = app => {
-  const icon = app.icon_name && lookUpIcon(app.icon_name)
-    ? app.icon_name
-    : "image-missing";
-  return Widget.Icon({
-    class_name: "app-icon",
-    icon: icon,
-  });
-};
-
-/**
- * @param {import('types/service/applications.js').Application} app
- */
-const AppButton = app => Widget.Button({
-  on_clicked: () => {
-    app.launch();
-    //Hyprland.sendMessage(`dispatch exec ${app.executable}`).then(e => print(e)).catch(logError);
-    //app._frequency++;
-    App.closeWindow("launcher");
-  },
-  attribute: {"app": app},
-  tooltip_text: app.description,
-  class_name: "app-button",
-  child: Widget.Box({
-    children: [
-      AppIcon(app),
-      Widget.Box({
-        vertical: true,
-        children: [
-          Widget.Label({
-            xalign: 0,
-            max_width_chars: 28,
-            truncate: "end",
-            use_markup: true,
-            label: app.name,
-            class_name: "app-name",
-          }),
-          Widget.Label({
-            xalign: 0,
-            max_width_chars: 40,
-            truncate: "end",
-            label: app.description,
-            class_name: "app-description",
-          })
-        ]
-      })
-    ]
-  }),
+const StackSwitcherButton = item => Widget.Button({
+  class_name: "launcher-switcher-button",
+  tooltip_text: item,
+  child: Widget.Icon(icons.launcher[item.toLowerCase()] || "image-missing"),
+  on_clicked: () => LauncherState.value = item,
 })
-  .on("focus-in-event", (self) => {
-    self.toggleClassName("focused", true);
-  })
-  .on("focus-out-event", (self) => {
-    self.toggleClassName("focused", false);
+  .hook(LauncherState, button => {
+    button.toggleClassName("focused", LauncherState.value == item);
+    const focusedID = LauncherState.items.indexOf(LauncherState.value);
+    button.toggleClassName("before-focused", LauncherState.items[focusedID-1] == item);
+    button.toggleClassName("after-focused", LauncherState.items[focusedID+1] == item);
   });
 
 /**
- * @type FzfAppButton
+ * @param {boolean} start
  */
-const fzf = new Fzf(Applications.list.map(AppButton), {
-  /**
-   * @param {import('types/widgets/box').default} item
-   * @returns {string}
-   */
-  selector: (item) => item.attribute.app.name,
-  tiebreakers: [/** @param {FzfRestulAppButton} a, @param {FzfRestulAppButton} b*/(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
+const StackSwitcherPadding = start => Widget.Box({
+  class_name: "launcher-switcher-button",
+  vexpand: true,
+  children: [Widget.Icon()]
+})
+  .hook(LauncherState, (box) => {
+    const focusedID = LauncherState.items.indexOf(LauncherState.value);
+    box.toggleClassName("before-focused", start && focusedID == 0);
+    box.toggleClassName("after-focused", !start && focusedID == LauncherState.items.length - 1);
+  });
+/**
+ * @param {string[]} items
+ */
+const StackSwitcher = items => Widget.Box({
+  vertical: true,
+  class_name: "launcher-switcher",
+  children: [
+    StackSwitcherPadding(true),
+    ...items.map(i => StackSwitcherButton(i)),
+    StackSwitcherPadding(false),
+  ]
 });
 
-/**
- * @param {string} text
- * @param {import('types/widgets/box').default} results
- */
-function searchApps(text, results) {
-  results.children.forEach(c => results.remove(c));
-  const fzfResults = fzf.find(text);
-  const context = results.get_style_context();
-  const color = context.get_color(Gtk.StateFlags.NORMAL);
-  const hexcolor = "#" + (color.red * 0xff).toString(16).padStart(2, "0")
-    + (color.green * 0xff).toString(16).padStart(2, "0")
-    + (color.blue * 0xff).toString(16).padStart(2, "0");
-  fzfResults.forEach(entry => {
-    const nameChars = entry.item.attribute.app.name.normalize().split("");
-    // @ts-ignore
-    entry.item.child.children[1].children[0].label = nameChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
-      if (entry.positions.has(i))
-        return `<span foreground="${hexcolor}">${char}</span>`;
-      else
-        return char;
-    }).join("");
-  });
-  results.children = fzfResults.map(e => e.item);
-}
+const LauncherStack = () => Widget.Stack({
+  visible_child_name: LauncherState.bind(),
+  transition: "over_right",
+  class_name: "launcher",
+  items: [
+    ["Search", SearchBox()],
+    ...Categories(),
+  ]
+});
 
-const SearchBox = () => {
-  const results = Widget.Box({
-    vertical: true,
-    vexpand: true,
-    class_name: "search-results",
-  });
-  const entry = Widget.Entry({class_name: "search-entry"})
-    .on("notify::text", (entry) => searchApps(entry.text || "", results))
-    .on("activate", () => {
-      // @ts-ignore
-      results.children[0]?.attribute.app.launch();
-      App.closeWindow("launcher");
+export default () => {
+  const stack = LauncherStack();
+  LauncherState.items = stack.items.map(i => i[0]);
+  const stackSwitcher = StackSwitcher(stack.items.map(i => i[0]));
+  return Widget.Window({
+    focusable: true,
+    visible: false,
+    popup: true,
+    anchor: ["left", "top", "bottom"],
+    name: "launcher",
+    child: Widget.Box({
+      css: "padding-right: 2px",
+      children: [
+        Widget.Revealer({
+          reveal_child: false,
+          transition: "slide_right",
+          transition_duration: 350,
+          child: stackSwitcher,
+        }).hook(App, (revealer, name, visible) => {
+          if (name === "launcher") {
+            if(visible) revealer.reveal_child = visible;
+            else timeout(100, () => revealer.reveal_child = visible);
+          }
+        }),
+        Widget.Box({
+          children: [
+            Widget.Overlay({
+              child: Widget.Box({
+                children: [
+                  Widget.Revealer({
+                    reveal_child: false,
+                    child: stack,
+                    transition_duration: 350,
+                    transition: "slide_right"
+                  }).hook(App, (revealer, name, visible) => {
+                    if (name === "launcher") {
+                      if(visible) timeout(100, () => revealer.reveal_child = visible);
+                      else revealer.reveal_child = visible;
+                    }
+                  }),
+                  Widget.Box({css: "min-width: 1rem"})
+                ]
+              }),
+              overlays: [
+                RoundedCorner("topleft", {class_name: "corner"}),
+                RoundedCorner("bottomleft", {class_name: "corner"}),
+              ]
+            }),
+          ]
+        })
+      ]
     })
-    .hook(App, (_, name, visible) => {
-      if (name !== "launcher" || !visible) return;
-      entry.text = "";
-      entry.grab_focus();
-    }, "window-toggled");
-  return Widget.Box({
-    vertical: true,
-    class_name: "launcher",
-    children: [
-      entry,
-      Widget.Scrollable({
-        class_name: "search-scroll",
-        child: results
-      })
-    ]
-  });
+  })
+    .on("key-press-event", (_, event) => {
+      const keyval = event.get_keyval()[1];
+      if (event.get_state()[1] != (Gdk.ModifierType.MOD1_MASK | Gdk.ModifierType.MOD2_MASK)) return;
+      switch (keyval) {
+        case Gdk.KEY_n:
+        case Gdk.KEY_Tab:
+          LauncherState.next();
+          break;
+        case Gdk.KEY_p:
+          LauncherState.prev();
+          break;
+        case Gdk.KEY_0:
+        case Gdk.KEY_KP_0:
+          LauncherState.setIndex(0);
+          break;
+        case Gdk.KEY_1:
+        case Gdk.KEY_KP_1:
+          LauncherState.setIndex(1);
+          break;
+        case Gdk.KEY_2:
+        case Gdk.KEY_KP_2:
+          LauncherState.setIndex(2);
+          break;
+        case Gdk.KEY_3:
+        case Gdk.KEY_KP_3:
+          LauncherState.setIndex(3);
+          break;
+        case Gdk.KEY_4:
+        case Gdk.KEY_KP_4:
+          LauncherState.setIndex(4);
+          break;
+        case Gdk.KEY_5:
+        case Gdk.KEY_KP_5:
+          LauncherState.setIndex(5);
+          break;
+        case Gdk.KEY_6:
+        case Gdk.KEY_KP_6:
+          LauncherState.setIndex(6);
+          break;
+        case Gdk.KEY_7:
+        case Gdk.KEY_KP_7:
+          LauncherState.setIndex(7);
+          break;
+        case Gdk.KEY_8:
+        case Gdk.KEY_KP_8:
+          LauncherState.setIndex(8);
+          break;
+        case Gdk.KEY_9:
+        case Gdk.KEY_KP_9:
+          LauncherState.setIndex(9);
+          break;
+      }
+    });
 };
-export default () => PopupWindow({
-  focusable: true,
-  anchor: ["right", "top", "bottom"],
-  name: "launcher",
-  child: SearchBox(),
-});
 

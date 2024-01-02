@@ -34,7 +34,7 @@ export default {
   style: `${App.configDir}/style.css`,
   closeWindowDelay: {
     sideright: 350,
-    launcher: 350,
+    launcher: 500,
     bar0: 350,
   },
 };

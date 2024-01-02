@@ -1,50 +1,101 @@
-.launcher {
+.launcher-switcher {
   background-color: $primary_bg;
-  border-radius: 1rem;
-  padding: 1rem;
-  margin: 0.5rem;
+  .launcher-switcher-button {
+    background-color: $secondary_bg;
+    margin-left: 10px;
+    &.focused {
+      background-color: $primary_bg;
+      image {
+        background-color: $secondary_bg;
+        border-bottom-left-radius: 1rem;
+        border-top-left-radius: 1rem;
+      }
+    }
+    &.before-focused {
+      image { border-bottom-right-radius: 1rem; }
+    }
+    &.after-focused {
+      image { border-top-right-radius: 1rem; }
+    }
+    image {
+      padding: 10px;
+      background-color: $primary_bg;
+      color: $default_fg;
+      font-size: 2rem;
+    }
+  }
+}
+
+.launcher {
+  background-color: $secondary_bg;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   min-width: 25rem;
 
-  .search-entry {
-    border-radius: 1rem;
-    margin-bottom: 5px;
-    padding: 8px;
-    border: 1px solid $secondary_bg;
-  }
-
-  .search-scroll {
-
-    scrollbar, scrollbar * {
-      all: unset;
+  .launcher-search {
+    margin: 1rem;
+    background-color: $secondary_bg;
+    .search-entry {
+      border-radius: 1rem;
+      margin-bottom: 5px;
+      padding: 8px;
+      border: 1px solid $primary_fg;
     }
 
-    .search-results {
-      //color for letter highlighting
-      color: $primary_fg;
+    .search-scroll {
 
-      .app-button {
-        color: $default_fg;
-        padding: 5px;
-        border-radius: 1rem;
+      .search-results {
+        //color for letter highlighting
+        color: $primary_fg;
 
-        .app-icon {
-          font-size: 3rem;
-          margin-right: 5px;
-        }
+        .app-button {
+          color: $default_fg;
+          padding: 5px;
+          border-radius: 1rem;
 
-        .app-name {
-          font-weight: bold;
-          font-size: 1.2rem;
-        }
+          .app-icon {
+            font-size: 3rem;
+            margin-right: 5px;
+          }
 
-        .app-description {
-          font-size: 0.8rem;
-        }
+          .app-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+          }
 
-        &.focused {
-          background-color: $secondary_bg;
+          .app-description {
+            font-size: 0.8rem;
+          }
+
+          &.focused {
+            background-color: $primary_bg;
+          }
         }
       }
     }
   }
+
+  .launcher-category {
+    margin: 1rem;
+    background-color: $secondary_bg;
+    .app-button {
+      padding: 8px;
+      border-radius: 1rem;
+
+      &.focused {
+        background-color: $primary_bg;
+      }
+
+      .app-icon {
+        font-size: 4rem;
+      }
+      .app-name {
+        font-size: 1.1rem;
+      }
+    }
+  }
 }
+
+
+
+
