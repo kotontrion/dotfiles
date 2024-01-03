@@ -113,7 +113,7 @@ switch {
   margin: 4px 0;
   border: none;
   border-radius: 9999px;
-  background-color: $secondary_bg;
+  background-color: mix($primary_bg, $secondary_bg, 50%);
   background-clip: padding-box;
   font-size: 0;
   color: transparent;

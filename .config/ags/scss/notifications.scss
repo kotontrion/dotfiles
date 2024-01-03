@@ -9,8 +9,8 @@
 
 .notifications-popup-list {
   min-width: 40rem;
-  margin-right: 5px;
   .notification {
+      margin-right: 5px;
       background-color: $primary_bg;
   }
 }
@@ -21,7 +21,7 @@
   margin-top: 5px;
   border-radius: 1rem;
   min-width: 26.1rem;
-  background-color: $secondary_bg;
+  background-color: $primary_bg;
 
   .notification-icon {
     font-size: 5rem;

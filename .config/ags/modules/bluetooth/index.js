@@ -1,6 +1,7 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
+import Switch from "../widgets/switch.js";
 
 const BluetoothList = () => Widget.Box({
   hexpand: true,
@@ -17,9 +18,8 @@ const BluetoothList = () => Widget.Box({
           Widget.Spinner({
             active: true
           }) :
-          Widget.Switch({active: device.connected})
-            .on("notify::active", (sw) => {
-              const active = sw.active;
+          Switch({active: device.connected})
+            .on("notify::active", ({active}) => {
               if (active !== device.connected)
                 device.setConnection(active);
             })

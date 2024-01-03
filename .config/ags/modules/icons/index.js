@@ -37,6 +37,14 @@ export default {
     game: "folder-games-symbolic",
     multimedia: "folder-photos-symbolic",
   },
+  quicksettings: {
+    notifications: "notification-symbolic",
+    wifi: "network-wireless-signal-good-symbolic",
+    bluetooth: "bluetooth-active-symbolic",
+    audio: "audio-volume-high-symbolic",
+    mpris: "audio-x-generic-symbolic",
+    chatgpt: `${App.configDir}/modules/icons/chatgpt.svg`
+  },
   bluetooth: {
     enabled: "bluetooth-active-symbolic",
     disabled: "bluetooth-disabled-symbolic",

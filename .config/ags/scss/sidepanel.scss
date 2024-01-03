@@ -1,17 +1,56 @@
-.sidebar-right {
+.qs-switcher {
   background-color: $primary_bg;
-  border-radius: 1rem;
-  padding: 1rem;
-  margin: 0.5rem;
-  min-width: 27rem;
-  min-height: 27rem;
+  .qs-switcher-button {
+    background-color: $secondary_bg;
+    margin-right: 10px;
+    &.focused {
+      background-color: $primary_bg;
+      image {
+        background-color: $secondary_bg;
+        border-bottom-right-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+    }
+    &.before-focused {
+      image { border-bottom-left-radius: 1rem; }
+    }
+    &.after-focused {
+      image { border-top-left-radius: 1rem; }
+    }
+    image {
+      padding: 10px;
+      background-color: $primary_bg;
+      color: $default_fg;
+      font-size: 2rem;
+    }
+  }
+  .sidebar-iconbutton {
+    padding: 2px;
+  }
+}
+
+.quicksettings {
 
   .qs-page {
     min-height: 10rem;
+    background-color: $secondary_bg;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    min-width: 25rem;
+    padding: 1rem;
+    scale {
+      trough {
+        background-color: $primary_bg;
+      }
+    }
   }
 
   .qs-menu {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    separator {
+      margin: 3px 0px;
+      background-color: $primary_fg;
+    }
 
     .qs-title {
       font-weight: bold;
@@ -39,3 +78,4 @@
     }
   }
 }
+

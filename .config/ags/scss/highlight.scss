@@ -9,7 +9,7 @@
 html, body {
   padding: 0;
   margin: 0;
-  background-color: $primary_bg;
+  background-color: $secondary_bg;
 }
 
 ::-webkit-scrollbar {
@@ -17,11 +17,11 @@ html, body {
 }
 
 .code {
-  background: $light-background;
+  background: $dark-background;
   border-radius: 0.5rem;
 
   .code-header {
-    background: $light-background;
+    background: $dark-background;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     border-bottom: 1px solid $primary_fg;

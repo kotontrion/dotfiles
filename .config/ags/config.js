@@ -7,7 +7,7 @@ import {
   CornerBottomleft
 } from "./modules/roundedCorner/index.js";
 import {IndicatorWidget} from "./modules/indicator/index.js";
-import Sidepanel from "./modules/sidepanel/index.js";
+import Quicksettings from "./modules/quicksettings/index.js";
 import Launcher from "./modules/applauncher/index.js";
 import PowerMenu from "./modules/powermenu/index.js";
 import {PopupNotifications} from "./modules/notifications/index.js";
@@ -34,6 +34,7 @@ export default {
   style: `${App.configDir}/style.css`,
   closeWindowDelay: {
     sideright: 350,
+    quicksettings: 500,
     launcher: 500,
     bar0: 350,
   },
@@ -53,8 +54,12 @@ idle(() => addWindows([
   CornerBottomleft(),
   CornerBottomright(),
   IndicatorWidget(),
-  Sidepanel(),
+  Quicksettings(),
   Launcher(),
   PowerMenu(),
   PopupNotifications(),
 ]));
+
+
+
+

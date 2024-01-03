@@ -3,7 +3,7 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 import Audio from "resource:///com/github/Aylur/ags/service/audio.js";
 import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
-import Menu from "../sidepanel/menu.js";
+import Menu from "../quicksettings/menu.js";
 
 /** @param {string} type */
 const sorm = (type) => type === "sink" ? "speaker" : "microphone";
@@ -207,7 +207,6 @@ export const SinkSelector = (type = "sink") => Menu({
 
 const AudioContent = () => Widget.Box({
   vertical: true,
-  class_name: "qs-page",
   children: [
     Volume("sink"),
     Volume("source"),

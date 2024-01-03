@@ -18,7 +18,7 @@ const Right = () => Widget.EventBox({
       RoundedAngleEnd("topleft", {class_name: "angle", hexpand: true}),
       Tray(),
       Widget.EventBox({
-        on_primary_click_release: () => App.openWindow("sideright"),
+        on_primary_click_release: () => App.openWindow("quicksettings"),
         on_secondary_click_release: () => App.openWindow("launcher"),
         on_scroll_up: () => {
           if (Audio.speaker == null) return;

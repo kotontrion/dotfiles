@@ -53,7 +53,7 @@ const Popups = () => Box({
 
 const PopupList = () => Box({
   class_name: "notifications-popup-list",
-  css: "padding: 1px; min-width: 1px",
+  css: "padding: 1px 0px 1px 1px;",
   children: [
     Popups(),
   ],

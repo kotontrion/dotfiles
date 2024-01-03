@@ -3,15 +3,12 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import ChatGPT from "./AIService.js";
 import icons from "../icons/index.js";
 import Keys from "../../keys.js";
-import {QSState} from "../sidepanel/quicksettings.js";
+import {QSState} from "../quicksettings/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Gtk from "gi://Gtk";
-// @ts-ignore
 import WebKit2 from "gi://WebKit2?version=4.1";
-// @ts-ignore
 import Gdk from "gi://Gdk";
 import {readFile} from "resource:///com/github/Aylur/ags/utils.js";
-
 import {Marked} from "../../node_modules/marked/lib/marked.esm.js";
 // @ts-ignore
 import {markedHighlight} from "../../node_modules/marked-highlight/src/index.js";
@@ -185,7 +182,7 @@ export default () => {
               }
             })
             .hook(QSState, (entry) => {
-              if (QSState.value === "chatgpt")
+              if (QSState.value === "ChatGPT")
                 entry.grab_focus();
             })
             .hook(App, (entry, window, visible) => {
