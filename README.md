@@ -13,7 +13,7 @@ This branch includes a version of highlight.js in the .config/ags/modules direct
 ### Dependencies
 this list is probably incomplete, I won't list themes here.
 - Hyprland
-- ags (you need the git version, install all of its optional dependencies too)
+- [ags](https://github.com/Aylur/ags) (you need the git version, install all of its optional dependencies too)
 - dart-sass
 
 ### Usage
