@@ -2,9 +2,11 @@
 my personal dotfiles, use at your own risk.
 These files are always evolving, there are currently a few issues with them, which probably will be fixed eventually.
 
-### showcase ( as of 2023-12-18 )
+### showcase ( as of 2024-01-03 )
 
-https://github.com/kotontrion/dotfiles/assets/141950090/1f3b9f4c-1836-4530-9597-9d68792b9641
+
+https://github.com/kotontrion/dotfiles/assets/141950090/f3d7dfbc-b228-47cb-a29a-290d819050d8
+
 
 
 ### Notes
