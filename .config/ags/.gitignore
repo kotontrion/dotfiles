@@ -3,3 +3,6 @@ style.css
 highlight.css
 node_modules
 types
+.idea
+.editorconfig
+*.css.map
