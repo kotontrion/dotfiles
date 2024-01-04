@@ -207,9 +207,15 @@ export const SinkSelector = (type = "sink") => Menu({
 
 const AudioContent = () => Widget.Box({
   vertical: true,
+  spacing: 8,
   children: [
-    Volume("sink"),
-    Volume("source"),
+    Widget.Box({
+      vertical: true,
+      children: [
+        Volume("sink"),
+        Volume("source"),
+      ]
+    }),
     SinkSelector("sink"),
     SinkSelector("source"),
     AppMixer(),

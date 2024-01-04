@@ -47,6 +47,14 @@ const Cava = ({
 
   const bg = context.get_property("background-color", Gtk.StateFlags.NORMAL);
   const fg = context.get_property("color", Gtk.StateFlags.NORMAL);
+  const radius = context.get_property("border-radius", Gtk.StateFlags.NORMAL);
+
+  cr.arc( radius,     radius,     radius, Math.PI,        3 * Math.PI/2 );
+  cr.arc( w - radius, radius,     radius, 3 * Math.PI /2, 0             );
+  cr.arc( w - radius, h - radius, radius, 0,              Math.PI/2     );
+  cr.arc( radius,     h - radius, radius, Math.PI/2,      Math.PI       );
+  cr.closePath();
+  cr.clip();
 
   cr.setSourceRGBA(bg.red, bg.green, bg.blue, bg.alpha);
   cr.rectangle(0, 0, w, h);

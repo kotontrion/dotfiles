@@ -12,6 +12,12 @@ import BluetoothList from "../bluetooth/index.js";
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
 import Switch from "../widgets/switch.js";
+import Cava from "../cava/cava.js";
+import Vte from "gi://Vte";
+import GLib from "gi://GLib";
+import Gtk from "gi://Gtk";
+
+const Terminal = Widget.subclass(Vte.Terminal, "AgsVteTerminal");
 
 /**
  * @param {import('gi://Gtk').Gtk.Widget} content
@@ -107,13 +113,59 @@ const QSAudio = () => QuickSettingsPage(
 /**
  * @returns {import('gi://Gtk').Gtk.Widget}
  */
-const QSMpris = () => QuickSettingsPage(
-  Menu({
-    title: "Player",
-    icon: icons.mpris.fallback,
-    content: MprisPlayerList(),
-  })
-);
+const QSMpris = () => {
+  const terminal = Terminal({
+    class_name: "terminal",
+    name: "lyrics-terminal",
+  });
+  // HACK: style context is only accessable after the widget was added to the
+  // hierachy, so i do this to set the color once.
+  const connId = terminal.connect("draw", () => {
+    terminal.disconnect(connId);
+    const bgCol = terminal.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
+    terminal.set_color_background(bgCol);
+  });
+  // TODO: set these colors via css
+  terminal.spawn_async(
+    Vte.PtyFlags.DEFAULT,
+    GLib.get_home_dir(),
+    [
+      "sptlrx",
+      "--current",
+      "#cba6f7,bold",
+      "--before",
+      "#3e3e4e,faint,italic",
+      "--after",
+      "#a6adc8,faint",
+    ],
+    [],
+    GLib.SpawnFlags.SEARCH_PATH,
+    null,
+    GLib.MAXINT32,
+    null,
+    null,
+  );
+  return QuickSettingsPage(
+    Menu({
+      title: "Player",
+      icon: icons.mpris.fallback,
+      content: Widget.Box({
+        vertical: true,
+        spacing: 10,
+        children: [
+          MprisPlayerList(),
+          terminal,
+          Widget.Box({vexpand: true}),
+          Cava({
+            bars: 30,
+            barHeight: 150,
+            smooth: true,
+          })
+        ]
+      })
+    })
+  );
+};
 
 /**
  * @returns {import('gi://Gtk').Gtk.Widget}
@@ -136,8 +188,8 @@ const QSChatGPT = () => QuickSettingsPage(
 );
 
 /**
- * @returns {[string, import('gi://Gtk').Gtk.Widget][]}
- */
+   * @returns {[string, import('gi://Gtk').Gtk.Widget][]}
+   */
 export const Quicksettings = () => {
   /** @type [string, import('gi://Gtk').Gtk.Widget][] */
   const items = [
