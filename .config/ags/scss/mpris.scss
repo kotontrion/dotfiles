@@ -17,53 +17,41 @@
 
   background-color: $secondary_bg;
   border-radius: 1rem;
-  padding: 5px;
+  padding: 1rem;
   margin-top: 5px;
+  min-height: 10rem;
 
-  .music-cover {
-    min-width: 5rem;
-    min-height: 5rem;
-    margin-right: 5px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 1rem;
+  .music-player-icon {
+    font-size: 1.6rem;
+    padding-right: 8px
+  }
 
-    image {
-      font-size: 4rem;
-    }
+  .music-player-name {
+    text-shadow: 0.1rem 0.1rem $primary_bg;
   }
 
   .music-artist {
     text-shadow: 0.1rem 0.1rem $primary_bg;
+    padding-top: 5px;
   }
 
   .music-title {
     font-weight: bold;
     text-shadow: 0.1rem 0.1rem $primary_bg;
+    padding-top: 5px;
   }
 
-  .music-button-prev {
-    background-color: $primary_fg;
-    border-bottom-left-radius: 1rem;
-    border-top-left-radius: 1rem;
-    padding: 5px;
-  }
-
-  .music-button-next {
-    background-color: $primary_fg;
-    border-bottom-right-radius: 1rem;
-    border-top-right-radius: 1rem;
-    padding: 5px;
-  }
-
-  .music-progress {
-    font-size: 3px;
-    min-width: 40px;
-    min-height: 40px;
-
-    image {
+  .music-control-box {
+    padding-top: 1.5rem;
+    .music-button {
       font-size: 1.6rem;
+      -gtk-icon-shadow: 0.1rem 0.1rem $primary_bg;
+    }
+
+    .music-progress {
+      font-size: 3px;
+      min-width: 40px;
+      min-height: 40px;
     }
   }
-
 }

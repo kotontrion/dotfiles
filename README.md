@@ -15,8 +15,12 @@ This branch includes a version of highlight.js in the .config/ags/modules direct
 ### Dependencies
 this list is probably incomplete, I won't list themes here.
 - Hyprland
-- [ags](https://github.com/Aylur/ags) (you need the git version, install all of its optional dependencies too)
-- dart-sass
+- [ags](https://github.com/Aylur/ags): you need the git version, install all of its optional dependencies too
+- dart-sass: needed to compile the scss files
+- webkit2gtk-4.1: needed for the rendering of the ChatGPT answers
+- sptlrx: needed for the synced lyrics in the side bar
+- vte3: needed to display sptlrx
+- Nerdfont
 
 ### Usage
 the following commands assume you have placed the files their correct location
