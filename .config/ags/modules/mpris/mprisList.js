@@ -18,6 +18,7 @@ const blurCoverArtCss = (coverPath) => {
       ${color} 12rem), url('${bg}');
     background-position: right top, right top;
     background-size: contain;
+    transition: all 0.7s ease;
     background-repeat: no-repeat;`;
 
   if(coverPath) {
