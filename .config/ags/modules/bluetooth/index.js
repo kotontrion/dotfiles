@@ -1,7 +1,7 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
-import Switch from "../widgets/switch.js";
+import { Switch } from "../widgets/widgets.js";
 
 const BluetoothList = () => Widget.Box({
   hexpand: true,

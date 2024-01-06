@@ -1,5 +1,4 @@
 import {Button, Icon, Box, Label, Entry, Scrollable} from "resource:///com/github/Aylur/ags/widget.js";
-import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import ChatGPT from "./AIService.js";
 import icons from "../icons/index.js";
 import Keys from "../../keys.js";
@@ -7,6 +6,7 @@ import {QSState} from "../quicksettings/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Gtk from "gi://Gtk";
 import WebKit2 from "gi://WebKit2?version=4.1";
+import { WebView } from "..//widgets/widgets.js";
 import Gdk from "gi://Gdk";
 import {readFile} from "resource:///com/github/Aylur/ags/utils.js";
 import {Marked} from "../../node_modules/marked/lib/marked.esm.js";
@@ -47,7 +47,6 @@ const renderer = {
 
 parser.use({renderer});
 
-const WebView = Widget.subclass(WebKit2.WebView);
 
 const styleString = readFile(`${App.configDir}/highlight.css`);
 const stylesheet = new WebKit2.UserStyleSheet(

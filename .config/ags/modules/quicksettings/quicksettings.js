@@ -11,13 +11,11 @@ import BluetoothList from "../bluetooth/index.js";
 // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
-import Switch from "../widgets/switch.js";
+import { Switch, Terminal } from "../widgets/widgets.js";
 import Cava from "../cava/cava.js";
-import Vte from "gi://Vte";
 import GLib from "gi://GLib";
 import Gtk from "gi://Gtk";
-
-const Terminal = Widget.subclass(Vte.Terminal, "AgsVteTerminal");
+import Vte from "gi://Vte";
 
 /**
  * @param {import('gi://Gtk').Gtk.Widget} content
