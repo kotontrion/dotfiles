@@ -76,7 +76,7 @@ const VolumeSlider = (type = "sink") => Widget.Slider({
       return;
 
     // @ts-ignore
-    slider.sensitive = !Audio[sorm(type)].is_muted;
+    slider.sensitive = !Audio[sorm(type)]?.stream.is_muted;
     // @ts-ignore
     slider.value = Audio[sorm(type)].volume;
   }, sorm(type) + "-changed");

@@ -37,6 +37,7 @@ const Cava = ({
     else widget.set_size_request(bars, barHeight);
     const varHandler = widget.attribute.cavaVar.connect("changed", () => widget.queue_draw());
     widget.on("destroy", () => {
+      widget.attribute.cavaVar.stopListen();
       widget.attribute.cavaVar.disconnect(varHandler);
     });
   },

@@ -137,6 +137,7 @@ const MprisPlayer = player => Widget.Box({
 
 
 const PlayerList = () => Box({
+  hexpand: true,
   vertical: true,
   spacing: 5,
   attribute: {

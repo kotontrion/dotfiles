@@ -30,14 +30,12 @@
 }
 
 .quicksettings {
-
+  min-width: 28.8rem;
   .qs-page {
     min-height: 10rem;
     background-color: $secondary_bg;
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
-    min-width: 26.8rem;
-    padding: 1rem;
     scale {
       trough {
         background-color: $primary_bg;
@@ -45,7 +43,18 @@
     }
   }
 
+  .cava {
+    color: $primary_fg;
+    border-radius: 1rem;
+  }
+
   .qs-menu {
+    margin: 1rem;
+
+    .qs-menu {
+      margin: 0rem;
+    }
+
     separator {
       margin: 3px 0px;
       background-color: $primary_fg;
@@ -58,10 +67,6 @@
     .qs-content {
       .terminal {
         background-color: $secondary_bg;
-      }
-      .cava {
-        color: $primary_fg;
-        border-radius: 1rem;
       }
     }
   }

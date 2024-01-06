@@ -25,6 +25,7 @@ const Terminal = Widget.subclass(Vte.Terminal, "AgsVteTerminal");
 const QuickSettingsPage = content => Widget.Scrollable({
   class_name: "qs-page",
   vexpand: true,
+  hexpand: true,
   hscroll: "never",
   child: content
 });
@@ -146,23 +147,28 @@ const QSMpris = () => {
     null,
   );
   return QuickSettingsPage(
-    Menu({
-      title: "Player",
-      icon: icons.mpris.fallback,
-      content: Widget.Box({
-        vertical: true,
-        spacing: 10,
-        children: [
-          MprisPlayerList(),
-          terminal,
-          Widget.Box({vexpand: true}),
-          Cava({
-            bars: 30,
-            barHeight: 150,
-            smooth: true,
+    Widget.Box({
+      vertical: true,
+      children: [
+        Menu({
+          title: "Player",
+          icon: icons.mpris.fallback,
+          content: Widget.Box({
+            vertical: true,
+            spacing: 10,
+            children: [
+              MprisPlayerList(),
+              terminal,
+              Widget.Box({vexpand: true}),
+            ]
           })
-        ]
-      })
+        }),
+        Cava({
+          bars: 30,
+          barHeight: 150,
+          smooth: true,
+        })
+      ]
     })
   );
 };
