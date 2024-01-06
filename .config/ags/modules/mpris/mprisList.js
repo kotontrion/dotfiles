@@ -15,14 +15,14 @@ const blurCoverArtCss = (coverPath) => {
     `background-image: radial-gradient(
       circle at right,
       rgba(0, 0, 0, 0),
-      ${color} 12rem), url('${bg}');
+      ${color} 11.5rem), url('${bg}');
     background-position: right top, right top;
     background-size: contain;
     transition: all 0.7s ease;
     background-repeat: no-repeat;`;
 
   if(coverPath) {
-    const color = exec(`bash -c "convert ${coverPath} -colors 1 -unique-colors txt: | tail -n1 | cut -f4 -d' '"`);
+    const color = exec(`bash -c "convert ${coverPath} -crop 5%x100%0+0+0 -colors 1 -unique-colors txt: | head -n2 | tail -n1 | cut -f4 -d' '"`);
     return genCss(coverPath, color);
   }
   return "background-color: #0e0e1e";
