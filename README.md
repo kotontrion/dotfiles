@@ -21,6 +21,7 @@ this list is probably incomplete, I won't list themes here.
 - sptlrx: needed for the synced lyrics in the side bar
 - vte3: needed to display sptlrx
 - Nerdfont
+- cava
 
 ### Usage
 the following commands assume you have placed the files their correct location
