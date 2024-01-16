@@ -1,12 +1,12 @@
 import Widget, {Box} from "resource:///com/github/Aylur/ags/widget.js";
 import icons from "../icons/index.js";
 import Mpris from "resource:///com/github/Aylur/ags/service/mpris.js";
-import {lookUpIcon, exec} from "resource:///com/github/Aylur/ags/utils.js";
+import {lookUpIcon, execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 
 /**
  * @param {string} coverPath
  */
-const blurCoverArtCss = (coverPath) => {
+async function blurCoverArtCss(coverPath) {
 
   /** @param {string} bg
   *   @param {string} color
@@ -22,11 +22,11 @@ const blurCoverArtCss = (coverPath) => {
     background-repeat: no-repeat;`;
 
   if(coverPath) {
-    const color = exec(`bash -c "convert ${coverPath} -crop 5%x100%0+0+0 -colors 1 -unique-colors txt: | head -n2 | tail -n1 | cut -f4 -d' '"`);
+    const color = await execAsync(`bash -c "convert ${coverPath} -crop 5%x100%0+0+0 -colors 1 -unique-colors txt: | head -n2 | tail -n1 | cut -f4 -d' '"`);
     return genCss(coverPath, color);
   }
   return "background-color: #0e0e1e";
-};
+}
 
 /**
  * @param {import('types/service/mpris').MprisPlayer} player
@@ -48,7 +48,6 @@ const PlayerIcon = (player, { ...props } = {}) => {
  */
 const MprisPlayer = player => Widget.Box({
   class_name: "music-container",
-  css: player.bind("cover_path").transform(path => blurCoverArtCss(path)),
   vertical: true,
   children: [
     Widget.Box({
@@ -133,7 +132,9 @@ const MprisPlayer = player => Widget.Box({
       ]
     })
   ]
-});
+}).hook(player, async (self) => {
+  self.css = await blurCoverArtCss(player.cover_path);
+}, "notify::cover-path");
 
 
 const PlayerList = () => Box({

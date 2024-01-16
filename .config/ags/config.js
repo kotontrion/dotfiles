@@ -32,6 +32,8 @@ applyScss();
 
 export default {
   style: `${App.configDir}/style.css`,
+  notificationPopupTimeout: 5000,
+  notificationForceTimeout: true,
   closeWindowDelay: {
     sideright: 350,
     quicksettings: 500,
@@ -59,7 +61,4 @@ idle(() => addWindows([
   PowerMenu(),
   PopupNotifications(),
 ]));
-
-
-
 

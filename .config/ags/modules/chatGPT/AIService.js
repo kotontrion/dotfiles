@@ -142,6 +142,12 @@ class ChatGPTService extends Service {
   send(msg) {
     this.messages.push(new ChatGPTMessage("user", msg));
     this.emit("newMsg", this.messages.length - 1);
+
+    const messages = this.messages.map(msg => {
+      let m = {role: msg.role, content: msg.content};
+      return m;
+    });
+
     const aiResponse = new ChatGPTMessage("assistant", "thinking...", true);
     this.messages.push(aiResponse);
     this.emit("newMsg", this.messages.length - 1);
@@ -155,10 +161,6 @@ class ChatGPTService extends Service {
     // </body></html>`
     //    return;
 
-    const messages = this.messages.map(msg => {
-      let m = {role: msg.role, content: msg.content};
-      return m;
-    });
     const body = {
       model: this.model,
       messages: this._systemMessage.content != "" ? [this._systemMessage, ...messages] : messages,

@@ -31,8 +31,8 @@ export const AppIcon = app => {
 const AppButton = app => Widget.Button({
   on_clicked: () => {
     app.launch();
-    //Hyprland.sendMessage(`dispatch exec ${app.executable}`).then(e => print(e)).catch(logError);
-    //app._frequency++;
+    // Hyprland.sendMessage(`dispatch exec ${app.executable}`).then(e => print(e)).catch(logError);
+    // app.frequency++;
     App.closeWindow("launcher");
   },
   attribute: {"app": app},

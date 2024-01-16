@@ -3,7 +3,6 @@ import Network from "resource:///com/github/Aylur/ags/service/network.js";
 import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 import icons from "../icons/index.js";
 
-
 export const WifiList = () => Box({
   vertical: true,
   spacing: 5,
@@ -19,7 +18,6 @@ export const WifiList = () => Box({
             }).catch(e => console.error(e));
         }).catch(e => console.error(e)),
         child: Box({
-          spacing: 8,
           children: [
             Icon(ap.iconName),
             Label({label: ap.ssid}),

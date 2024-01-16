@@ -25,5 +25,5 @@ const Terminal = Widget.subclass(Vte.Terminal, "AgsVteTerminal");
 export {
   Switch,
   Terminal,
-  WebView
+  WebView,
 };

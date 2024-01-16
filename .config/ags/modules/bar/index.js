@@ -18,8 +18,8 @@ const Right = () => Widget.EventBox({
       RoundedAngleEnd("topleft", {class_name: "angle", hexpand: true}),
       Tray(),
       Widget.EventBox({
-        on_primary_click_release: () => App.openWindow("quicksettings"),
-        on_secondary_click_release: () => App.openWindow("launcher"),
+        on_primary_click_release: () => App.toggleWindow("quicksettings"),
+        on_secondary_click_release: () => App.toggleWindow("launcher"),
         on_scroll_up: () => {
           if (Audio.speaker == null) return;
           Audio.speaker.volume += 0.03;
@@ -67,14 +67,13 @@ const Bar = () => Widget.CenterBox({
   end_widget: Right(),
 });
 
-/** @param {string} windowName */
 const BarRevealer = (windowName) => Widget.Box({
   class_name: "bar-revealer",
   children: [
     Widget.Revealer({
       setup: (rev) => timeout(10, () => rev.reveal_child = true),
       transition: "slide_down",
-      reveal_child: false,
+      reveal_child: true,
       child: Bar(),
       transition_duration: 350,
     }).hook(App, (revealer, name, visible) => {
