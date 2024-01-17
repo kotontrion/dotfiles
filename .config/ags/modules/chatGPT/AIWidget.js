@@ -1,4 +1,4 @@
-import {Button, Icon, Box, Label, Entry, Scrollable} from "resource:///com/github/Aylur/ags/widget.js";
+import {Button, Icon, Box, Label, Scrollable} from "resource:///com/github/Aylur/ags/widget.js";
 import ChatGPT from "./AIService.js";
 import icons from "../icons/index.js";
 import Keys from "../../keys.js";
@@ -6,8 +6,9 @@ import {QSState} from "../quicksettings/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Gtk from "gi://Gtk";
 import WebKit2 from "gi://WebKit2?version=4.1";
-import { WebView } from "..//widgets/widgets.js";
+import { WebView, TextView } from "..//widgets/widgets.js";
 import Gdk from "gi://Gdk";
+import Pango from "gi://Pango";
 import {readFile} from "resource:///com/github/Aylur/ags/utils.js";
 import {Marked} from "../../node_modules/marked/lib/marked.esm.js";
 // @ts-ignore
@@ -120,7 +121,7 @@ const MessageContent = (msg, scrollable) => {
 
 /**
  * @param {import('modules/chatGPT/AIService').ChatGPTMessage} msg
- * @param {Widget.Scrollable} scrollable
+ * @param {import('types/widget').Scrollable} scrollable
  */
 const Message = (msg, scrollable) => Box({
   class_name: `ai-message ${msg.role}`,
@@ -136,6 +137,57 @@ const Message = (msg, scrollable) => Box({
     MessageContent(msg, scrollable),
   ]
 });
+
+function sendMessage(textView) {
+  const buffer = textView.get_buffer();
+  const [start, end] = buffer.get_bounds();
+  const text = buffer.get_text(start, end, true);
+  if (!text || text.length == 0) return;
+  if(text.startsWith("/system")){
+    ChatGPT.setSystemMessage(text.substring(7));
+  }
+  else {
+    ChatGPT.send(text);
+  }
+  buffer.set_text("", -1);
+}
+
+const TextEntry = () => {
+  const textView = TextView({
+    class_name: "ai-entry",
+    wrap_mode: Pango.WrapMode.WORD_CHAR,
+    hexpand: true,
+  })
+    .on("key-press-event", (entry, event) => {
+      const keyval = event.get_keyval()[1];
+      if (
+        (keyval === Gdk.KEY_c)
+        && ((event.get_state()[1]) & Gdk.ModifierType.CONTROL_MASK) > 0) {
+        ChatGPT.clear();
+      }
+      else if (event.get_keyval()[1] === Gdk.KEY_Return && event.get_state()[1] == Gdk.ModifierType.MOD2_MASK) {
+        sendMessage(entry);
+        return true;
+      }
+
+    })
+    .hook(QSState, (entry) => {
+      if (QSState.value === "ChatGPT")
+        entry.grab_focus();
+    })
+    .hook(App, (entry, window, visible) => {
+      if (window === "quicksettings" && visible && QSState.value === "ChatGPT")
+        entry.grab_focus();
+    });
+
+  return Scrollable({
+    child: textView,
+    max_content_height: 100,
+    propagate_natural_height: true,
+    vscroll: "automatic",
+    hscroll: "never",
+  });
+};
 
 export default () => {
   const box = Box({
@@ -168,44 +220,13 @@ export default () => {
         spacing: 5,
         class_name: "ai-entry-box",
         children: [
-          Entry({
-            class_name: "ai-entry",
-            placeholder_text: "Ask ChatGPT",
-            on_accept: (entry) => {
-              if (!entry || !entry.text || entry.text.length == 0) return;
-              if(entry.text.startsWith("/system")){
-                ChatGPT.setSystemMessage(entry.text.substring(7));
-              }
-              else {
-                ChatGPT.send(entry.text);
-              }
-              entry.text = "";
-            },
-            hexpand: true,
-          })
-            .on("key-press-event", (entry, event) => {
-              const keyval = event.get_keyval()[1];
-              if (
-                (keyval === Gdk.KEY_c)
-                && ((event.get_state()[1]) & Gdk.ModifierType.CONTROL_MASK) > 0) {
-                ChatGPT.clear();
-              }
-            })
-            .hook(QSState, (entry) => {
-              if (QSState.value === "ChatGPT")
-                entry.grab_focus();
-            })
-            .hook(App, (entry, window, visible) => {
-              if (window === "sideright" && visible && QSState.value === "chatgpt")
-                entry.grab_focus();
-            }),
+          TextEntry(),
           Button({
             class_name: "ai-send-button",
             on_clicked: (btn) => {
               // @ts-ignore
-              const entry = btn.get_parent().children[0];
-              ChatGPT.send(entry.text);
-              entry.text = "";
+              const textView = btn.get_parent().children[0].child;
+              sendMessage(textView);
             },
             child: Icon(icons.ui.send),
           }),
