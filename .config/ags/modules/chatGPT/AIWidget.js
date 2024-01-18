@@ -8,7 +8,6 @@ import Gtk from "gi://Gtk";
 import WebKit2 from "gi://WebKit2?version=4.1";
 import { WebView, TextView } from "..//widgets/widgets.js";
 import Gdk from "gi://Gdk";
-import Pango from "gi://Pango";
 import {readFile} from "resource:///com/github/Aylur/ags/utils.js";
 import {Marked} from "../../node_modules/marked/lib/marked.esm.js";
 // @ts-ignore
@@ -155,7 +154,7 @@ function sendMessage(textView) {
 const TextEntry = () => {
   const textView = TextView({
     class_name: "ai-entry",
-    wrap_mode: Pango.WrapMode.WORD_CHAR,
+    wrap_mode: Gtk.WrapMode.WORD_CHAR,
     hexpand: true,
   })
     .on("key-press-event", (entry, event) => {
