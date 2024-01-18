@@ -54,7 +54,7 @@ const stylesheet = new WebKit2.UserStyleSheet(
 
 /**
  * @param {import('modules/chatGPT/AIService').ChatGPTMessage} msg
- * @param {Widget.Scrollable} scrollable
+ * @param {import('types/widget').Scrollable} scrollable
  */
 const MessageContent = (msg, scrollable) => {
   const view = WebView({
@@ -137,6 +137,9 @@ const Message = (msg, scrollable) => Box({
   ]
 });
 
+/**
+ * @param {import('modules/widgets/widgets').TextView} textView
+ */
 function sendMessage(textView) {
   const buffer = textView.get_buffer();
   const [start, end] = buffer.get_bounds();
@@ -160,8 +163,8 @@ const TextEntry = () => {
     .on("key-press-event", (entry, event) => {
       const keyval = event.get_keyval()[1];
       if (
-        (keyval === Gdk.KEY_c)
-        && ((event.get_state()[1]) & Gdk.ModifierType.CONTROL_MASK) > 0) {
+        (keyval === Gdk.KEY_C)
+        && ((event.get_state()[1]) === (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.MOD2_MASK))) {
         ChatGPT.clear();
       }
       else if (event.get_keyval()[1] === Gdk.KEY_Return && event.get_state()[1] == Gdk.ModifierType.MOD2_MASK) {

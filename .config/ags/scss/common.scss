@@ -1,4 +1,14 @@
 
+textview {
+  text {
+    font-weight: normal;
+    selection {
+      color: transparentize($primary_bg, 0.13);
+      background-color: $primary_fg;
+    }
+  }
+}
+
 menu {
   margin: 6px;
   padding: 6px;
