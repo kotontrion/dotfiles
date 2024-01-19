@@ -13,15 +13,18 @@ https://github.com/kotontrion/dotfiles/assets/141950090/f3d7dfbc-b228-47cb-a29a-
 This branch includes a version of highlight.js in the .config/ags/modules directory, which was modified to work with gjs.
 
 ### Dependencies
-this list is probably incomplete, I won't list themes here.
+this list is probably incomplete.
 - Hyprland
 - [ags](https://github.com/Aylur/ags): you need the git version, install all of its optional dependencies too
 - dart-sass: needed to compile the scss files
 - webkit2gtk-4.1: needed for the rendering of the ChatGPT answers
 - sptlrx: needed for the synced lyrics in the side bar
 - vte3: needed to display sptlrx
-- Nerdfont
 - cava
+
+- GTK-theme:  Catppuccin
+- Icon-theme: MoreWaita
+- Font:       Cascadia Code NF
 
 ### Usage
 the following commands assume you have placed the files their correct location
