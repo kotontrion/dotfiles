@@ -155,16 +155,29 @@ function sendMessage(textView) {
 }
 
 const TextEntry = () => {
+  const placeholder = "Ask ChatGPT";
   const textView = TextView({
     class_name: "ai-entry",
     wrap_mode: Gtk.WrapMode.WORD_CHAR,
     hexpand: true,
   })
+    .on("focus-in-event", () => {
+      const buffer = textView.get_buffer();
+      const [start, end] = buffer.get_bounds();
+      const text = buffer.get_text(start, end, true);
+      if(text === placeholder) buffer.set_text("", -1);
+    })
+    .on("focus-out-event", () => {
+      const buffer = textView.get_buffer();
+      const [start, end] = buffer.get_bounds();
+      const text = buffer.get_text(start, end, true);
+      if(text === "") buffer.set_text(placeholder, -1);
+    })
     .on("key-press-event", (entry, event) => {
       const keyval = event.get_keyval()[1];
       if (
         (keyval === Gdk.KEY_C)
-        && ((event.get_state()[1]) === (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.MOD2_MASK))) {
+      && ((event.get_state()[1]) === (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.MOD2_MASK))) {
         ChatGPT.clear();
       }
       else if (event.get_keyval()[1] === Gdk.KEY_Return && event.get_state()[1] == Gdk.ModifierType.MOD2_MASK) {

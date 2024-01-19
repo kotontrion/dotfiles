@@ -114,7 +114,10 @@ const SearchBox = () => {
     vexpand: true,
     class_name: "search-results",
   });
-  const entry = Widget.Entry({class_name: "search-entry"})
+  const entry = Widget.Entry({
+    class_name: "search-entry",
+    placeholder_text: "search",
+  })
     .on("notify::text", (entry) => searchApps(entry.text || "", results))
     .on("activate", () => {
       // @ts-ignore
