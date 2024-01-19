@@ -1,12 +1,15 @@
 import App from "resource:///com/github/Aylur/ags/app.js";
 
 export default {
-  settings: "org.gnome.Settings-symbolic",
+  settings: "emblem-system-symbolic",
   tick: "object-select-symbolic",
   audio: {
     mic: {
-      muted: "microphone-disabled-symbolic",
-      unmuted: "microphone-sensitivity-high-symbolic",
+      muted: "microphone-sensitivity-muted-symbolic",
+      unmuted: "audio-input-microphone-symbolic",
+      low: "microphone-sensitivity-low-symbolic",
+      medium: "microphone-sensitivity-medium-symbolic",
+      high: "microphone-sensitivity-high-symbolic",
     },
     volume: {
       muted: "audio-volume-muted-symbolic",
@@ -20,26 +23,26 @@ export default {
       speaker: "audio-speakers-symbolic",
       card: "audio-card-symbolic",
     },
-    mixer: "tool-symbolic",
+    mixer: "view-list-symbolic",
   },
   apps: {
     apps: "view-app-grid-symbolic",
     search: "folder-saved-search-symbolic",
   },
   launcher: {
-    search: "magnifying-glass-symbolic",
-    utility: "folder-templates-symbolic",
-    system: "settings-symbolic",
-    education: "applications-education-science-symbolic",
-    development: "cacher-symbolic",
-    network: "folder-publicshare-symbolic",
-    office: "folder-documents-symbolic",
-    game: "folder-games-symbolic",
-    multimedia: "folder-photos-symbolic",
+    search: "system-search-symbolic",
+    utility: "applications-utilities-symbolic",
+    system: "emblem-system-symbolic",
+    education: "applications-science-symbolic",
+    development: "applications-engineering-symbolic",
+    network: "network-wired-symbolic",
+    office: "x-office-document-symbolic",
+    game: "applications-games-symbolic",
+    multimedia: "applications-multimedia-symbolic",
   },
   quicksettings: {
-    notifications: "notification-symbolic",
-    wifi: "network-wireless-signal-good-symbolic",
+    notifications: "user-available-symbolic",
+    wifi: "network-wireless-symbolic",
     bluetooth: "bluetooth-active-symbolic",
     audio: "audio-volume-high-symbolic",
     mpris: "audio-x-generic-symbolic",
@@ -52,10 +55,6 @@ export default {
   brightness: {
     indicator: "display-brightness-symbolic",
     keyboard: "keyboard-brightness-symbolic",
-    off: "display-brightness-off-symbolic",
-    low: "display-brightness-low-symbolic",
-    medium: "display-brightness-medium-symbolic",
-    high: "display-brightness-high-symbolic",
     screen: ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
   },
   powermenu: {
@@ -70,15 +69,15 @@ export default {
     recording: "media-record-symbolic",
   },
   notifications: {
-    noisy: "preferences-system-notifications-symbolic",
+    noisy: "user-available-symbolic",
     silent: "notifications-disabled-symbolic",
     critical: "messagebox_critical-symbolic",
-    chat: "notification-symbolic",
+    chat: "user-available-symbolic",
     close: "window-close-symbolic"
   },
   header: {
     refresh: "view-refresh-symbolic",
-    settings: "settings-symbolic",
+    settings: "emblem-system-symbolic",
     power: "system-shutdown-symbolic",
   },
   trash: {

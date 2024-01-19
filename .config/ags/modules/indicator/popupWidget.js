@@ -8,11 +8,8 @@ import RoundedCorner, { RoundedAngleEnd } from "../roundedCorner/index.js";
  * @returns {string}
  */
 const brightnessToIcon = brightness => {
-  if (brightness <= 0)    return icons.brightness.off;
-  if (brightness <= 0.33) return icons.brightness.low;
-  if (brightness <= 0.66) return icons.brightness.medium;
-  if (brightness <= 1) return icons.brightness.high;
-  return icons.audio.brightness.high;
+  const idx = Math.floor(brightness * (icons.brightness.screen.length - 1));
+  return icons.brightness.screen[idx];
 };
 
 /**
@@ -31,7 +28,7 @@ const volumeToIcon = volume => {
 
 /**
  *
- * @param {string | import('types/service').Binding<any, any, string>} icon
+ * @param {import('gi://Gtk').Gtk.Widget} icon
  * @param {import('types/service').Binding<any, any, string>} label
  * @param {import('types/service').Binding<any, any, number>} progress
  * @param {import('types/widgets/box').BoxProps} props
@@ -43,10 +40,11 @@ const OsdValue = (icon, label, progress, props = {}) => Widget.Box({
   hexpand: true,
   spacing: 8,
   children: [
-    Widget.Icon({
-      class_name: "osd-icon",
-      icon: icon,
-    }),
+    // Widget.Icon({
+    //   class_name: "osd-icon",
+    //   icon: icon,
+    // }),
+    icon,
     Widget.ProgressBar({
       class_name: "osd-progress",
       hexpand: true,
@@ -63,13 +61,19 @@ const OsdValue = (icon, label, progress, props = {}) => Widget.Box({
 });
 
 const brightnessIndicator = OsdValue(
-  Indicator.bind("brightness").transform(brightnessToIcon),
+  Widget.Label({
+    class_name: "osd-icon",
+    label: Indicator.bind("brightness").transform(brightnessToIcon),
+  }),
   Indicator.bind("brightness").transform(bright => `${Math.round(bright*100)}`),
   Indicator.bind("brightness")
 );
 
 const volumeIndicator = OsdValue(
-  Indicator.bind("volume").transform(volumeToIcon),
+  Widget.Icon({
+    class_name: "osd-icon",
+    icon: Indicator.bind("volume").transform(volumeToIcon),
+  }),
   Indicator.bind("volume").transform(volume => `${Math.round(volume*100)}`),
   Indicator.bind("volume").transform(volume => Math.min(volume, 1))
 );
