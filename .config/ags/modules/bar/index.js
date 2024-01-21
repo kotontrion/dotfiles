@@ -67,6 +67,9 @@ const Bar = () => Widget.CenterBox({
   end_widget: Right(),
 });
 
+/**
+ * @param {string} windowName
+ */
 const BarRevealer = (windowName) => Widget.Box({
   class_name: "bar-revealer",
   children: [

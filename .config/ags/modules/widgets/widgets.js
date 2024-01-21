@@ -1,5 +1,5 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
 import AgsWidget from "resource:///com/github/Aylur/ags/widgets/widget.js";
 import Vte from "gi://Vte";
 import WebKit2 from "gi://WebKit2?version=4.1";

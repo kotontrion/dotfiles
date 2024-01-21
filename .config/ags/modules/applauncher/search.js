@@ -3,7 +3,7 @@ import App from "resource:///com/github/Aylur/ags/app.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
 import {Fzf} from "../../node_modules/fzf/dist/fzf.es.js";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
 
 /**
  * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button').default[]>} FzfAppButton

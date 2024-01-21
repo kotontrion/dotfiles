@@ -67,6 +67,10 @@ class BrightnessService extends Service {
     });
   }
 
+  /**
+  * @param {string} event
+  * @param {*} callback
+  */
   connect(event = "screen-changed", callback) {
     return super.connect(event, callback);
   }

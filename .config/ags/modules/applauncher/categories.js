@@ -23,6 +23,7 @@ const mainCategories = [
  * @param {import('types/service/applications').Application} app
  */
 const getCategories = app => {
+  /** @param {string} cat */
   const substitue = cat => {
     const map = {
       "Audio": "Multimedia",
@@ -92,7 +93,7 @@ const AppButton = app => Widget.Button({
  * @returns {import('types/widgets/box').default}
  */
 const CategoryListWidget = list => {
-  const flowBox = Widget.FlowBox();
+  const flowBox = Widget.FlowBox({});
   list.forEach(app => {
     flowBox.add(AppButton(app));
   });

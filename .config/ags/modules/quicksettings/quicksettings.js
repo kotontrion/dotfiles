@@ -12,13 +12,13 @@ import BluetoothList from "../bluetooth/index.js";
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
 import { Switch, Terminal } from "../widgets/widgets.js";
-import Cava from "../cava/cava.js";
+import { Cava } from "../cava/index.js";
 import GLib from "gi://GLib";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
 import Vte from "gi://Vte";
 
 /**
- * @param {import('gi://Gtk').Gtk.Widget} content
+ * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} content
  */
 const QuickSettingsPage = content => Widget.Scrollable({
   class_name: "qs-page",
@@ -29,7 +29,7 @@ const QuickSettingsPage = content => Widget.Scrollable({
 });
 
 /**
- * @returns {import('gi://Gtk').Gtk.Widget}
+ * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSNotification = () => QuickSettingsPage(Menu({
   title: "Notifications",
@@ -62,7 +62,7 @@ const QSNotification = () => QuickSettingsPage(Menu({
 }));
 
 /**
- * @returns {import('gi://Gtk').Gtk.Widget}
+ * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSWifi = () => QuickSettingsPage(Menu({
   title: "Wi-Fi",
@@ -80,7 +80,7 @@ const QSWifi = () => QuickSettingsPage(Menu({
 }));
 
 /**
- * @returns {import('gi://Gtk').Gtk.Widget}
+ * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSBluetooth = () => QuickSettingsPage(
   Menu({
@@ -99,7 +99,7 @@ const QSBluetooth = () => QuickSettingsPage(
   }));
 
 /**
- * @returns {import('gi://Gtk').Gtk.Widget}
+ * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSAudio = () => QuickSettingsPage(
   Menu({
@@ -110,7 +110,7 @@ const QSAudio = () => QuickSettingsPage(
 );
 
 /**
- * @returns {import('gi://Gtk').Gtk.Widget}
+ * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSMpris = () => {
   const terminal = Terminal({
@@ -172,7 +172,7 @@ const QSMpris = () => {
 };
 
 /**
- * @returns {import('gi://Gtk').Gtk.Widget}
+ * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSChatGPT = () => QuickSettingsPage(
   Menu({
@@ -192,10 +192,10 @@ const QSChatGPT = () => QuickSettingsPage(
 );
 
 /**
-   * @returns {[string, import('gi://Gtk').Gtk.Widget][]}
-   */
+ * @returns {[string, import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget][]}
+ */
 export const Quicksettings = () => {
-  /** @type [string, import('gi://Gtk').Gtk.Widget][] */
+  /** @type [string, import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget][] */
   const items = [
     ["Notifications", QSNotification()],
     ["Wifi", QSWifi()],

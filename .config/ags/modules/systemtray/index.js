@@ -12,8 +12,8 @@ const SysTrayItem = item => Widget.Button({
     icon: item.bind("icon")
   }),
   tooltip_markup: item.bind("tooltip_markup"),
-  on_clicked: btn => item.menu.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
-  on_secondary_click: btn => item.menu.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  on_clicked: btn => item.menu?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  on_secondary_click: btn => item.menu?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
 });
 
 const Tray = () => Widget.Box({

@@ -1,8 +1,9 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
 
 /**
  * @param {string} place
+ * @param {*} props
  */
 export const RoundedCorner = (place, props) => Widget.DrawingArea({
   ...props,
@@ -44,6 +45,7 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
 
 /**
  * @param {string} place
+ * @param {*} props
  */
 export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
   ...props,

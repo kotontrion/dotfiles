@@ -28,7 +28,7 @@ const volumeToIcon = volume => {
 
 /**
  *
- * @param {import('gi://Gtk').Gtk.Widget} icon
+ * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} icon
  * @param {import('types/service').Binding<any, any, string>} label
  * @param {import('types/service').Binding<any, any, number>} progress
  * @param {import('types/widgets/box').BoxProps} props

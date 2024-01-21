@@ -1,3 +1,5 @@
+#!/usr/bin/ags -c
+
 import {exec, idle} from "resource:///com/github/Aylur/ags/utils.js";
 import Bar from "./modules/bar/index.js";
 import {

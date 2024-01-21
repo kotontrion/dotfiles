@@ -62,6 +62,10 @@ class IndicatorService extends Service {
     });
   }
 
+  /**
+   * @param {string} event
+   * @param {*} callback
+  */
   connect(event = "popup", callback) {
     return super.connect(event, callback);
   }

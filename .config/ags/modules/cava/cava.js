@@ -1,5 +1,5 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
 import Variable from "resource:///com/github/Aylur/ags/variable.js";
 
 const Cava = ({

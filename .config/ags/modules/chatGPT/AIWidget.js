@@ -4,7 +4,7 @@ import icons from "../icons/index.js";
 import Keys from "../../keys.js";
 import {QSState} from "../quicksettings/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
 import WebKit2 from "gi://WebKit2?version=4.1";
 import { WebView, TextView } from "..//widgets/widgets.js";
 import Gdk from "gi://Gdk";

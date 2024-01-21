@@ -1,5 +1,4 @@
 import icons from "../icons/index.js";
-import Gdk from "gi://Gdk?version=3.0";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
@@ -23,6 +22,7 @@ const SessionButton = (name, icon, command, props = {}) => {
   return Widget.Button({
     on_clicked: command,
     class_name: "session-button",
+    cursor: "pointer",
     child: Widget.Overlay({
       class_name: "session-button-box",
       child: Widget.Icon({
@@ -33,16 +33,10 @@ const SessionButton = (name, icon, command, props = {}) => {
         buttonDescription,
       ]
     }),
-    on_hover: (button) => {
-      const display = Gdk.Display.get_default();
-      const cursor = Gdk.Cursor.new_from_name(display, "pointer");
-      button.get_window().set_cursor(cursor);
+    on_hover: () => {
       buttonDescription.reveal_child = true;
     },
-    on_hover_lost: (button) => {
-      const display = Gdk.Display.get_default();
-      const cursor = Gdk.Cursor.new_from_name(display, "default");
-      button.get_window().set_cursor(cursor);
+    on_hover_lost: () => {
       buttonDescription.reveal_child = false;
     },
     ...props,
