@@ -29,14 +29,10 @@ this list is probably incomplete.
 ### Usage
 the following commands assume you have placed the files their correct location
 ```bash
+# setup ags
 cd .config/ags
-
-#generate types for the ags config (optional) and installs npm dependencies. (This will not work if you haven't put the files into  ~/.config/ags)
-./setup.sh
-#if you don't want the types do this instead (setup.sh will do this for you)
+ags -c ~/.config/ags/config.js --init 
 npm install
-
-#setup variables
 cp keys.template.js keys.js
 #edit keys.js to your needs
 ```

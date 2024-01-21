@@ -19,6 +19,8 @@ const Cava = ({
           `printf "[general]\n  \
                     framerate=60\n    \
                     bars = ${bars}\n  \
+                    [input]\n \
+                    method = pulse\n \
                     [output]\n        \
                     channels = mono\n \
                     method = raw\n    \
