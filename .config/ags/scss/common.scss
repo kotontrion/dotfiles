@@ -171,12 +171,14 @@ scale slider {
 scale trough {
   transition: background-color 75ms cubic-bezier(0, 0, 0.2, 1);
   outline: none;
+  padding: 0px 9px;
   background-color: $secondary_bg;
 }
 
 scale highlight {
   transition: background-color 75ms cubic-bezier(0, 0, 0.2, 1);
   background-color: $primary_fg;
+  margin-left: -9px;
 }
 
 scale highlight:disabled {

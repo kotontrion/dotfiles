@@ -3,9 +3,7 @@ import Service from "resource:///com/github/Aylur/ags/service.js";
 
 class StackState extends Variable {
   static {
-    Service.register(this, {
-    }, {
-    });
+    Service.register(this, {}, {});
   }
 
   /** @type string[] */

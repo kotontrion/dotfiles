@@ -60,7 +60,7 @@ const MusicBarContainer = () => Widget.Box({
   children: [
     RoundedAngleEnd("topleft", {class_name: "angle"}),
     MusicContainer(),
-    RoundedAngleEnd("topright", {class_name: "angle"})
+    RoundedAngleEnd("topright", {class_name: "angle"}),
   ],
 });
 

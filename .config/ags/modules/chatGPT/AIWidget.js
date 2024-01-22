@@ -1,6 +1,5 @@
-import {Button, Icon, Box, Label, Scrollable} from "resource:///com/github/Aylur/ags/widget.js";
+import {Button, Box, Label, Scrollable} from "resource:///com/github/Aylur/ags/widget.js";
 import ChatGPT from "./AIService.js";
-import icons from "../icons/index.js";
 import Keys from "../../keys.js";
 import {QSState} from "../quicksettings/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
@@ -61,7 +60,7 @@ const MessageContent = (msg, scrollable) => {
     class_name: "ai-msg-content",
     hexpand: true
   })
-    .hook(msg, (/** @type WebKit2.WebView */view) => {
+    .hook(msg, (view) => {
       const content = `<script>
             function copyCode(button, encodedCode) {
               const decodedCode = decodeURIComponent(encodedCode);
@@ -111,7 +110,6 @@ const MessageContent = (msg, scrollable) => {
     const bgCol = view.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
     view.set_background_color(bgCol);
   });
-
   return Box({
     css: "padding: 1px",
     children: [view]
@@ -243,7 +241,7 @@ export default () => {
               const textView = btn.get_parent().children[0].child;
               sendMessage(textView);
             },
-            child: Icon(icons.ui.send),
+            label: "󰒊",
           }),
         ]
       }),

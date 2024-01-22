@@ -22,7 +22,6 @@
         "eslint": "^8.44.0"
     },
     "dependencies": {
-        "@types/marked": "^6.0.0",
         "fzf": "^0.5.2",
         "marked": "^11.0.1",
         "marked-highlight": "^2.0.9"
