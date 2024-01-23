@@ -2,6 +2,7 @@ import icons from "../icons/index.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
+import RoundedCorner, { RoundedAngleEnd } from "../roundedCorner/index.js";
 
 /**
  * @param {string} name
@@ -23,6 +24,14 @@ const SessionButton = (name, icon, command, props = {}) => {
     on_clicked: command,
     class_name: "session-button",
     cursor: "pointer",
+    on_hover: self => {
+      buttonDescription.reveal_child = true;
+      self.toggleClassName("session-button-focused", true);
+    },
+    on_hover_lost: self => {
+      buttonDescription.reveal_child = false;
+      self.toggleClassName("session-button-focused", false);
+    },
     child: Widget.Overlay({
       class_name: "session-button-box",
       child: Widget.Icon({
@@ -33,26 +42,19 @@ const SessionButton = (name, icon, command, props = {}) => {
         buttonDescription,
       ]
     }),
-    on_hover: () => {
-      buttonDescription.reveal_child = true;
-    },
-    on_hover_lost: () => {
-      buttonDescription.reveal_child = false;
-    },
     ...props,
-  })
-    .on("focus-in-event", (self) => {
-      buttonDescription.reveal_child = true;
-      self.toggleClassName("session-button-focused", true);
-    })
-    .on("focus-out-event", (self) => {
-      buttonDescription.reveal_child = false;
-      self.toggleClassName("session-button-focused", false);
-    });
+  });
+  // .on("focus-in-event", (self) => {
+  //   buttonDescription.reveal_child = true;
+  //   self.toggleClassName("session-button-focused", true);
+  // })
+  // .on("focus-out-event", (self) => {
+  //   buttonDescription.reveal_child = false;
+  //   self.toggleClassName("session-button-focused", false);
+  // });
 };
 
-const SessionScreen = () => {
-  // lock, logout, sleep
+const SessionBox = () => {
   const lockButton = SessionButton("Lock", icons.powermenu.lock, () => {
     App.closeWindow("session");
     execAsync("gtklock");
@@ -65,8 +67,6 @@ const SessionScreen = () => {
     App.closeWindow("session");
     execAsync("systemctl suspend");
   });
-  // hibernate, shutdown, reboot
-  //const hibernateButton = SessionButton('Hibernate', 'downloading', () => { App.closeWindow('session'); execAsync('systemctl hibernate') });
   const shutdownButton = SessionButton("Shutdown", icons.powermenu.shutdown, () => {
     App.closeWindow("session");
     execAsync("systemctl poweroff");
@@ -75,71 +75,51 @@ const SessionScreen = () => {
     App.closeWindow("session");
     execAsync("systemctl reboot");
   });
-  const cancelButton = SessionButton("Cancel", icons.powermenu.close, () => App.closeWindow("session"));
   return Widget.Box({
-    class_name: "session-bg",
+    children: [
+      lockButton,
+      logoutButton,
+      sleepButton,
+      shutdownButton,
+      rebootButton,
+    ]
+  });
+};
+
+const SessionRevealer = () => Widget.Revealer({
+  transition: "slide_down",
+  reveal_child: false,
+  child: Widget.Box({
     vertical: true,
     children: [
-      Widget.EventBox({
-        on_primary_click: () => App.closeWindow("session"),
-        on_secondary_click: () => App.closeWindow("session"),
-        on_middle_click: () => App.closeWindow("session"),
-      }),
       Widget.Box({
-        hpack: "center",
-        vpack: "center",
-        vexpand: true,
-        hexpand: true,
-        vertical: true,
         children: [
-          Widget.Box({
-            vpack: "center",
-            vertical: true,
-            spacing: 15,
-            children: [
-              Widget.Box({
-                hpack: "center",
-                spacing: 15,
-                children: [ // lock, logout, sleep
-                  lockButton,
-                  logoutButton,
-                  sleepButton,
-                ]
-              }),
-              Widget.Box({
-                hpack: "center",
-                spacing: 15,
-                children: [ // hibernate, shutdown, reboot
-                  //hibernateButton,
-                  shutdownButton,
-                  rebootButton,
-                ]
-              }),
-              Widget.Box({
-                hpack: "center",
-                spacing: 15,
-                children: [ // hibernate, shutdown, reboot
-                  cancelButton,
-                ]
-              }),
-            ]
-          })
+          SessionBox(),
+          RoundedAngleEnd("topright", {class_name: "angle"})
         ]
-      })
-    ],
+      }),
+      RoundedCorner("topleft", {class_name: "corner"})
+    ]
   })
-    .hook(App, (_b, name, visible) => {
-      if (visible) lockButton.grab_focus(); // Lock is the default option
-    });
-};
+})
+  .hook(App, (rev, windowName, visible) => {
+    if(windowName === "session")
+      rev.reveal_child = visible;
+  }, "window-toggled");
+
 
 export default () => Widget.Window({
   name: "session",
-  popup: true,
-  visible: false,
-  focusable: true,
-  exclusivity: "ignore",
+  class_name: "session",
   layer: "overlay",
-  anchor: ["top", "bottom", "left", "right"],
-  child: SessionScreen(),
+  visible: false,
+  anchor: ["top", "left"],
+  child: Widget.Box({
+    vertical: true,
+    css: "min-height: 2px;",
+    children: [
+      SessionRevealer(),
+    ]
+  }),
 });
+

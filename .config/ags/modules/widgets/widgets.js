@@ -28,13 +28,12 @@ class AgsTextView extends AgsWidget(Gtk.TextView, "AgsTextView") {
   }
 }
 
-
-
 const Switch =  Widget.createCtor(AgsSwitch);
 const TextView =  Widget.createCtor(AgsTextView);
 // TODO: createCtor does not work on these, fifure out why
 const WebView = Widget.subclass(WebKit2.WebView, "AgsWebView");
 const Terminal = Widget.subclass(Vte.Terminal, "AgsVteTerminal");
+
 
 export {
   Switch,

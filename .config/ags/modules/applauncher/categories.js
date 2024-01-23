@@ -24,7 +24,7 @@ const mainCategories = [
  */
 const getCategories = app => {
   /** @param {string} cat */
-  const substitue = cat => {
+  const substitute = cat => {
     const map = {
       "Audio": "Multimedia",
       "AudioVideo": "Multimedia",
@@ -38,8 +38,8 @@ const getCategories = app => {
   return app.app.get_categories()
     ?.split(";")
     .filter(c => mainCategories.includes(c))
-    .map(substitue)
-    .filter((c, i, arr) => i == arr.indexOf(c)) ?? [];
+    .map(substitute)
+    .filter((c, i, arr) => i === arr.indexOf(c)) ?? [];
 };
 
 const CategoryList = () => {
@@ -97,7 +97,7 @@ const CategoryListWidget = list => {
   list.forEach(app => {
     flowBox.add(AppButton(app));
   });
-  const box = Widget.Box({
+  return Widget.Box({
     class_name: "launcher-category",
     children: [
       Widget.Scrollable({
@@ -114,7 +114,6 @@ const CategoryListWidget = list => {
       })
     ]
   });
-  return box;
 };
 /**
  * @returns {[string, import('types/widgets/box').default][]}

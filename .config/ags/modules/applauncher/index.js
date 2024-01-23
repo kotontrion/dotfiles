@@ -36,8 +36,8 @@ const StackSwitcherPadding = start => Widget.Box({
 })
   .hook(LauncherState, (box) => {
     const focusedID = LauncherState.items.indexOf(LauncherState.value);
-    box.toggleClassName("before-focused", start && focusedID == 0);
-    box.toggleClassName("after-focused", !start && focusedID == LauncherState.items.length - 1);
+    box.toggleClassName("before-focused", start && focusedID === 0);
+    box.toggleClassName("after-focused", !start && focusedID === LauncherState.items.length - 1);
   });
 /**
  * @param {string[]} items

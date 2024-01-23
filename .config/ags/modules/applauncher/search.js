@@ -8,7 +8,7 @@ import Gtk from "gi://Gtk?version=3.0";
 /**
  * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button').default[]>} FzfAppButton
  * @typedef {import('node_modules/fzf/dist/types/main').FzfResultItem<import('types/widgets/button').default>}
- * FzfRestulAppButton
+ * FzfResultAppButton
  */
 
 /**
@@ -80,7 +80,7 @@ const fzf = new Fzf(Applications.list.map(AppButton), {
    * @returns {string}
    */
   selector: (item) => item.attribute.app.name,
-  tiebreakers: [/** @param {FzfRestulAppButton} a, @param {FzfRestulAppButton} b*/(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
+  tiebreakers: [/** @param {FzfResultAppButton} a, @param {FzfResultAppButton} b*/(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
 });
 
 /**
