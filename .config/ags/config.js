@@ -1,6 +1,6 @@
 #!/usr/bin/ags -c
 
-import {exec, idle} from "resource:///com/github/Aylur/ags/utils.js";
+import {exec, idle, monitorFile} from "resource:///com/github/Aylur/ags/utils.js";
 import Bar from "./modules/bar/index.js";
 import {
   CornerTopleft,
@@ -13,8 +13,8 @@ import Quicksettings from "./modules/quicksettings/index.js";
 import Launcher from "./modules/applauncher/index.js";
 import PowerMenu from "./modules/powermenu/index.js";
 import {PopupNotifications} from "./modules/notifications/index.js";
-import DirectoryMonitorService from "./directoryMonitorService.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
+import Gio from "gi://Gio";
 
 const applyScss = () => {
   // Compile scss
@@ -28,7 +28,12 @@ const applyScss = () => {
   console.log("Compiled css applied");
 };
 
-DirectoryMonitorService.connect("changed", () => applyScss());
+monitorFile(`${App.configDir}/scss`, (_, eventType) => {
+  if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {
+    applyScss();
+  }
+}, "directory");
+
 applyScss();
 
 
