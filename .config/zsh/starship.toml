@@ -1,0 +1,43 @@
+format = """
+[╭────┤$os├──┤\
+$directory\
+$git_branch$git_status├$fill┤$cmd_duration$time├─┤ ](#cba6f7)
+[╰─ ](#cba6f7)
+"""
+
+
+[fill]
+symbol = "─"
+style = "#cba6f7"
+
+[os]
+disabled = false
+format="[ $symbol ]($style)"
+
+[os.symbols]
+Arch = "󰣇"
+
+[directory]
+format = "[ $path ]($style)"
+truncation_length = 2
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"~/Documents" = "󰈙 "
+"~/Downloads" = " "
+"~/Music" = " "
+"~/Pictures" = " "
+"~" = " "
+
+
+[time]
+disabled = false
+time_format = "%T"
+format = '[  $time ]($style)'
+
+[cmd_duration]
+disabled = false
+show_milliseconds = true
+min_time = 0
+format = '[ 󱦟 $duration ]($style)'
+

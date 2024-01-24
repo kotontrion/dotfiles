@@ -1,0 +1,23 @@
+
+if type eza >/dev/null; then
+	alias l='eza -lh --git --icons=auto'
+	alias ll='eza -lah  --git --icons=auto'
+	alias la='eza -lah --git --icons=auto'
+	alias tree='eza -h --tree --git --icons=auto'
+	alias treel='eza -lh --tree --git --icons=auto'
+fi
+
+if type bat >/dev/null; then
+  alias cat='bat'
+fi
+
+if type nvim >/dev/null; then
+  alias vim='nvim'
+  alias v="nvim"
+fi
+
+alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+alias record='wf-recorder --pixel-format yuv420p -f ~/Videos/Screencasting/recording_"$(date '+%Y%m%d_%H-%M-%S')".mp4 -g "$(slurp -o)"'
+
+
