@@ -7,7 +7,7 @@ datestr=%a, %e of %B
 
 screenshots
 fade-in=1
-effect-blur=5x2
+effect-blur=15x5
 indicator
 indicator-radius=120
 indicator-thickness=17
