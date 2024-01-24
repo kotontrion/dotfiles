@@ -22,7 +22,8 @@ this list is probably incomplete.
 - vte3: needed to display sptlrx
 - cava
 - swaylock effects
-- eza
+- eza (better ls, optional)
+- bat (better cat, optional)
 - zsh-autosuggestion
 - zsh-syntax-highlighting
 
