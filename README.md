@@ -21,6 +21,10 @@ this list is probably incomplete.
 - sptlrx: needed for the synced lyrics in the side bar
 - vte3: needed to display sptlrx
 - cava
+- swaylock effects
+- eza
+- zsh-autosuggestion
+- zsh-syntax-highlighting
 
 - GTK-theme:  Catppuccin
 - Icon-theme: MoreWaita
