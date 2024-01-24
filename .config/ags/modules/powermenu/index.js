@@ -57,7 +57,7 @@ const SessionButton = (name, icon, command, props = {}) => {
 const SessionBox = () => {
   const lockButton = SessionButton("Lock", icons.powermenu.lock, () => {
     App.closeWindow("session");
-    execAsync("gtklock");
+    execAsync("swaylock");
   });
   const logoutButton = SessionButton("Logout", icons.powermenu.logout, () => {
     App.closeWindow("session");
