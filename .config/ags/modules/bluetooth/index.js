@@ -10,8 +10,9 @@ const BluetoothList = () => Widget.Box({
   .hook(Bluetooth, box => {
     box.children = Bluetooth.devices.map(device => Widget.Box({
       hexpand: false,
+      spacing: 8,
       children: [
-        //Widget.Icon(device.iconName + '-symbolic'),
+        Widget.Icon(device.icon_name + "-symbolic"),
         Widget.Label(device.name),
         Widget.Box({hexpand: true}),
         device.connecting ?

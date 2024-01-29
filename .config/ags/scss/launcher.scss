@@ -40,6 +40,9 @@
       margin-bottom: 5px;
       padding: 8px;
       border: 1px solid $primary_fg;
+      image.left {
+        margin-right: 8px;
+      }
     }
 
     .search-scroll {

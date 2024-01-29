@@ -4,6 +4,7 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
 import {Fzf} from "../../node_modules/fzf/dist/fzf.es.js";
 import Gtk from "gi://Gtk?version=3.0";
+import icons from "../icons/index.js";
 
 /**
  * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button').default[]>} FzfAppButton
@@ -117,6 +118,7 @@ const SearchBox = () => {
   const entry = Widget.Entry({
     class_name: "search-entry",
     placeholder_text: "search",
+    primary_icon_name: icons.launcher.search,
   })
     .on("notify::text", (entry) => searchApps(entry.text || "", results))
     .on("activate", () => {

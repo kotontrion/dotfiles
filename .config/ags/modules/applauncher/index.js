@@ -67,7 +67,7 @@ export default () => {
   LauncherState.items = stack.items.map(i => i[0]);
   const stackSwitcher = StackSwitcher(stack.items.map(i => i[0]));
   return Widget.Window({
-    focusable: true,
+    keymode: "on-demand",
     visible: false,
     popup: true,
     anchor: ["left", "top", "bottom"],

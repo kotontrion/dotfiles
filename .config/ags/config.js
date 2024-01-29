@@ -51,7 +51,7 @@ export default {
 };
 
 /**
- * @param {import('gtk-3.0').default.Window[]} windows
+ * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Window[]} windows
   */
 function addWindows(windows) {
   windows.forEach(win => App.addWindow(win));
@@ -69,6 +69,5 @@ idle(() => addWindows([
   PowerMenu(),
   PopupNotifications(),
 ]));
-
 
 
