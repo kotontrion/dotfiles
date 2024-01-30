@@ -15,7 +15,7 @@ import { Switch, Terminal } from "../widgets/widgets.js";
 import { Cava } from "../cava/index.js";
 import GLib from "gi://GLib";
 import Gtk from "gi://Gtk?version=3.0";
-import Vte from "gi://Vte";
+import Vte from "gi://Vte?version=2.91";
 
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} content

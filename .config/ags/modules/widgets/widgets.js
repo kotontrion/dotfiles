@@ -1,6 +1,6 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Gtk from "gi://Gtk?version=3.0";
-import Vte from "gi://Vte";
+import Vte from "gi://Vte?version=2.91";
 import WebKit2 from "gi://WebKit2?version=4.1";
 //
 // class AgsSwitch extends AgsWidget(Gtk.Switch, "AgsSwitch") {

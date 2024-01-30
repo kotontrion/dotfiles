@@ -69,5 +69,3 @@ idle(() => addWindows([
   PowerMenu(),
   PopupNotifications(),
 ]));
-
-

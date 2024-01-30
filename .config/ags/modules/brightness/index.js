@@ -1,5 +1,5 @@
 import Service from "resource:///com/github/Aylur/ags/service.js";
-import {monitorFile, readFile} from "resource:///com/github/Aylur/ags/utils.js";
+import {monitorFile, readFile, exec} from "resource:///com/github/Aylur/ags/utils.js";
 import Gio from "gi://Gio";
 
 /**
@@ -21,8 +21,11 @@ class BrightnessService extends Service {
   _screenValue = 0;
   _maxValue = 0;
 
-  _maxPath = "/sys/class/backlight/intel_backlight/max_brightness";
-  _brightnessPath = "/sys/class/backlight/intel_backlight/brightness";
+
+  _interface = exec("sh -c 'ls -w1 /sys/class/backlight | head -1'");
+  _path = `/sys/class/backlight/${this._interface}`;
+  _brightnessPath = `${this._path}/brightness`;
+  _maxPath = `${this._path}/max_brightness`;
   _brightnessFile;
 
   get screen_value() {
