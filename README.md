@@ -14,7 +14,18 @@ This branch includes a version of highlight.js in the .config/ags/modules direct
 
 ### Dependencies
 this list is probably incomplete.
+
+<details>
+  <summary>show dependency list</summary>
+  
+#### wm
 - Hyprland
+- GTK-theme:  Catppuccin
+- Icon-theme: MoreWaita
+- Font:       Cascadia Code NF
+
+
+#### ags
 - [ags](https://github.com/Aylur/ags): you need the git version, install all of its optional dependencies too
 - dart-sass: needed to compile the scss files
 - webkit2gtk-4.1: needed for the rendering of the ChatGPT answers
@@ -22,14 +33,20 @@ this list is probably incomplete.
 - vte3: needed to display sptlrx
 - cava
 - swaylock effects
+
+#### ags greeter
+- greetd
+- cage
+
+#### zsh
+- zsh
+- starship
 - eza (better ls, optional)
 - bat (better cat, optional)
 - zsh-autosuggestion
 - zsh-syntax-highlighting
 
-- GTK-theme:  Catppuccin
-- Icon-theme: MoreWaita
-- Font:       Cascadia Code NF
+</details>
 
 ### Usage
 the following commands assume you have placed the files their correct location
@@ -40,6 +57,9 @@ ags -c ~/.config/ags/config.js --init
 npm install
 cp keys.template.js keys.js
 #edit keys.js to your needs
+
+# setup ags greetd
+# copy .config/greetd to /etc/greetd
 ```
 
 #### special thanks
