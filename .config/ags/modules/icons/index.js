@@ -37,7 +37,8 @@ export default {
     office: "x-office-document-symbolic",
     game: "applications-games-symbolic",
     multimedia: "applications-multimedia-symbolic",
-    hyprland: "hyprland-symbolic"
+    hyprland: "hyprland-symbolic",
+    firefox: "firefox-symbolic"
   },
   quicksettings: {
     notifications: "user-available-symbolic",

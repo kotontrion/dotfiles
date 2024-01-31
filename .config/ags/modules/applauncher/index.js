@@ -5,6 +5,7 @@ import SearchBox from "./search.js";
 import RoundedCorner from "../roundedCorner/index.js";
 import Categories from "./categories.js";
 import HyprlandBox from "./hyprlands.js";
+import FirefoxBox from "./firefox.js";
 import StackState from "../stackState/stackState.js";
 import Gdk from "gi://Gdk";
 import icons from "../icons/index.js";
@@ -60,7 +61,8 @@ const LauncherStack = () => Widget.Stack({
   items: [
     ["Search", SearchBox(LauncherState)],
     ...Categories(),
-    ["Hyprland", HyprlandBox(LauncherState)]
+    ["Hyprland", HyprlandBox(LauncherState)],
+    ["Firefox", FirefoxBox(LauncherState)]
   ]
 });
 
