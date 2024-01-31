@@ -33,6 +33,7 @@ this list is probably incomplete.
 - vte3: needed to display sptlrx
 - cava
 - swaylock effects
+- brotab: firefox tab switcher
 
 #### ags greeter
 - greetd
