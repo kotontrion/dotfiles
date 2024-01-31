@@ -31,6 +31,10 @@ ZSH_HIGHLIGHT_STYLES[arg0]=fg=blue
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+function preexec {
+    print -Pn "\e]0;${(q)1}\e\\"
+}
+
 eval "$(starship init zsh)"
 
 if [ "$(fgconsole 2>/dev/null || echo -1)" -eq 1 ]; then

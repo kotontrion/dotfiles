@@ -1,4 +1,4 @@
-import Applications from "resource:///com/github/Aylur/ags/service/applications.js";
+import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {lookUpIcon} from "resource:///com/github/Aylur/ags/utils.js";
@@ -7,17 +7,17 @@ import Gtk from "gi://Gtk?version=3.0";
 import icons from "../icons/index.js";
 
 /**
- * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button').default[]>} FzfAppButton
- * @typedef {import('node_modules/fzf/dist/types/main').FzfResultItem<import('types/widgets/button').default>}
+ * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button.js').default[]>} FzfAppButton
+ * @typedef {import('node_modules/fzf/dist/types/main').FzfResultItem<import('types/widgets/button.js').default>}
  * FzfResultAppButton
  */
 
 /**
- * @param {import('types/service/applications.js').Application} app
+ * @param {import('types/service/hyprland.js').Client} app
  */
 export const AppIcon = app => {
-  const icon = app.icon_name && lookUpIcon(app.icon_name)
-    ? app.icon_name
+  const icon = app.class && lookUpIcon(app.class)
+    ? app.class
     : "image-missing";
 
   return Widget.Icon({
@@ -27,17 +27,15 @@ export const AppIcon = app => {
 };
 
 /**
- * @param {import('types/service/applications.js').Application} app
+ * @param {import('types/service/hyprland.js').Client} app
  */
 const AppButton = app => Widget.Button({
   on_clicked: () => {
-    app.launch();
-    // Hyprland.sendMessage(`dispatch exec ${app.executable}`).then(e => print(e)).catch(logError);
-    // app.frequency++;
+    Hyprland.sendMessage(`dispatch focuswindow address:${app.address}`);
     App.closeWindow("launcher");
   },
   attribute: {"app": app},
-  tooltip_text: app.description,
+  tooltip_text: app.title,
   class_name: "app-button",
   child: Widget.Box({
     children: [
@@ -50,14 +48,15 @@ const AppButton = app => Widget.Button({
             max_width_chars: 28,
             truncate: "end",
             use_markup: true,
-            label: app.name,
+            label: app.title,
             class_name: "app-name",
           }),
           Widget.Label({
             xalign: 0,
             max_width_chars: 40,
             truncate: "end",
-            label: app.description,
+            use_markup: true,
+            label: app.class,
             class_name: "app-description",
           })
         ]
@@ -75,14 +74,7 @@ const AppButton = app => Widget.Button({
 /**
  * @type FzfAppButton
  */
-const fzf = new Fzf(Applications.list.map(AppButton), {
-  /**
-   * @param {import('types/widgets/box').default} item
-   * @returns {string}
-   */
-  selector: (item) => item.attribute.app.name,
-  tiebreakers: [/** @param {FzfResultAppButton} a, @param {FzfResultAppButton} b*/(a, b) => b.item.attribute.app._frequency - a.item.attribute.app._frequency]
-});
+let fzf;
 
 /**
  * @param {string} text
@@ -97,10 +89,18 @@ function searchApps(text, results) {
     + (color.green * 0xff).toString(16).padStart(2, "0")
     + (color.blue * 0xff).toString(16).padStart(2, "0");
   fzfResults.forEach(entry => {
-    const nameChars = entry.item.attribute.app.name.normalize().split("");
+    const classChars = entry.item.attribute.app.class.normalize().split("");
     // @ts-ignore
-    entry.item.child.children[1].children[0].label = nameChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
+    entry.item.child.children[1].children[1].label = classChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
       if (entry.positions.has(i))
+        return `<span foreground="${hexcolor}">${char}</span>`;
+      else
+        return char;
+    }).join("");
+    const titleChars = entry.item.attribute.app.title.normalize().split("");
+    // @ts-ignore
+    entry.item.child.children[1].children[0].label = titleChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
+      if (entry.positions.has(classChars.length + i))
         return `<span foreground="${hexcolor}">${char}</span>`;
       else
         return char;
@@ -122,25 +122,33 @@ const SearchBox = (launcherState) => {
   })
     .on("notify::text", (entry) => searchApps(entry.text || "", results))
     .on("activate", () => {
-      // @ts-ignore
-      results.children[0]?.attribute.app.launch();
+      const address = results.children[0]?.attribute.app.address;
+      if(address) Hyprland.sendMessage(`dispatch focuswindow address:${address}`);
       App.closeWindow("launcher");
     })
     .hook(launcherState, () =>{
-      if(launcherState.value != "Search") return;
+      if(launcherState.value != "Hyprland") return;
       entry.text = "-";
       entry.text = "";
       entry.grab_focus();
     })
     .hook(App, (_, name, visible) => {
       if (name !== "launcher" || !visible) return;
-      if(launcherState.value == "Search") {
+      //explicityly destroy all Buttons to prevent errors
+      fzf?.find("").map(e => e.item.destroy());
+      fzf = new Fzf(Hyprland.clients.filter(client => client.title != "").map(AppButton), {
+        /**
+         * @param {import('types/widgets/box').default} item
+         * @returns {string}
+         */
+        selector: (item) => item.attribute.app.class + item.attribute.app.title,
+      });
+      if(launcherState.value == "Hyprland") {
         entry.text = "-";
         entry.text = "";
         entry.grab_focus();
       }
     }, "window-toggled");
-
   return Widget.Box({
     vertical: true,
     class_name: "launcher-search",

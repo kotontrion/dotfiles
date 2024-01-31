@@ -1,5 +1,3 @@
-import App from "resource:///com/github/Aylur/ags/app.js";
-
 export default {
   settings: "emblem-system-symbolic",
   tick: "object-select-symbolic",
@@ -39,6 +37,7 @@ export default {
     office: "x-office-document-symbolic",
     game: "applications-games-symbolic",
     multimedia: "applications-multimedia-symbolic",
+    hyprland: "hyprland-symbolic"
   },
   quicksettings: {
     notifications: "user-available-symbolic",
@@ -46,7 +45,7 @@ export default {
     bluetooth: "bluetooth-active-symbolic",
     audio: "audio-volume-high-symbolic",
     mpris: "audio-x-generic-symbolic",
-    chatgpt: `${App.configDir}/modules/icons/chatgpt.svg`
+    chatgpt: "chatgpt-symbolic"
   },
   bluetooth: {
     enabled: "bluetooth-active-symbolic",
@@ -101,7 +100,7 @@ export default {
     prev: "media-skip-backward-symbolic",
     next: "media-skip-forward-symbolic",
   },
-  ai: `${App.configDir}/modules/icons/chatgpt.svg`,
+  ai: "chatgpt-symbolic",
   ui: {
     send: "mail-send-symbolic",
     arrow: {

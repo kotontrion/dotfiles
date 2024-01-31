@@ -4,6 +4,7 @@ import {timeout} from "resource:///com/github/Aylur/ags/utils.js";
 import SearchBox from "./search.js";
 import RoundedCorner from "../roundedCorner/index.js";
 import Categories from "./categories.js";
+import HyprlandBox from "./hyprlands.js";
 import StackState from "../stackState/stackState.js";
 import Gdk from "gi://Gdk";
 import icons from "../icons/index.js";
@@ -57,8 +58,9 @@ const LauncherStack = () => Widget.Stack({
   transition: "over_right",
   class_name: "launcher",
   items: [
-    ["Search", SearchBox()],
+    ["Search", SearchBox(LauncherState)],
     ...Categories(),
+    ["Hyprland", HyprlandBox(LauncherState)]
   ]
 });
 
