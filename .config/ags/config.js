@@ -15,7 +15,12 @@ import PowerMenu from "./modules/powermenu/index.js";
 import {PopupNotifications} from "./modules/notifications/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Gio from "gi://Gio";
-import Gtk from "gi://Gtk";
+import Gtk from "gi://Gtk?version=3.0";
+import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
+
+
+
+
 
 Gtk.IconTheme.get_default().append_search_path(`${App.configDir}/modules/icons`);
 
@@ -39,20 +44,6 @@ monitorFile(`${App.configDir}/scss`, (_, eventType) => {
 
 applyScss();
 
-
-export default {
-  style: `${App.configDir}/style.css`,
-  notificationPopupTimeout: 5000,
-  notificationForceTimeout: true,
-  closeWindowDelay: {
-    sideright: 350,
-    quicksettings: 500,
-    launcher: 500,
-    bar0: 350,
-    session: 350,
-  },
-};
-
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Window[]} windows
   */
@@ -72,3 +63,19 @@ idle(() => addWindows([
   PowerMenu(),
   PopupNotifications(),
 ]));
+
+//config
+Notifications.popupTimeout = 5000;
+Notifications.forceTimeout = true;
+
+export default {
+  style: `${App.configDir}/style.css`,
+  closeWindowDelay: {
+    sideright: 350,
+    quicksettings: 500,
+    launcher: 500,
+    bar0: 350,
+    session: 350,
+  },
+};
+
