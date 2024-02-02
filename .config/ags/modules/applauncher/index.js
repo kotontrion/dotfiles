@@ -1,6 +1,6 @@
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import {timeout} from "resource:///com/github/Aylur/ags/utils.js";
+import {timeout, exec} from "resource:///com/github/Aylur/ags/utils.js";
 import SearchBox from "./search.js";
 import RoundedCorner from "../roundedCorner/index.js";
 import Categories from "./categories.js";
@@ -54,17 +54,21 @@ const StackSwitcher = items => Widget.Box({
   ]
 });
 
-const LauncherStack = () => Widget.Stack({
-  visible_child_name: LauncherState.bind(),
-  transition: "over_right",
-  class_name: "launcher",
-  items: [
-    ["Search", SearchBox(LauncherState)],
-    ...Categories(),
-    ["Hyprland", HyprlandBox(LauncherState)],
-    ["Firefox", FirefoxBox(LauncherState)]
-  ]
-});
+const LauncherStack = () => {
+  const stack = Widget.Stack({
+    visible_child_name: LauncherState.bind(),
+    transition: "over_right",
+    class_name: "launcher",
+    items: [
+      ["Search", SearchBox(LauncherState)],
+      ...Categories(),
+      ["Hyprland", HyprlandBox(LauncherState)]
+    ]
+  });
+  if (exec("which bt") != "") stack.add_named(FirefoxBox(LauncherState), "Firefox");
+  else console.warn("brotab is not installed. Firefox tab switcher module has been disabled.");
+  return stack;
+};
 
 export default () => {
   const stack = LauncherStack();

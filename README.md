@@ -18,8 +18,9 @@ this list is probably incomplete.
 <details>
   <summary>show dependency list</summary>
   
-#### wm
+#### wm related
 - Hyprland
+- swaylock effects
 - GTK-theme:  Catppuccin
 - Icon-theme: MoreWaita
 - Font:       Cascadia Code NF
@@ -28,12 +29,11 @@ this list is probably incomplete.
 #### ags
 - [ags](https://github.com/Aylur/ags): you need the git version, install all of its optional dependencies too
 - dart-sass: needed to compile the scss files
-- webkit2gtk-4.1: needed for the rendering of the ChatGPT answers
-- sptlrx: needed for the synced lyrics in the side bar
-- vte3: needed to display sptlrx
-- cava
-- swaylock effects
-- brotab: firefox tab switcher
+- webkit2gtk-4.1: webview widget, needed for the rendering of the ChatGPT answers (optional)
+- sptlrx: needed for the synced lyrics in the side bar (optional)
+- vte3: terminal widget, needed for sptlrx display (optional)
+- cava: audio visualizer (optional)
+- brotab: firefox tab switcher (optional)
 
 #### ags greeter
 - greetd

@@ -116,7 +116,7 @@ async function handle_response(res) {
     case "success":
       if(state.value === "starting") App.quit();
       setState("starting")
-      next_resp = await Greetd.startSession("Hyprland");
+      next_resp = await Greetd.startSession(["Hyprland"]);
       break;
     case "error":
       Greetd.cancelSession();

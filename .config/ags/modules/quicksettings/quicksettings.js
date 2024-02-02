@@ -2,7 +2,7 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import icons from "../icons/index.js";
 import MprisPlayerList from "../mpris/index.js";
 import AudioContent from "../audio/index.js";
-import AIContent, {ChatGPT} from "../chatGPT/index.js";
+import {QSChatGPT} from "../chatGPT/index.js";
 import Menu from "./menu.js";
 import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
 import NotificationList from "../notifications/index.js";
@@ -11,16 +11,14 @@ import BluetoothList from "../bluetooth/index.js";
 // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
-import { Switch, Terminal } from "../widgets/widgets.js";
+import { Switch } from "../widgets/widgets.js";
 import { Cava } from "../cava/index.js";
-import GLib from "gi://GLib";
-import Gtk from "gi://Gtk?version=3.0";
-import Vte from "gi://Vte?version=2.91";
+import { LyricsTerminal } from "../vte/index.js";
 
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} content
  */
-const QuickSettingsPage = content => Widget.Scrollable({
+export const QuickSettingsPage = content => Widget.Scrollable({
   class_name: "qs-page",
   vexpand: true,
   hexpand: true,
@@ -113,37 +111,6 @@ const QSAudio = () => QuickSettingsPage(
  * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
  */
 const QSMpris = () => {
-  const terminal = Terminal({
-    class_name: "terminal",
-    name: "lyrics-terminal",
-  });
-  // HACK: style context is only accessable after the widget was added to the
-  // hierachy, so i do this to set the color once.
-  const connId = terminal.connect("draw", () => {
-    terminal.disconnect(connId);
-    const bgCol = terminal.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
-    terminal.set_color_background(bgCol);
-  });
-  // TODO: set these colors via css
-  terminal.spawn_async(
-    Vte.PtyFlags.DEFAULT,
-    GLib.get_home_dir(),
-    [
-      "sptlrx",
-      "--current",
-      "#cba6f7,bold",
-      "--before",
-      "#3e3e4e,faint,italic",
-      "--after",
-      "#a6adc8,faint",
-    ],
-    [],
-    GLib.SpawnFlags.SEARCH_PATH,
-    null,
-    GLib.MAXINT32,
-    null,
-    null,
-  );
   return QuickSettingsPage(
     Widget.Box({
       vertical: true,
@@ -156,7 +123,7 @@ const QSMpris = () => {
             spacing: 10,
             children: [
               MprisPlayerList(),
-              terminal,
+              LyricsTerminal(),
               Widget.Box({vexpand: true}),
             ]
           })
@@ -170,26 +137,6 @@ const QSMpris = () => {
     })
   );
 };
-
-/**
- * @returns {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget}
- */
-const QSChatGPT = () => QuickSettingsPage(
-  Menu({
-    title: "ChatGPT",
-    icon: icons.ai,
-    content: AIContent(),
-    headerChild: Widget.Button({
-      on_clicked: () => ChatGPT.clear(),
-      child: Widget.Box({
-        children: [
-          Widget.Label("Clear "),
-          Widget.Icon(icons.trash.empty),
-        ]
-      }),
-    }),
-  })
-);
 
 /**
  * @returns {[string, import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget][]}

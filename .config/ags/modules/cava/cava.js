@@ -1,6 +1,7 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Gtk from "gi://Gtk?version=3.0";
 import Variable from "resource:///com/github/Aylur/ags/variable.js";
+import {exec} from "resource:///com/github/Aylur/ags/utils.js";
 
 const Cava = ({
   bars = 20,
@@ -106,4 +107,11 @@ const Cava = ({
 });
 
 
-export default Cava;
+let CavaWidget;
+if (exec("which cava") != "") CavaWidget = Cava;
+else {
+  console.warn("cava is not installed. Cava module has been disabled.");
+  CavaWidget = () => Widget.Box();
+}
+
+export default CavaWidget;
