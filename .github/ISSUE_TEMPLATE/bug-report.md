@@ -22,6 +22,7 @@ If applicable, add screenshots to help explain your problem.
 **additional information:**
  - `ags --version`
  - `pacman -Qi aylurs-gtk-shell-git`
+ - ags log
 
 **Additional context**
 Add any other context about the problem here.
