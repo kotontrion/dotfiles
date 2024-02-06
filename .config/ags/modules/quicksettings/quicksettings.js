@@ -138,19 +138,15 @@ const QSMpris = () => {
   );
 };
 
-/**
- * @returns {[string, import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget][]}
- */
 export const Quicksettings = () => {
-  /** @type [string, import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget][] */
-  const items = [
-    ["Notifications", QSNotification()],
-    ["Wifi", QSWifi()],
-    ["Bluetooth", QSBluetooth()],
-    ["Audio", QSAudio()],
-    ["Mpris", QSMpris()],
-    ["ChatGPT", QSChatGPT()],
-  ];
+  const items = {
+    "Notifications": QSNotification(),
+    "Wifi": QSWifi(),
+    "Bluetooth": QSBluetooth(),
+    "Audio": QSAudio(),
+    "Mpris": QSMpris(),
+    "ChatGPT": QSChatGPT(),
+  };
   return items;
 };
 

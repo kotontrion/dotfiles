@@ -115,12 +115,9 @@ const CategoryListWidget = list => {
     ]
   });
 };
-/**
- * @returns {[string, import('types/widgets/box').default][]}
- */
+
 const Categories = () => {
-  return Array.from(CategoryList().entries())
-    .map(([key, list]) => [key, CategoryListWidget(list)]);
+  return Object.fromEntries([...CategoryList()].map(([key, val]) => [key, CategoryListWidget(val)]));
 };
 
 export default Categories;

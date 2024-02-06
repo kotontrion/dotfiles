@@ -103,15 +103,15 @@ const QSStack = () => Widget.Stack({
   visible_child_name: QSState.bind(),
   transition: "over_left",
   class_name: "quicksettings",
-  items: [
+  children: {
     ...Quicksettings()
-  ]
+  }
 });
 
 export default () => {
   const stack = QSStack();
-  QSState.items = stack.items.map(i => i[0]);
-  const stackSwitcher = StackSwitcher(stack.items.map(i => i[0]));
+  QSState.items = Object.keys(stack.children);
+  const stackSwitcher = StackSwitcher(Object.keys(stack.children));
   return Widget.Window({
     keymode: "on-demand",
     visible: false,

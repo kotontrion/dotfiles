@@ -55,25 +55,26 @@ const StackSwitcher = items => Widget.Box({
 });
 
 const LauncherStack = () => {
+  const children = {
+    Search: SearchBox(LauncherState),
+    ...Categories(),
+    Hyprland: HyprlandBox(LauncherState)
+  };
+  if (exec("which bt") != "") children["Firefox"] = FirefoxBox(LauncherState);
+  else console.warn("brotab is not installed. Firefox tab switcher module has been disabled.");
   const stack = Widget.Stack({
     visible_child_name: LauncherState.bind(),
     transition: "over_right",
     class_name: "launcher",
-    items: [
-      ["Search", SearchBox(LauncherState)],
-      ...Categories(),
-      ["Hyprland", HyprlandBox(LauncherState)]
-    ]
+    children
   });
-  if (exec("which bt") != "") stack.add_named(FirefoxBox(LauncherState), "Firefox");
-  else console.warn("brotab is not installed. Firefox tab switcher module has been disabled.");
   return stack;
 };
 
 export default () => {
   const stack = LauncherStack();
-  LauncherState.items = stack.items.map(i => i[0]);
-  const stackSwitcher = StackSwitcher(stack.items.map(i => i[0]));
+  LauncherState.items = Object.keys(stack.children);
+  const stackSwitcher = StackSwitcher(Object.keys(stack.children));
   return Widget.Window({
     keymode: "on-demand",
     visible: false,

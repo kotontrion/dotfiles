@@ -89,10 +89,10 @@ const IndicatorValues = () => Widget.Revealer({
             transition: "slide_up_down",
             class_name: "indicator-container",
             visible_child_name: Indicator.bind("current"),
-            items: [
-              ["brightness", brightnessIndicator],
-              ["volume", volumeIndicator],
-            ]
+            children: {
+              "brightness": brightnessIndicator,
+              "volume": volumeIndicator,
+            }
           }),
           RoundedAngleEnd("topright", {class_name: "angle"})
         ]

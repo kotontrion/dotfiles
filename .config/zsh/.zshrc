@@ -21,7 +21,7 @@ HISTFILE=$ZDOTDIR/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt autocd nobeep
-bindkey -e
+bindkey -v
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=blue,underline
@@ -31,14 +31,23 @@ ZSH_HIGHLIGHT_STYLES[arg0]=fg=blue
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-function preexec {
-    print -Pn "\e]0;${(q)1}\e\\"
-}
-
 eval "$(starship init zsh)"
 
-if [ "$(fgconsole 2>/dev/null || echo -1)" -eq 1 ]; then
-    exec Hyprland
-fi
+function preexec {
+  print -Pn "\e]0;${(q)1}\e\\"
+}
 
 
+function zle-keymap-select zle-line-init {
+  case $KEYMAP in
+      vicmd)      echo -ne "\e[1 q";;
+      viins|main) echo -ne "\e[5 q";;
+      *)          echo -ne "\e[3 q";;
+  esac
+  zle reset-prompt
+  zle -R
+}
+
+
+zle -N zle-line-init
+zle -N zle-keymap-select

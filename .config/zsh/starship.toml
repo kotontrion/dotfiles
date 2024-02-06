@@ -1,7 +1,7 @@
 format = """
 [╭────┤$os├──┤\
 $directory\
-$git_branch$git_status├$fill┤$cmd_duration$time├─┤ ](#cba6f7)
+$git_branch$git_status├$fill┤$cmd_duration$time├──┤$character├──┤ ](#cba6f7)
 [╰─ ](#cba6f7)
 """
 
@@ -9,6 +9,15 @@ $git_branch$git_status├$fill┤$cmd_duration$time├─┤ ](#cba6f7)
 [fill]
 symbol = "─"
 style = "#cba6f7"
+
+[character]
+format="[ $symbol ]($style)"
+success_symbol = "[](bold green)"
+error_symbol = "[](bold red)"
+vimcmd_symbol = "[N](bold green)"
+vimcmd_replace_one_symbol = "[R](bold green)"
+vimcmd_replace_symbol = "[R](bold green)"
+vimcmd_visual_symbol = "[V](bold green)"
 
 [os]
 disabled = false
