@@ -133,8 +133,9 @@ const SearchBox = (launcherState) => {
     })
     .hook(App, async (_, name, visible) => {
       if (name !== "launcher" || !visible) return;
-      //explicityly destroy all Buttons to prevent errors
+      //explicityly destroy all Buttons and clear fzf list to prevent errors
       fzf?.find("").map(e => e.item.destroy());
+      fzf = new Fzf([]);
       const btlist = await execAsync("bt list");
       const tabs = btlist.split("\n").map(tab => {
         const data = tab.split("\t");

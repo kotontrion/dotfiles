@@ -18,6 +18,6 @@ fi
 
 alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-alias record='wf-recorder --pixel-format yuv420p -f ~/Videos/Screencasting/recording_"$(date '+%Y%m%d_%H-%M-%S')".mp4 -g "$(slurp -o)"'
+alias record='wf-recorder --pixel-format yuv420p -f ~/Videos/Screencasting/recording_"$(date '+%Y-%m-%d_%H-%M-%S')".mp4 -g "$(slurp -o)"'
 
 

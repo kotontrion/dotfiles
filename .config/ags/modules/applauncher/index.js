@@ -71,6 +71,20 @@ const LauncherStack = () => {
   return stack;
 };
 
+
+function toggle(value) {
+  const current = LauncherState.value;
+  if(current == value && App.getWindow("launcher").visible) App.closeWindow("launcher");
+  else {
+    App.openWindow("launcher");
+    LauncherState.value = value;
+  }
+}
+
+globalThis.toggleLauncher = () => toggle("Search");
+globalThis.toggleHyprlandSwitcher = () => toggle("Hyprland");
+globalThis.toggleFirefoxSwitcher = () => toggle("Firefox");
+
 export default () => {
   const stack = LauncherStack();
   LauncherState.items = Object.keys(stack.children);
