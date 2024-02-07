@@ -1,16 +1,30 @@
 import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
+import {execAsync, fetch} from "resource:///com/github/Aylur/ags/utils.js";
 import {Fzf} from "../../node_modules/fzf/dist/fzf.es.js";
 import Gtk from "gi://Gtk?version=3.0";
 import icons from "../icons/index.js";
+import GLib from "gi://GLib";
+import GdkPixbuf from "gi://GdkPixbuf";
 
 /**
  * @typedef {import('node_modules/fzf/dist/types/main').Fzf<import('types/widgets/button.js').default[]>} FzfAppButton
  * @typedef {import('node_modules/fzf/dist/types/main').FzfResultItem<import('types/widgets/button.js').default>}
  * FzfResultAppButton
  */
+
+const TabIcon = tab => {
+  const icon = Widget.Icon({
+    class_name: "app-icon",
+  });
+  const url = GLib.Uri.parse(tab.url, GLib.UriFlags.NONE).get_host();
+  fetch(`https://icons.duckduckgo.com/ip2/${url}.ico`)
+    .then(res => GdkPixbuf.Pixbuf.new_from_stream(res.stream, null))
+    .then(pxb => icon.icon = pxb)
+    .catch((logError));
+  return icon;
+};
 
 const AppButton = tab => Widget.Button({
   on_clicked: () => {
@@ -23,7 +37,7 @@ const AppButton = tab => Widget.Button({
   class_name: "app-button",
   child: Widget.Box({
     children: [
-      //TODO: add favicon
+      TabIcon(tab),
       Widget.Box({
         vertical: true,
         children: [
@@ -75,7 +89,7 @@ function searchApps(text, results) {
   fzfResults.forEach(entry => {
     const titleChars = entry.item.attribute.tab.title.normalize().split("");
     // @ts-ignore
-    entry.item.child.children[0].children[0].label = titleChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
+    entry.item.child.children[1].children[0].label = titleChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
       if (entry.positions.has(i))
         return `<span foreground="${hexcolor}">${char}</span>`;
       else
@@ -83,7 +97,7 @@ function searchApps(text, results) {
     }).join("");
     const urlChars = entry.item.attribute.tab.url.normalize().split("");
     // @ts-ignore
-    entry.item.child.children[0].children[1].label = urlChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
+    entry.item.child.children[1].children[1].label = urlChars.map(/** @param {string} char, @param {number} i*/(char, i) => {
       if (entry.positions.has(titleChars.length + i))
         return `<span foreground="${hexcolor}">${char}</span>`;
       else
