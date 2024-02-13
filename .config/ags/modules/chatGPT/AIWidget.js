@@ -134,8 +134,7 @@ try {
     view.get_user_content_manager().add_style_sheet(stylesheet);
     // HACK: style context is only accessable after the widget was added to the
     // hierachy, so i do this to set the color once.
-    const connId = view.connect("draw", () => {
-      view.disconnect(connId);
+    view.on("realize", () => {
       const bgCol = view.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
       view.set_background_color(bgCol);
     });

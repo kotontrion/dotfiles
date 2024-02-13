@@ -49,7 +49,7 @@ const Popups = () => Box({
 })
   .hook(Notifications, (box, id) => box.attribute.notify(box, id), "notified")
   .hook(Notifications, (box, id) => box.attribute.dismiss(box, id), "dismissed")
-  .hook(Notifications, (box, id) => box.attribute.dismiss(box, id, true), "closed");
+  .hook(Notifications, (box, id) => box.attribute.dismiss(box, id), "closed");
 
 const PopupList = () => Box({
   class_name: "notifications-popup-list",

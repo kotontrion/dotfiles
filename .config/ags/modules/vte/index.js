@@ -16,8 +16,7 @@ try {
     });
     // HACK: style context is only accessable after the widget was added to the
     // hierachy, so i do this to set the color once.
-    const connId = terminal.connect("draw", () => {
-      terminal.disconnect(connId);
+    terminal.on("realize", () => {
       const bgCol = terminal.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
       terminal.set_color_background(bgCol);
     });

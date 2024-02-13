@@ -58,6 +58,7 @@ idle(() => addWindows([
   PopupNotifications(),
 ]));
 
+
 //config
 Notifications.popupTimeout = 5000;
 Notifications.forceTimeout = true;
