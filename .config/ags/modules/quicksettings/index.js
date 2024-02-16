@@ -15,7 +15,7 @@ const ModuleReloadIcon = (props = {}) => Widget.Button({
   class_name: "qs-switcher-button",
   tooltip_text: "Reload Hyprland",
   on_clicked: () => {
-    Hyprland.sendMessage("reload");
+    Hyprland.messageAsync("reload").catch(logError);
     App.toggleWindow("quicksettings");
   },
   child: Widget.Icon({icon: icons.header.refresh})

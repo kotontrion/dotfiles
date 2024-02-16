@@ -166,7 +166,8 @@ const SinkItem = (type) => stream => Widget.Button({
 
 /** @param {number} tab */
 const SettingsButton = (tab = 0) => Widget.Button({
-  on_clicked: () => Hyprland.sendMessage("dispatch exec pavucontrol -t " + tab),
+  on_clicked: () => Hyprland.messageAsync("dispatch exec pavucontrol -t " + tab)
+    .catch(logError),
   child: Widget.Icon(icons.settings),
 });
 

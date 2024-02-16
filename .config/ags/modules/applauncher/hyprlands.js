@@ -31,7 +31,8 @@ export const AppIcon = app => {
  */
 const AppButton = app => Widget.Button({
   on_clicked: () => {
-    Hyprland.sendMessage(`dispatch focuswindow address:${app.address}`);
+    Hyprland.messageAsync(`dispatch focuswindow address:${app.address}`)
+      .catch(logError);
     App.closeWindow("launcher");
   },
   attribute: {"app": app},
@@ -123,7 +124,8 @@ const SearchBox = (launcherState) => {
     .on("notify::text", (entry) => searchApps(entry.text || "", results))
     .on("activate", () => {
       const address = results.children[0]?.attribute.app.address;
-      if(address) Hyprland.sendMessage(`dispatch focuswindow address:${address}`);
+      if(address) Hyprland.messageAsync(`dispatch focuswindow address:${address}`)
+        .catch(logError);
       App.closeWindow("launcher");
     })
     .hook(launcherState, () =>{

@@ -29,7 +29,8 @@ const TabIcon = tab => {
 const AppButton = tab => Widget.Button({
   on_clicked: () => {
     execAsync(`bt activate ${tab.address}`)
-      .then(() => Hyprland.sendMessage(`dispatch focuswindow title:${tab.title}`));
+      .then(() => Hyprland.messageAsync(`dispatch focuswindow title:${tab.title}`))
+      .catch(logError);
     App.closeWindow("launcher");
   },
   attribute: {"tab": tab},
@@ -122,7 +123,8 @@ const SearchBox = (launcherState) => {
     .on("activate", () => {
       const tab = results.children[0]?.attribute.tab;
       if(tab) execAsync(`bt activate ${tab.address}`)
-        .then(() => Hyprland.sendMessage(`dispatch focuswindow title:${tab.title}`));
+        .then(() => Hyprland.messageAsync(`dispatch focuswindow title:${tab.title}`))
+        .catch(logError);
       App.closeWindow("launcher");
     })
     .hook(launcherState, () =>{
@@ -137,6 +139,7 @@ const SearchBox = (launcherState) => {
       fzf?.find("").map(e => e.item.destroy());
       fzf = new Fzf([]);
       const btlist = await execAsync("bt list");
+      if(!btlist || btlist === "") return;
       const tabs = btlist.split("\n").map(tab => {
         const data = tab.split("\t");
         return {

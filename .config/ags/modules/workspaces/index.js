@@ -4,7 +4,8 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 /** @param {number} i */
 const WorkspaceButton = (i) => Widget.EventBox({
   class_name: "ws-button",
-  on_primary_click_release: () => Hyprland.sendMessage(`dispatch workspace ${i}`),
+  on_primary_click_release: () => Hyprland.messageAsync(`dispatch workspace ${i}`)
+    .catch(logError),
   child: Widget.Label({
     label: `${i}`,
     class_name: "ws-button-label"
