@@ -34,7 +34,7 @@ monitorFile(`${App.configDir}/scss`, (_, eventType) => {
   if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {
     applyScss();
   }
-}, "directory");
+});
 
 applyScss();
 
@@ -57,7 +57,6 @@ idle(() => addWindows([
   PowerMenu(),
   PopupNotifications(),
 ]));
-
 
 //config
 Notifications.popupTimeout = 5000;
