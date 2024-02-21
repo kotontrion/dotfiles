@@ -7,7 +7,6 @@ import Categories from "./categories.js";
 import HyprlandBox from "./hyprlands.js";
 import FirefoxBox from "./firefox.js";
 import StackState from "../stackState/stackState.js";
-import Gdk from "gi://Gdk";
 import icons from "../icons/index.js";
 
 const LauncherState = new StackState("Search");
@@ -89,10 +88,9 @@ export default () => {
   const stack = LauncherStack();
   LauncherState.items = Object.keys(stack.children);
   const stackSwitcher = StackSwitcher(Object.keys(stack.children));
-  return Widget.Window({
+  const window = Widget.Window({
     keymode: "on-demand",
     visible: false,
-    popup: true,
     anchor: ["left", "top", "bottom"],
     name: "launcher",
     child: Widget.Box({
@@ -137,59 +135,14 @@ export default () => {
         })
       ]
     })
-  })
-    .on("key-press-event", (_, event) => {
-      const keyval = event.get_keyval()[1];
-      if (event.get_state()[1] != (Gdk.ModifierType.MOD1_MASK | Gdk.ModifierType.MOD2_MASK)) return;
-      switch (keyval) {
-        case Gdk.KEY_n:
-        case Gdk.KEY_Tab:
-          LauncherState.next();
-          break;
-        case Gdk.KEY_p:
-          LauncherState.prev();
-          break;
-        case Gdk.KEY_0:
-        case Gdk.KEY_KP_0:
-          LauncherState.setIndex(0);
-          break;
-        case Gdk.KEY_1:
-        case Gdk.KEY_KP_1:
-          LauncherState.setIndex(1);
-          break;
-        case Gdk.KEY_2:
-        case Gdk.KEY_KP_2:
-          LauncherState.setIndex(2);
-          break;
-        case Gdk.KEY_3:
-        case Gdk.KEY_KP_3:
-          LauncherState.setIndex(3);
-          break;
-        case Gdk.KEY_4:
-        case Gdk.KEY_KP_4:
-          LauncherState.setIndex(4);
-          break;
-        case Gdk.KEY_5:
-        case Gdk.KEY_KP_5:
-          LauncherState.setIndex(5);
-          break;
-        case Gdk.KEY_6:
-        case Gdk.KEY_KP_6:
-          LauncherState.setIndex(6);
-          break;
-        case Gdk.KEY_7:
-        case Gdk.KEY_KP_7:
-          LauncherState.setIndex(7);
-          break;
-        case Gdk.KEY_8:
-        case Gdk.KEY_KP_8:
-          LauncherState.setIndex(8);
-          break;
-        case Gdk.KEY_9:
-        case Gdk.KEY_KP_9:
-          LauncherState.setIndex(9);
-          break;
-      }
-    });
+  });
+  const mods = ["MOD1", "MOD2"];
+  window.keybind("Escape", () => App.closeWindow("launcher"));
+  window.keybind(mods, "Tab", () => LauncherState.next());
+  for (let i = 0; i < 10; i++) {
+    window.keybind(mods, `${i}`, () => LauncherState.setIndex(i));
+    window.keybind(mods, `KP_${i}`, () => LauncherState.setIndex(i));
+  }
+  return window;
 };
 
