@@ -1,3 +1,5 @@
+#!/usr/bin/ags -c
+
 import Greetd from "resource:///com/github/Aylur/ags/service/greetd.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
@@ -15,7 +17,7 @@ const entry = Widget.Entry({
   hpack: "center",
   xalign: 0.5,
   placeholder_text: "password",
-  on_accept: () => handle_input()
+  on_accept: () => handle_input().catch(logError)
 }).on("realize", (entry) => entry.grab_focus());
 
 
@@ -111,6 +113,7 @@ const win = new Gtk.Window({
 win.show_all()
 
 async function handle_response(res) {
+  if(!res) return;
   let next_resp;
   switch(res.type) {
     case "success":
@@ -141,7 +144,7 @@ async function handle_response(res) {
       }
       break;
   }
-  handle_response(next_resp);
+  return handle_response(next_resp);
 }
 
 async function handle_input() {
@@ -156,7 +159,7 @@ async function handle_input() {
       entry.text = "";
       break;
   }
-  handle_response(res);
+  return handle_response(res);
 }
 
 export default {

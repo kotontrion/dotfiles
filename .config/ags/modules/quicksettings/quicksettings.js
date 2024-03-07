@@ -15,6 +15,7 @@ import { Switch } from "../widgets/widgets.js";
 import { Cava } from "../cava/index.js";
 import { LyricsTerminal } from "../vte/index.js";
 
+
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} content
  */
