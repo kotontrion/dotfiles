@@ -1,0 +1,11 @@
+* {
+  all: unset;
+  font-family: "CaskaydiaCove Nerd Font";
+}
+
+
+//general
+@import "colors";
+@import "common";
+
+@import "bar"
