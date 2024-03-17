@@ -1,4 +1,5 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
+import * as Utils from "resource:///com/github/Aylur/ags/utils.js";
 import {RoundedAngleEnd} from "../roundedCorner/index.js";
 import Mpris from "resource:///com/github/Aylur/ags/service/mpris.js";
 import icons from "../icons/index.js";
@@ -73,7 +74,7 @@ const MusicBarContainerRevealer = () => {
     child: MusicBarContainer(),
     transition: "slide_down",
     transition_duration: 200,
-    reveal_child: Mpris.bind("players").transform(players => players.length > 0)
+    reveal_child: Utils.watch([], Mpris, "player-changed", () => Mpris.players).transform(players => players.filter(p => p.play_back_status !== "Stopped")).transform(players => players.length > 0)
   }), false, false, 0);
   return box;
 };

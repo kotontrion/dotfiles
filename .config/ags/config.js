@@ -63,6 +63,7 @@ idle(() => addWindows([
 Notifications.popupTimeout = 5000;
 Notifications.forceTimeout = true;
 
+
 export default {
   style: "./style.css",
   icons: "./modules/icons",
@@ -74,3 +75,4 @@ export default {
     session: 350,
   },
 };
+

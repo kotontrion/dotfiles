@@ -22,7 +22,7 @@ async function blurCoverArtCss(coverPath) {
     background-repeat: no-repeat;`;
 
   if(coverPath) {
-    const color = await execAsync(`bash -c "convert ${coverPath} -crop 5%x100%0+0+0 -colors 1 -unique-colors txt: | head -n2 | tail -n1 | cut -f4 -d' '"`);
+    const color = await execAsync(`bash -c "convert ${coverPath} -alpha off -crop 5%x100%0+0+0 -colors 1 -unique-colors txt: | head -n2 | tail -n1 | cut -f4 -d' '"`);
     return genCss(coverPath, color);
   }
   return "background-color: #0e0e1e";
