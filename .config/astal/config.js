@@ -27,6 +27,7 @@ promises.push(Utils.execAsync([
 Promise.all(promises)
   .then(() => import(`file://${main}`))
   .catch(e => {
+    print(e)
     logError(e);
     App.quit();
   });

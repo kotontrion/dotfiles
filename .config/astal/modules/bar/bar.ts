@@ -4,13 +4,13 @@ import Clock from "./clock"
 import CurvedBarEnd from "misc/curvedBarEnd"
 import Mpris from "./mpris"
 
-const Right = () => Widget.Box({
+const Right = () => Component.Box({
   children: [
     CurvedBarEnd({
       cssClasses: ["bar-end"],
       position: "top_left",
     }),
-    Widget.Box({
+    Component.Box({
       cssClasses: ["bar-container"],
       hpack: "end",
       children: [
@@ -20,15 +20,15 @@ const Right = () => Widget.Box({
   ]
 })
 
-const Center = () => Widget.Box({
+const Center = () => Component.Box({
   children: [
     Mpris()
   ]
 })
 
-const Left = () => Widget.Box({
+const Left = () => Component.Box({
   children: [
-    Widget.Box({
+    Component.Box({
       cssClasses: ["bar-container"],
       children: [
         Workspaces(),
@@ -42,15 +42,15 @@ const Left = () => Widget.Box({
   ]
 })
 
-const Bar = () => Widget.CenterBox({
+const Bar = () => Component.CenterBox({
   start_widget: Left(),
   center_widget: Center(),
   end_widget: Right(),
 })
 
-const BarRevealer = (windowName: string) => Widget.Box({
+const BarRevealer = (windowName: string) => Component.Box({
   children: [
-    Widget.Revealer({
+    Component.Revealer({
       setup: (rev) => Utils.timeout(10, () => rev.revealChild = true),
       transition: "slide_down",
       cssClasses: ["bar-revealer"],
@@ -65,7 +65,7 @@ const BarRevealer = (windowName: string) => Widget.Box({
   ]
 })
 
-export default () => Widget.Window({
+export default () => Component.Window({
   name: "bar",
   anchor: ["top", "left", "right"],
   exclusivity: "exclusive",

@@ -1,15 +1,15 @@
 const Hyprland = await Service.import("hyprland");
 
-const WSButton = (wsID: number) => Widget.Button({
+const WSButton = (wsID: number) => Component.Button({
   cssClasses: ["ws-button"],
   onClick: () => Hyprland.messageAsync(`dispatch workspace ${wsID}`).catch(logError),
-  child: Widget.Label({
+  child: Component.Label({
     label: `${wsID}`,
     cssClasses: ["ws-button-label"]
   })
 }).hook(Hyprland.active.workspace, button => button.toggleCssClass("active", Hyprland.active.workspace.id == wsID))
 
-export default () => Widget.Box({
+export default () => Component.Box({
   cssClasses: ["ws-container"],
   children: Array.from({length: 10}, (_, i) => i+1).map(WSButton)
 }).hook(Hyprland, (box) => {

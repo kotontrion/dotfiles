@@ -3,10 +3,10 @@ import icons from "misc/icons"
 
 const Mpris = await Service.import("mpris")
 
-const MprisContainer = () => Widget.Box({
+const MprisContainer = () => Component.Box({
   cssClasses: ["bar-container"],
   children: [
-    Widget.Icon().hook(Mpris, icon => {
+    Component.Icon().hook(Mpris, icon => {
       const player = Mpris.getPlayer("spotify") || Mpris.getPlayer()
       if(!player) return
       const status = player.play_back_status
@@ -16,9 +16,9 @@ const MprisContainer = () => Widget.Box({
                     ? icons.mpris.paused
                     : icons.mpris.stopped
     }),
-    Widget.Label({
-      maxWidthChars: 35,
-      truncate: "end",
+    Component.MarqueeLabel({
+      useMarkup: true,
+      maxWidthChars: 35
     }).hook(Mpris, label => { 
       const player = Mpris.getPlayer("spotify") || Mpris.getPlayer();
       if (!player) return;
@@ -27,7 +27,7 @@ const MprisContainer = () => Widget.Box({
   ]
 })
 
-const MprisBarContainer = () => Widget.Box({
+const MprisBarContainer = () => Component.Box({
   children: [
     CurvedBarEnd({
       cssClasses: ["bar-end"],
@@ -41,7 +41,7 @@ const MprisBarContainer = () => Widget.Box({
   ]
 })
 
-const MprisBarRevealer = () => Widget.Revealer({
+const MprisBarRevealer = () => Component.Revealer({
   child: MprisBarContainer(),
   transition: "slide_down",
   transitionDuration: 200,
@@ -54,7 +54,7 @@ const MprisBarRevealer = () => Widget.Revealer({
   .transform(players => players.length > 0)
 })
 
-export default () => Widget.Box({
+export default () => Component.Box({
   vertical: true,
   children: [MprisBarRevealer()]
 })
