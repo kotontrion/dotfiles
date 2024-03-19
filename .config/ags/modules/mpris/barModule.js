@@ -79,8 +79,8 @@ const MusicBarContainerRevealer = () => {
       [Mpris, "player-added"],
       [Mpris, "player-closed"],
     ], () => Mpris.players)
-    .transform(players => players.filter(p => p.play_back_status !== "Stopped"))
-    .transform(players => players.length > 0)
+      .transform(players => players.filter(p => p.play_back_status !== "Stopped"))
+      .transform(players => players.length > 0)
   }), false, false, 0);
   return box;
 };

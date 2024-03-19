@@ -1,13 +1,14 @@
-import Workspaces from "./workspaces.js"
-import WindowTitle from "./title.js"
-import Clock from "./clock.js"
-import CurvedBarEnd from "../misc/curvedBarEnd.js"
+import Workspaces from "./workspaces"
+import WindowTitle from "./title"
+import Clock from "./clock"
+import CurvedBarEnd from "misc/curvedBarEnd"
+import Mpris from "./mpris"
 
 const Right = () => Widget.Box({
   children: [
     CurvedBarEnd({
       cssClasses: ["bar-end"],
-      position: "top_right",
+      position: "top_left",
     }),
     Widget.Box({
       cssClasses: ["bar-container"],
@@ -21,6 +22,7 @@ const Right = () => Widget.Box({
 
 const Center = () => Widget.Box({
   children: [
+    Mpris()
   ]
 })
 
@@ -34,7 +36,8 @@ const Left = () => Widget.Box({
       ]
     }),
     CurvedBarEnd({
-      cssClasses: ["bar-end"]
+      cssClasses: ["bar-end"],
+      position: "top_right",
     })
   ]
 })

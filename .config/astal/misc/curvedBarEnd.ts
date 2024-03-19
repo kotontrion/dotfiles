@@ -1,7 +1,7 @@
 import Gsk from "gi://Gsk?version=4.0";
 import Gtk from "gi://Gtk?version=4.0"
 import { register } from "resource:///astal/widgets/widget.js"
-import { BaseProps, Widget } from "types/widgets/widget";
+import { Widget, BaseProps } from "types/widgets/widget"
 
 //TODO: add more
 type Position = "top_left" | "top_right";
@@ -82,19 +82,19 @@ export class CurvedBarEnd<Attr = unknown> extends Gtk.Widget {
     const builder = new Gsk.PathBuilder()
 
     switch(this.position) {
-      case "top_left":
+      case "top_right":
         builder.line_to(0, height)
         builder.cubic_to(width/2, height, width/2, 0, width, 0)
         builder.close()
         break
-       case "top_right":
+       case "top_left":
         builder.cubic_to(width/2, 0, width/2, height, width, height)
         builder.line_to(width, 0)
         builder.close()
-        break   }
+        break
+    }
 
     snapshot.append_fill(builder.to_path(), Gsk.FillRule.WINDING, color)
   }
 }
-
 export default (props: CurvedBarEndProps) => new CurvedBarEnd(props)
