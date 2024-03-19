@@ -64,7 +64,7 @@ Notifications.popupTimeout = 5000;
 Notifications.forceTimeout = true;
 
 
-export default {
+App.config({
   style: "./style.css",
   icons: "./modules/icons",
   closeWindowDelay: {
@@ -74,5 +74,5 @@ export default {
     bar0: 350,
     session: 350,
   },
-};
+});
 

@@ -74,7 +74,13 @@ const MusicBarContainerRevealer = () => {
     child: MusicBarContainer(),
     transition: "slide_down",
     transition_duration: 200,
-    reveal_child: Utils.watch([], Mpris, "player-changed", () => Mpris.players).transform(players => players.filter(p => p.play_back_status !== "Stopped")).transform(players => players.length > 0)
+    reveal_child: Utils.watch([], [
+      [Mpris, "player-changed"],
+      [Mpris, "player-added"],
+      [Mpris, "player-closed"],
+    ], () => Mpris.players)
+    .transform(players => players.filter(p => p.play_back_status !== "Stopped"))
+    .transform(players => players.length > 0)
   }), false, false, 0);
   return box;
 };
