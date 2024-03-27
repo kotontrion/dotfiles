@@ -2,6 +2,7 @@ import SystemTray from "resource:///com/github/Aylur/ags/service/systemtray.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Gdk from "gi://Gdk?version=3.0";
 
+
 /**
  * @param {import('types/service/systemtray').TrayItem} item
  */

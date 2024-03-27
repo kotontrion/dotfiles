@@ -6,12 +6,12 @@ const entry = `${App.configDir}/main.ts`;
 
 async function applyScss() {
   await Utils.execAsync(`sass ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);
-  console.log("Scss compiled");
+  print("Scss compiled");
 
   // Apply compiled css
   App.resetCss();
   App.applyCss(`${App.configDir}/style.css`);
-  console.log("Compiled css applied");
+  print("Compiled css applied");
 }
 
 const promises = [];
@@ -27,7 +27,7 @@ promises.push(Utils.execAsync([
 Promise.all(promises)
   .then(() => import(`file://${main}`))
   .catch(e => {
-    print(e)
+    print(e);
     logError(e);
     App.quit();
   });

@@ -20,7 +20,6 @@ this list is probably incomplete.
   
 #### wm related
 - Hyprland
-- swaylock effects
 - GTK-theme:  Catppuccin
 - Icon-theme: MoreWaita
 - Font:       Cascadia Code NF
@@ -38,6 +37,9 @@ this list is probably incomplete.
 #### ags greeter
 - greetd
 - cage
+
+#### ags lockscreen
+- gtk-session-lock
 
 #### zsh
 - zsh

@@ -54,9 +54,10 @@ export class CurvedBarEnd<Attr = unknown> extends Gtk.Widget {
   }
 
   vfunc_measure(orientation: Gtk.Orientation, for_size: number) : [number, number, number, number]{
+    let measure
     switch(orientation) {
       case Gtk.Orientation.VERTICAL:
-        return [
+        measure = [
           for_size / this.ratio,
           for_size / this.ratio,
           -1,
@@ -64,13 +65,14 @@ export class CurvedBarEnd<Attr = unknown> extends Gtk.Widget {
         ]
       case Gtk.Orientation.HORIZONTAL:
       default:
-        return [
+        measure = [
           for_size * this.ratio,
           for_size * this.ratio,
           -1,
           -1
         ]
     }
+    return measure
   }
 
   vfunc_snapshot(snapshot: Gtk.Snapshot) {

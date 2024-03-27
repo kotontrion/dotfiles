@@ -28,6 +28,11 @@
         ]
     },
     "globals": {
-      "logError": "readonly"
+      "logError": "readonly",
+      "App": "readonly",
+      "Utils": "readonly",
+      "Widget": "readonly",
+      "Service": "readonly",
+      "Variable": "readonly"
     }
 }

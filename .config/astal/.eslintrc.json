@@ -29,6 +29,7 @@
     },
     "globals": {
       "logError": "readonly",
+      "print": "readonly",
       "App": "readonly",
       "Utils": "readonly",
       "Widget": "readonly",

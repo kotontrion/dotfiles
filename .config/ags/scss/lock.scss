@@ -1,0 +1,76 @@
+
+@import "colors";
+
+* {
+  all: unset;
+  font-family: "CaskaydiaCove Nerd Font";
+}
+
+.lock-container {
+  background-image: url("/etc/greetd/ags/mountain.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.avatar {
+  background-image: url('/etc/greetd/ags/avatar.jpeg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 999px;
+  min-height: 10rem;
+  min-width: 10rem;
+}
+
+.entry-box {
+  background: rgba(14, 14, 30, 0.80);
+  border-radius: 1rem;
+  min-width: 350px;
+  padding: 8px;
+}
+
+entry {
+  min-width: 350px;
+}
+
+tooltip {
+  box-shadow: none;
+}
+
+tooltip.background {
+  background-color: $dark-background;
+  color: $primary-color;
+  border-radius: 6px;
+}
+
+separator {
+  margin: 3px;
+  min-width: 1px;
+  min-height: 1px;
+  background-color: $light-background;
+}
+.clock-container {
+  background-color: $dark-background;
+  padding-right: 8px;
+}
+.clock-container .clock-date {
+  font-size: 0.6rem;
+  color: $primary-fg;
+}
+.clock-container .clock-time {
+  font-size: 0.7rem;
+}
+
+.session-button {
+  background-color: $dark-background;
+  color: $primary-color;
+  padding: 0px 8px;
+}
+
+.corner {
+  background-color: $dark-background;
+  border-radius: 1rem;
+}
+
+.angle {
+  background-color: $dark-background;
+}

@@ -12,6 +12,8 @@ declare global {
   const Component: typeof Comp
 }
 
+
+
 Object.assign(globalThis, {
   Component: Comp,
 });
