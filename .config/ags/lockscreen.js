@@ -20,10 +20,8 @@ function unlock() {
   }
   Utils.timeout(500, () => {
     lock.unlock_and_destroy();
-    //HACK: wait for unlock to be finished,
-    //usually call wl_display.sync,
-    //but not sure how in this context
-    Utils.timeout(2000, () => App.quit());
+    Gdk.Display.get_default()?.sync();
+    App.quit()
   });
 }
 
