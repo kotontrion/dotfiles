@@ -21,7 +21,7 @@ function unlock() {
   Utils.timeout(500, () => {
     lock.unlock_and_destroy();
     Gdk.Display.get_default()?.sync();
-    App.quit()
+    App.quit();
   });
 }
 
@@ -134,4 +134,3 @@ display?.connect("monitor-added", (disp, monitor) => {
   createWindow(monitor);
 });
 
-Utils.timeout(50000, () => unlock());
