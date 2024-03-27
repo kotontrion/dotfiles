@@ -101,9 +101,9 @@ const IndicatorValues = () => Widget.Revealer({
     ]
   })
 })
-  .hook(Indicator, (revealer, value) => {
-    revealer.reveal_child = (value > -1);
-  }, "popup");
+  .hook(App, (self, windowName, visible) => {
+    if(windowName === "indicator") self.reveal_child = visible;
+  }, "window-toggled");
 
 
 export default () => Widget.Window({
@@ -124,4 +124,8 @@ export default () => Widget.Window({
       ]
     })
   }),
-});
+})
+  .hook(Indicator, (_, value) => {
+    if(value > 0) App.openWindow("indicator");
+    else App.closeWindow("indicator");
+  }, "popup");

@@ -73,6 +73,8 @@ App.config({
     launcher: 500,
     bar0: 350,
     session: 350,
+    indicator: 200,
+    popupNotifications: 200,
   },
 });
 

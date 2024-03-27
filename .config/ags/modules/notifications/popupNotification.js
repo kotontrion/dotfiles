@@ -64,4 +64,9 @@ export default () => Window({
   name: "popupNotifications",
   anchor: ["top", "right"],
   child: PopupList(),
-});
+  visible: false
+})
+  .hook(Notifications, () => {
+    if(Notifications.popups.length > 0) App.openWindow("popupNotifications");
+    else App.closeWindow("popupNotifications");
+  }, "notify::popups");
