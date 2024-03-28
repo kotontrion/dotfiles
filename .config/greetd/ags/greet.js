@@ -2,13 +2,11 @@
 
 import Greetd from "resource:///com/github/Aylur/ags/service/greetd.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import App from "resource:///com/github/Aylur/ags/app.js";
 import { RoundedAngleEnd, RoundedCorner } from "./modules/roundedCorner/index.js";
 import Clock from "./modules/clock/index.js";
 import SessionBox from "./modules/powermenu/index.js";
-import Gtk from "gi://Gtk"
-import Variable from  "resource:///com/github/Aylur/ags/variable.js";
-
+import Gtk from "gi://Gtk?version=3.0";
+import { get_selected_DE } from "./modules/powermenu/index.js";
 
 const state = Variable("username");
 
@@ -119,7 +117,7 @@ async function handle_response(res) {
     case "success":
       if(state.value === "starting") App.quit();
       setState("starting")
-      next_resp = await Greetd.startSession(["Hyprland"]);
+      next_resp = await Greetd.startSession([get_selected_DE()]);
       break;
     case "error":
       Greetd.cancelSession();
@@ -162,6 +160,6 @@ async function handle_input() {
   return handle_response(res);
 }
 
-export default {
+App.config({
   style: `${App.configDir}/style.css`,
-}
+})
