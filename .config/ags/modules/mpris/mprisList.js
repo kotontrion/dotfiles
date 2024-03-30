@@ -32,7 +32,7 @@ async function blurCoverArtCss(coverPath) {
  * @param {import('types/service/mpris').MprisPlayer} player
  * @param {import('types/widgets/icon').Props} props
  */
-const PlayerIcon = (player, { ...props } = {}) => {
+export const PlayerIcon = (player, { ...props } = {}) => {
   const icon = lookUpIcon(player.entry)
     ? player.entry
     : icons.mpris.fallback;
@@ -46,7 +46,7 @@ const PlayerIcon = (player, { ...props } = {}) => {
 /**
  * @param {import('types/service/mpris').MprisPlayer} player
  */
-const MprisPlayer = player => Widget.Box({
+export const MprisPlayer = player => Widget.Box({
   class_name: "music-container",
   vertical: true,
   children: [

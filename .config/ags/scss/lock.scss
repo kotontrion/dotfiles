@@ -74,3 +74,63 @@ separator {
 .angle {
   background-color: $dark-background;
 }
+
+.corner-container {
+  background-color: $dark-background;
+  border-top-right-radius: 1rem;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.music-player-icon {
+  font-size: 1.8rem;
+  margin: 0.5rem;
+}
+
+.mpris-list-container {
+  min-width: 25rem;
+  padding: 0.5rem;
+}
+
+.music-container {
+
+  background-color: $secondary_bg;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 5px;
+  min-height: 10rem;
+
+  .music-player-icon {
+    font-size: 1.6rem;
+    padding-right: 8px
+  }
+
+  .music-player-name {
+    text-shadow: 0.1rem 0.1rem $primary_bg;
+  }
+
+  .music-artist {
+    text-shadow: 0.1rem 0.1rem $primary_bg;
+    padding-top: 5px;
+  }
+
+  .music-title {
+    font-weight: bold;
+    text-shadow: 0.1rem 0.1rem $primary_bg;
+    padding-top: 5px;
+  }
+
+  .music-control-box {
+    padding-top: 1.5rem;
+    .music-button {
+      font-size: 1.6rem;
+      -gtk-icon-shadow: 0.1rem 0.1rem $primary_bg;
+    }
+
+    .music-progress {
+      font-size: 3px;
+      min-width: 40px;
+      min-height: 40px;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import Gtk from "gi://Gtk?version=3.0";
 import { RoundedAngleEnd, RoundedCorner } from "./modules/roundedCorner/index.js";
 import Clock from "./modules/clock/index.js";
 import SessionBox from "./modules/powermenu/sessionbox.js";
-
+import { MprisCorner } from "./modules/mpris/index.js"
 
 Utils.exec(`sass ${App.configDir}/scss/lock.scss ${App.configDir}/lockstyle.css`);
 App.applyCss(`${App.configDir}/lockstyle.css`);
@@ -107,7 +107,12 @@ const LockWindow = () => new Gtk.Window({
           vertical: true,
           children: [
             Bar(),
-            LoginBox()
+            Widget.Overlay({
+              child: LoginBox(),
+              overlays: [
+                MprisCorner()
+              ]
+            })
           ]
         })
       }).on("realize", self => Utils.idle(() => self.reveal_child = true))
