@@ -4,7 +4,7 @@ import Gtk from "gi://Gtk?version=3.0";
 import { RoundedAngleEnd, RoundedCorner } from "./modules/roundedCorner/index.js";
 import Clock from "./modules/clock/index.js";
 import SessionBox from "./modules/powermenu/sessionbox.js";
-import { MprisCorner } from "./modules/mpris/index.js"
+import { MprisCorner } from "./modules/mpris/index.js";
 
 Utils.exec(`sass ${App.configDir}/scss/lock.scss ${App.configDir}/lockstyle.css`);
 App.applyCss(`${App.configDir}/lockstyle.css`);
