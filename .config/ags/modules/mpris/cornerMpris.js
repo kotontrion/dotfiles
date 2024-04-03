@@ -10,7 +10,7 @@ const MprisIconContainer = () => Widget.Box({
 });
 
 const MprisListContainer = () => {
-  const delay = 300;
+  const delay = 500;
   const rev2 = Widget.Revealer({
     reveal_child: false,
     transition: "slide_up",
