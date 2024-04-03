@@ -10,12 +10,12 @@ import App from "resource:///com/github/Aylur/ags/app.js";
 import {timeout} from "resource:///com/github/Aylur/ags/utils.js";
 import {NotificationIndicator} from "../notifications/index.js";
 import {MusicBarContainer} from "../mpris/index.js";
+import Cairo from "cairo";
 
 const Right = () => Widget.EventBox({
   hpack: "end",
   child: Widget.Box({
     children: [
-      RoundedAngleEnd("topleft", {class_name: "angle", hexpand: true}),
       Tray(),
       Widget.EventBox({
         on_primary_click_release: () => App.toggleWindow("quicksettings"),
@@ -56,17 +56,51 @@ const Left = () => Widget.EventBox({
     children: [
       Workspaces(),
       FocusedTitle(),
-      RoundedAngleEnd("topright", {class_name: "angle"})
     ]
   }),
 });
 
-const Bar = () => Widget.CenterBox({
-  start_widget: Left(),
-  center_widget: Center(),
-  end_widget: Right(),
-});
+const Bar = () => {
+  const left = Left();
+  const center = Center();
+  const right = Right();
+  const bar = Widget.CenterBox({
+    start_widget: Widget.Box({
+      children: [
+        left,
+        RoundedAngleEnd("topright", {class_name: "angle"})
+      ]
+    }),
+    center_widget: center,
+    end_widget: Widget.Box({
+      children: [
+        Widget.Box({hexpand: true}),
+        RoundedAngleEnd("topleft", {class_name: "angle", click_through: true}),
+        right
+      ]
+    }),
+  });
 
+  const setInputShape = () => {
+    const region = new Cairo.Region();
+
+    const lAlloc = left.get_allocation();
+    const cAlloc = center.children[0].get_allocation();
+    const rAlloc = right.get_allocation();
+
+    region.unionRectangle(lAlloc);
+    region.unionRectangle(cAlloc);
+    region.unionRectangle(rAlloc);
+
+    bar.get_toplevel().input_shape_combine_region(region);
+  };
+
+  left.on("size-allocate", setInputShape);
+  center.on("size-allocate", setInputShape);
+  right.on("size-allocate", setInputShape);
+
+  return bar;
+};
 /**
  * @param {string} windowName
  */
@@ -92,6 +126,7 @@ const BarWindow = (/** @type {number} */ monitor) => Widget.Window({
   anchor: ["top", "left", "right"],
   exclusivity: "exclusive",
   child: BarRevealer(`bar${monitor}`)
+  // child: Bar()
 });
 
 export default BarWindow;
