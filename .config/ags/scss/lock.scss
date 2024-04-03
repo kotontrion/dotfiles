@@ -32,14 +32,10 @@ entry {
   min-width: 350px;
 }
 
-tooltip {
-  box-shadow: none;
-}
-
-tooltip.background {
+.tooltip {
   background-color: $dark-background;
   color: $primary-color;
-  border-radius: 6px;
+  padding: 0 0 8px 8px;
 }
 
 separator {
