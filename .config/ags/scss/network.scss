@@ -1,0 +1,25 @@
+.wifi-group {
+  title {
+    arrow {
+      min-width: 1rem;
+      min-height: 1rem;
+    }
+    box {
+      padding-left: 0.5rem;
+    }
+  }
+
+  &.connected {
+    title > arrow {
+      -gtk-icon-source: -gtk-icontheme("object-select-symbolic");
+    }
+  }
+
+  .wifi-group-list {
+    padding-left: 2rem;
+    .wifi-ap {
+
+    }
+  }
+}
+
