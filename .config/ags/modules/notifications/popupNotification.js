@@ -3,8 +3,8 @@ import {Box, Window} from "resource:///com/github/Aylur/ags/widget.js";
 import Notification from "./notification.js";
 
 const Popups = () => Box({
+  class_name: "spacing-5",
   vertical: true,
-  spacing: 5,
   hpack: "end",
   attribute: {
     "map": new Map(),

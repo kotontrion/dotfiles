@@ -18,8 +18,7 @@ const SysTrayItem = item => Widget.Button({
 });
 
 const Tray = () => Widget.Box({
-  class_name: "systray-container",
-  spacing: 8,
+  class_name: "systray-container spacing-5",
   attribute: {
     "items": new Map(),
     /**

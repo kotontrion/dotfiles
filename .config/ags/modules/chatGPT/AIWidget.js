@@ -241,8 +241,7 @@ try {
           }, "clear")
       }),
       Box({
-        spacing: 5,
-        class_name: "ai-entry-box",
+        class_name: "ai-entry-box spacing-5",
         children: [
           TextEntry(),
           Button({

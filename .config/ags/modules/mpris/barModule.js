@@ -16,8 +16,7 @@ const MusicContainer = () => Widget.EventBox({
     player.next();
   },
   child: Widget.Box({
-    class_name: "bar-music-container",
-    spacing: 5,
+    class_name: "bar-music-container spacing-5",
     children: [
       Widget.CircularProgress({
         class_name: "music-progress",

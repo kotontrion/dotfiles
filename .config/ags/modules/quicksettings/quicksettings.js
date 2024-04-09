@@ -35,7 +35,7 @@ const QSNotification = () => QuickSettingsPage(Menu({
   icon: icons.notifications.chat,
   content: NotificationList(),
   headerChild: Widget.Box({
-    spacing: 5,
+    class_name: "spacing-5",
     children: [
       Widget.Button({
         on_clicked: () => Notifications.clear(),
@@ -120,8 +120,8 @@ const QSMpris = () => {
           title: "Player",
           icon: icons.mpris.fallback,
           content: Widget.Box({
+            class_name: "spacing-5",
             vertical: true,
-            spacing: 10,
             children: [
               MprisPlayerList(),
               LyricsTerminal(),

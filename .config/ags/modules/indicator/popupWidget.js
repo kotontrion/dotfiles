@@ -36,9 +36,8 @@ const volumeToIcon = volume => {
  */
 const OsdValue = (icon, label, progress, props = {}) => Widget.Box({
   ...props,
-  class_name: "osd-indicator",
+  class_name: "osd-indicator spacing-10",
   hexpand: true,
-  spacing: 8,
   children: [
     // Widget.Icon({
     //   class_name: "osd-icon",

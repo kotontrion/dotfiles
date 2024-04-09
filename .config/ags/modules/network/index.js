@@ -21,7 +21,7 @@ const WifiAccessPoint = ap => {
     //TODO: make it look better, maybe using pango?
     tooltip_text: JSON.stringify(ap, null, 2),
     child:  Widget.Box({
-      spacing: 8,
+      class_name: "spacing-5",
       children: [
         Widget.Label("󱞩"),
         Widget.Icon({icon: ap.iconName}),
@@ -43,7 +43,7 @@ const WifiGroup = (expander, aps) => {
     expander = Expander({
       class_name: "wifi-group",
       label_widget: Widget.Box({
-        spacing: 8,
+        class_name: "spacing-5",
         children: [
           Widget.Icon({icon: strongest[0].iconName}),
           Widget.Label({label: strongest[0].ssid}),
@@ -66,8 +66,8 @@ const WifiGroup = (expander, aps) => {
 };
 
 export const WifiList = () => Widget.Box({
+  class_name: "spacing-5",
   vertical: true,
-  spacing: 5,
   attribute: {
     networks: new Map()
   }

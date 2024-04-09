@@ -15,8 +15,7 @@ export default ({title, icon, content, headerChild = Widget.Box()}) => Widget.Bo
       vertical: true,
       children: [
         Widget.Box({
-          class_name: "qs-title",
-          spacing: 5,
+          class_name: "qs-title spacing-5",
           children: [
             Widget.Icon(icon),
             Widget.Label(title),

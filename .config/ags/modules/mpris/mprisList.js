@@ -86,8 +86,8 @@ export const MprisPlayer = player => Widget.Box({
           class_name: "music-control-box",
           children: [
             Widget.Box({
+              class_name: "spacing-10",
               vpack: "center",
-              spacing: 10,
               children: [
                 Widget.Button({
                   class_name: "music-button",
@@ -138,9 +138,9 @@ export const MprisPlayer = player => Widget.Box({
 
 
 const PlayerList = () => Box({
+  class_name: "spacing-5",
   hexpand: true,
   vertical: true,
-  spacing: 5,
   attribute: {
     "player": new Map(),
     /**

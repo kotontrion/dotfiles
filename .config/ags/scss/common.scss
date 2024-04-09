@@ -1,4 +1,16 @@
 
+@each $spacing in (5, 10) {
+  .spacing-#{$spacing} {
+    &.vertical > *:not(:last-child) {
+      margin-bottom: calc(0.341rem/5*$spacing);
+    }
+    // should be .horizontal, but setting classnames resets it
+    &:not(.vertical) > *:not(:last-child) {
+      margin-right: calc(0.341rem/5*$spacing);
+    }
+  }
+}
+
 textview {
   text {
     font-weight: normal;

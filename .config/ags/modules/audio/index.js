@@ -146,7 +146,7 @@ const MixerItem = stream => Widget.EventBox({
 const SinkItem = (type) => stream => Widget.Button({
   on_clicked: () => Audio[sorm(type)] = stream,
   child: Widget.Box({
-    spacing: 5,
+    class_name: "spacing-5",
     children: [
       Widget.Icon({
         icon: iconSubstitute(stream.icon_name, type),
@@ -207,8 +207,8 @@ export const SinkSelector = (type = "sink") => Menu({
 });
 
 const AudioContent = () => Widget.Box({
+  class_name: "spacing-5",
   vertical: true,
-  spacing: 8,
   children: [
     Widget.Box({
       vertical: true,
