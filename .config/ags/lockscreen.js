@@ -20,7 +20,7 @@ function unlock() {
   }
   Utils.timeout(500, () => {
     lock.unlock_and_destroy();
-    windows.forEach(w => w.destroy())
+    windows.forEach(w => w.destroy());
     Gdk.Display.get_default()?.sync();
     App.quit();
   });
@@ -142,13 +142,13 @@ function on_locked() {
 }
 
 function on_finished() {
-  lock.destroy()
+  lock.destroy();
   Gdk.Display.get_default()?.sync();
-  App.quit()
+  App.quit();
 }
 
-lock.connect("locked", on_locked)
-lock.connect("finished", on_finished)
+lock.connect("locked", on_locked);
+lock.connect("finished", on_finished);
 
 lock.lock_lock();
 
