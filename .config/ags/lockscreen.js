@@ -20,6 +20,7 @@ function unlock() {
   }
   Utils.timeout(500, () => {
     lock.unlock_and_destroy();
+    windows.forEach(w => w.destroy())
     Gdk.Display.get_default()?.sync();
     App.quit();
   });
@@ -121,7 +122,6 @@ const LockWindow = () => new Gtk.Window({
   })
 });
 
-lock.lock_lock();
 
 function createWindow(monitor){
   const win = LockWindow();
@@ -130,13 +130,26 @@ function createWindow(monitor){
   win.show();
 }
 
-const display = Gdk.Display.get_default();
-for (let m = 0;  m < display?.get_n_monitors();  m++) {
-  const monitor = display?.get_monitor(m);
-  createWindow(monitor);
+function on_locked() {
+  const display = Gdk.Display.get_default();
+  for (let m = 0;  m < display?.get_n_monitors();  m++) {
+    const monitor = display?.get_monitor(m);
+    createWindow(monitor);
+  }
+  display?.connect("monitor-added", (disp, monitor) => {
+    createWindow(monitor);
+  });
 }
 
-display?.connect("monitor-added", (disp, monitor) => {
-  createWindow(monitor);
-});
+function on_finished() {
+  lock.destroy()
+  Gdk.Display.get_default()?.sync();
+  App.quit()
+}
+
+lock.connect("locked", on_locked)
+lock.connect("finished", on_finished)
+
+lock.lock_lock();
+
 
