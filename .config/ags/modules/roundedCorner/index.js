@@ -10,11 +10,12 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
   hpack: place.includes("left") ? "start" : "end",
   vpack: place.includes("top") ? "start" : "end",
   setup: widget => {
-    const r = 25; //widget.get_style_context().get_property('border-radius', Gtk.StateFlags.NORMAL);
+    //HACK: ensure a minimum size required for the window to even show up.
+    //size chande later from css
+    const r = 2;
     widget.set_size_request(r, r);
     widget.on("draw", (widget, cr) => {
-      const c = widget.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
-      const r = widget.get_style_context().get_property("border-radius", Gtk.StateFlags.NORMAL);
+      const r = widget.get_style_context().get_property("font-size", Gtk.StateFlags.NORMAL);
       widget.set_size_request(r, r);
 
       switch (place) {
@@ -37,8 +38,8 @@ export const RoundedCorner = (place, props) => Widget.DrawingArea({
       }
 
       cr.closePath();
-      cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
-      cr.fill();
+      cr.clip();
+      Gtk.render_background(widget.get_style_context(), cr, 0, 0, r, r);
     });
   }
 });
@@ -55,7 +56,6 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
     widget.set_size_request(ratio * r, r);
     widget.on("draw", (widget, cr) => {
       const context = widget.get_style_context();
-      const c = context.get_property("background-color", Gtk.StateFlags.NORMAL);
       const border_color = context.get_property("color", Gtk.StateFlags.NORMAL);
       const border_width = context.get_border(Gtk.StateFlags.NORMAL).bottom;
       const r = widget.get_allocated_height();
@@ -65,14 +65,9 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
           cr.moveTo(0, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, ratio * r, r);
           cr.lineTo(ratio * r, 0);
-
-          cr.moveTo(0, 0);
-          cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, ratio * r, r);
-          cr.lineTo(ratio * r, 0);
           cr.closePath();
-          cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
-          cr.fillPreserve();
           cr.clip();
+          Gtk.render_background(context, cr, 0, 0, r*ratio, r);
           cr.moveTo(0, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, ratio * r, r);
           cr.setLineWidth(border_width * 2);
@@ -85,9 +80,8 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, 0, r);
           cr.lineTo(0, 0);
           cr.closePath();
-          cr.setSourceRGBA(c.red, c.green, c.blue, c.alpha);
-          cr.fillPreserve();
           cr.clip();
+          Gtk.render_background(context, cr, 0, 0, r*ratio, r);
           cr.moveTo(ratio * r, 0);
           cr.curveTo(ratio * r / 2, 0, ratio * r / 2, r, 0, r);
           cr.setLineWidth(border_width * 2);
@@ -101,7 +95,6 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
     });
   }
 });
-
 
 export const CornerTopleft = () => Widget.Window({
   name: "cornertl",

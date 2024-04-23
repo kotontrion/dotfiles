@@ -14,7 +14,7 @@ import Network from "resource:///com/github/Aylur/ags/service/network.js";
 import { Switch } from "../widgets/widgets.js";
 import { Cava } from "../cava/index.js";
 import { LyricsTerminal } from "../vte/index.js";
-
+import GObject from "gi://GObject";
 
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} content
@@ -86,15 +86,15 @@ const QSBluetooth = () => QuickSettingsPage(
     title: "Bluetooth",
     icon: icons.bluetooth.enabled,
     content: BluetoothList(),
-    headerChild: Switch({})
-      .hook(Bluetooth, (sw) => {
-        if (sw.active !== Bluetooth.enabled)
-          sw.active = Bluetooth.enabled;
-      })
-      .on("notify::active", ({active}) => {
-        if (active !== Bluetooth.enabled)
-          Bluetooth.enabled = active;
-      })
+    headerChild: Widget.Switch({
+      setup: (self) =>
+        self.bind_property(
+          "active",
+          Bluetooth,
+          "enabled",
+          GObject.BindingFlags.BIDIRECTIONAL,
+        ),
+    })
   }));
 
 /**
