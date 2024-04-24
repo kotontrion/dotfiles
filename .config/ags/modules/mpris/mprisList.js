@@ -2,11 +2,14 @@ import Widget, {Box} from "resource:///com/github/Aylur/ags/widget.js";
 import icons from "../icons/index.js";
 import Mpris from "resource:///com/github/Aylur/ags/service/mpris.js";
 import {lookUpIcon, execAsync} from "resource:///com/github/Aylur/ags/utils.js";
+import Gtk from "gi://Gtk?version=3.0";
 
 /**
- * @param {string} coverPath
+ * @param {import('types/service/mpris').MprisPlayer} player
  */
-async function blurCoverArtCss(coverPath) {
+async function blurCoverArtCss(player, default_color) {
+
+  const coverPath = player.cover_path;
 
   /** @param {string} bg
   *   @param {string} color
@@ -15,7 +18,7 @@ async function blurCoverArtCss(coverPath) {
     `background-image: radial-gradient(
       circle at right,
       rgba(0, 0, 0, 0),
-      ${color} 11.5rem), url('${bg}');
+      ${color} 11.5rem), ${bg};
     background-position: right top, right top;
     background-size: contain;
     transition: all 0.7s ease;
@@ -23,14 +26,14 @@ async function blurCoverArtCss(coverPath) {
 
   if(coverPath) {
     const color = await execAsync(`bash -c "convert ${coverPath} -alpha off -crop 5%x100%0+0+0 -colors 1 -unique-colors txt: | head -n2 | tail -n1 | cut -f4 -d' '"`);
-    return genCss(coverPath, color);
+    return genCss(`url('${coverPath}')`, color);
   }
-  return "background-color: #0e0e1e";
+  return genCss(`-gtk-icontheme('${player.entry}')`, default_color);
 }
 
 /**
  * @param {import('types/service/mpris').MprisPlayer} player
- * @param {import('types/widgets/icon').Props} props
+ * @param {import('types/widgets/icon').IconProps} props
  */
 export const PlayerIcon = (player, { ...props } = {}) => {
   const icon = lookUpIcon(player.entry)
@@ -133,7 +136,8 @@ export const MprisPlayer = player => Widget.Box({
     })
   ]
 }).hook(player, async (self) => {
-  self.css = await blurCoverArtCss(player.cover_path);
+  const color = self.get_style_context().get_background_color(Gtk.StateFlags.NORMAL).to_string();
+  self.css = await blurCoverArtCss(player, color);
 }, "notify::cover-path");
 
 

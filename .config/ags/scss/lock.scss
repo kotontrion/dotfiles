@@ -1,10 +1,12 @@
 
-@import "colors";
 
 * {
   all: unset;
   font-family: "CaskaydiaCove Nerd Font";
 }
+
+@import "colors";
+@import "common.scss";
 
 .lock-container {
   background-image: url("/etc/greetd/ags/mountain.png");
