@@ -90,6 +90,8 @@ const LoginBox = () => Widget.Box({
       overlays: [
         RoundedCorner("topleft", {class_name: "corner"}),
         RoundedCorner("topright", {class_name: "corner"}),
+        RoundedCorner("bottomleft", {class_name: "corner"}),
+        RoundedCorner("bottomright", {class_name: "corner"}),
       ]
     })
   ]
