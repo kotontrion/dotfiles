@@ -15,7 +15,9 @@ import PowerMenu from "./modules/powermenu/index.js";
 import {PopupNotifications} from "./modules/notifications/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Gio from "gi://Gio";
+import Gdk from "gi://Gdk";
 import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
+
 
 const applyScss = () => {
   // Compile scss
@@ -44,18 +46,54 @@ function addWindows(windows) {
   windows.forEach(win => App.addWindow(win));
 }
 
-idle(() => addWindows([
-  Bar(0),
-  CornerTopleft(),
-  CornerTopright(),
-  CornerBottomleft(),
-  CornerBottomright(),
-  IndicatorWidget(),
-  Quicksettings(),
-  Launcher(),
-  PowerMenu(),
-  PopupNotifications(),
-]));
+globalThis.monitorCounter = 0;
+
+globalThis.toggleBars = () => {
+  App.windows.forEach(win => {
+    if(win.name?.startsWith("bar")) {
+      App.toggleWindow(win.name);
+    }
+  });
+};
+
+function addMonitorWindows(monitor) {
+  addWindows([
+    Bar(monitor),
+    CornerTopleft(monitor),
+    CornerTopright(monitor),
+    CornerBottomleft(monitor),
+    CornerBottomright(monitor),
+  ]);
+  monitorCounter++;
+}
+
+idle(() => {
+  addWindows([
+    IndicatorWidget(),
+    Quicksettings(),
+    Launcher(),
+    PowerMenu(),
+    PopupNotifications(),
+  ]);
+
+  const display = Gdk.Display.get_default();
+  for (let m = 0;  m < display?.get_n_monitors();  m++) {
+    const monitor = display?.get_monitor(m);
+    addMonitorWindows(monitor);
+  }
+
+  display?.connect("monitor-added", (disp, monitor) => {
+    addMonitorWindows(monitor);
+  });
+
+  display?.connect("monitor-removed", (disp, monitor) => {
+    App.windows.forEach(win => {
+      if(win.gdkmonitor === monitor) App.removeWindow(win);
+    });
+  });
+
+
+});
 
 
 //config
@@ -70,7 +108,6 @@ App.config({
     sideright: 350,
     quicksettings: 500,
     launcher: 500,
-    bar0: 350,
     session: 350,
     indicator: 200,
     popupNotifications: 200,

@@ -96,32 +96,36 @@ export const RoundedAngleEnd = (place, props) => Widget.DrawingArea({
   }
 });
 
-export const CornerTopleft = () => Widget.Window({
-  name: "cornertl",
+export const CornerTopleft = (gdkmonitor) => Widget.Window({
+  gdkmonitor,
+  name: `cornertl${monitorCounter}`,
   layer: "top",
   anchor: ["top", "left"],
   exclusivity: "normal",
   visible: true,
   child: RoundedCorner("topleft", {className: "corner",}),
 });
-export const CornerTopright = () => Widget.Window({
-  name: "cornertr",
+export const CornerTopright = (gdkmonitor) => Widget.Window({
+  gdkmonitor,
+  name: `cornertr${monitorCounter}`,
   layer: "top",
   anchor: ["top", "right"],
   exclusivity: "normal",
   visible: true,
   child: RoundedCorner("topright", {className: "corner",}),
 });
-export const CornerBottomleft = () => Widget.Window({
-  name: "cornerbl",
+export const CornerBottomleft = (gdkmonitor) => Widget.Window({
+  gdkmonitor,
+  name: `cornerbl${monitorCounter}`,
   layer: "top",
   anchor: ["bottom", "left"],
   exclusivity: "normal",
   visible: true,
   child: RoundedCorner("bottomleft", {className: "corner",}),
 });
-export const CornerBottomright = () => Widget.Window({
-  name: "cornerbr",
+export const CornerBottomright = (gdkmonitor) => Widget.Window({
+  gdkmonitor,
+  name: `cornerbr${monitorCounter}`,
   layer: "top",
   anchor: ["bottom", "right"],
   exclusivity: "normal",

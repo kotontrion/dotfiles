@@ -7,7 +7,6 @@ import Clock from "../clock/index.js";
 import Audio from "resource:///com/github/Aylur/ags/service/audio.js";
 import Brightness from "../brightness/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
-import {timeout} from "resource:///com/github/Aylur/ags/utils.js";
 import {NotificationIndicator} from "../notifications/index.js";
 import {MusicBarContainer} from "../mpris/index.js";
 import Cairo from "cairo";
@@ -101,32 +100,13 @@ const Bar = () => {
 
   return bar;
 };
-/**
- * @param {string} windowName
- */
-const BarRevealer = (windowName) => Widget.Box({
-  class_name: "bar-revealer",
-  children: [
-    Widget.Revealer({
-      setup: (rev) => timeout(10, () => rev.reveal_child = true),
-      transition: "slide_down",
-      reveal_child: true,
-      child: Bar(),
-      transition_duration: 350,
-    }).hook(App, (revealer, name, visible) => {
-      if (name === windowName)
-        revealer.reveal_child = visible;
-    })
-  ]
-});
 
-const BarWindow = (/** @type {number} */ monitor) => Widget.Window({
-  monitor,
-  name: `bar${monitor}`,
+const BarWindow = (/** @type {import('types/@girs/gdk-3.0/gdk-3.0').Gdk.Monitor} */ gdkmonitor) => Widget.Window({
+  gdkmonitor,
+  name: `bar${monitorCounter}`,
   anchor: ["top", "left", "right"],
   exclusivity: "exclusive",
-  child: BarRevealer(`bar${monitor}`)
-  // child: Bar()
+  child: Bar()
 });
 
 export default BarWindow;

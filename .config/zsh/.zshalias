@@ -20,4 +20,13 @@ alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 alias record='wf-recorder --pixel-format yuv420p -f ~/Videos/Screencasting/recording_"$(date '+%Y-%m-%d_%H-%M-%S')".mp4 -g "$(slurp -o)"'
 
+function calc {
+  bc -l <<<"
+  pi = 4*a(1)
+  e = e(1)
+  $@
+  "
+}
 
+alias calc='noglob calc'
+alias c='noglob calc'

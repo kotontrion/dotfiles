@@ -33,6 +33,7 @@
       "Utils": "readonly",
       "Widget": "readonly",
       "Service": "readonly",
-      "Variable": "readonly"
+      "Variable": "readonly",
+      "monitorCounter": "writable"
     }
 }
