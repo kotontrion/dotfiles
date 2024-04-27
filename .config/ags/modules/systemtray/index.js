@@ -23,17 +23,16 @@ const Tray = () => Widget.Box({
     "items": new Map(),
     /**
     * @param {import('types/widgets/box').default} box
-    * @param {string} id
+    * @param {import('types/service/systemtray').TrayItem | undefined} item
     */
-    "onAdded": (box, id) => {
-      const item = SystemTray.getItem(id);
+    "onAdded": (box, item) => {
       if (!item) return;
       // @ts-ignore
       if (item.menu) item.menu.class_name = "menu";
-      if (box.attribute.items.has(id) || !item)
+      if (box.attribute.items.has(item._busName) || !item)
         return;
       const widget = SysTrayItem(item);
-      box.attribute.items.set(id, widget);
+      box.attribute.items.set(item._busName, widget);
       box.pack_start(widget, false, false, 0);
       box.show_all();
     },
@@ -48,8 +47,11 @@ const Tray = () => Widget.Box({
       box.attribute.items.delete(id);
     }
   },
+  setup: self => {
+    SystemTray.items.forEach(item => self.attribute.onAdded(self, item));
+  }
 })
-  .hook(SystemTray, (box, id) => box.attribute.onAdded(box, id), "added")
+  .hook(SystemTray, (box, id) => box.attribute.onAdded(box, SystemTray.getItem(id)), "added")
   .hook(SystemTray, (box, id) => box.attribute.onRemoved(box, id), "removed");
 
 
