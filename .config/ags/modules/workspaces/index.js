@@ -48,10 +48,10 @@ const WorkspaceButton = (i) => Widget.EventBox({
   .hook(Hyprland, (button) => {
     button.visible = !hideEmptyWorkspaces.value || wsVisible(i, button);
   }, "notify::workspaces")
-  .hook(Hyprland, (button) => {
+  .hook(Hyprland.active.workspace, (button) => {
     const active = Hyprland.monitors.map(mon => mon.activeWorkspace.id).includes(i) && wsVisible(i, button);
     button.toggleClassName("active", active);
-  }, "notify::workspace");
+  });
 
 export const Workspaces = () => Widget.EventBox({
   child: Widget.Box({
