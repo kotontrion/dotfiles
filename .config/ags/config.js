@@ -18,7 +18,6 @@ import Gio from "gi://Gio";
 import Gdk from "gi://Gdk";
 import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
 
-
 const applyScss = () => {
   // Compile scss
   exec(`sass ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);

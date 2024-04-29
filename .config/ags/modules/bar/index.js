@@ -1,5 +1,5 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
-import Workspaces from "../workspaces/index.js";
+import { Workspaces, hideEmptyWorkspaces } from "../workspaces/index.js";
 import FocusedTitle from "../title/index.js";
 import {RoundedAngleEnd} from "../roundedCorner/index.js";
 import Tray from "../systemtray/index.js";
@@ -51,6 +51,7 @@ const Left = () => Widget.EventBox({
   on_scroll_down: () => {
     Brightness.screen_value -= 0.03;
   },
+  on_secondary_click_release: () => hideEmptyWorkspaces.value = !hideEmptyWorkspaces.value,
   child: Widget.Box({
     children: [
       Workspaces(),
