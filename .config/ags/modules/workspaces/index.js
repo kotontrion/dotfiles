@@ -8,7 +8,7 @@ function wsVisible(i, button) {
   const display = Gdk.Display.get_default();
   const hlMonID = Hyprland.getWorkspace(i)?.monitorID;
   if(hlMonID !== undefined) {
-    const hlMon = Hyprland.getMonitor(hlMonID);
+    const hlMon = JSON.parse(Hyprland.message("j/monitors")).find(mon => mon.id === hlMonID);
     const gdkMon = display?.get_monitor_at_window(button.get_window());
     return display?.get_monitor_at_point(hlMon.x, hlMon.y) === gdkMon;
   }
@@ -49,7 +49,8 @@ const WorkspaceButton = (i) => Widget.EventBox({
     button.visible = !hideEmptyWorkspaces.value || wsVisible(i, button);
   }, "notify::workspaces")
   .hook(Hyprland.active.workspace, (button) => {
-    const active = Hyprland.monitors.map(mon => mon.activeWorkspace.id).includes(i) && wsVisible(i, button);
+    const active = JSON.parse(Hyprland.message("j/monitors")).map(mon => mon.activeWorkspace.id).includes(i) && wsVisible(i, button);
+
     button.toggleClassName("active", active);
   });
 
