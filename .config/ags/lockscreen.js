@@ -140,14 +140,14 @@ function lock_screen() {
   }
   display?.connect("monitor-added", (disp, monitor) => {
     const w = createWindow(monitor);
-    lock.new_surface(w.window, w.monitor)
-    w.window.show()
+    lock.new_surface(w.window, w.monitor);
+    w.window.show();
   });
   lock.lock_lock();
   windows.map(w => {
-    lock.new_surface(w.window, w.monitor)
-    w.window.show()
-  })
+    lock.new_surface(w.window, w.monitor);
+    w.window.show();
+  });
 }
 
 function on_finished() {
