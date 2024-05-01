@@ -127,7 +127,9 @@ const LockWindow = () => new Gtk.Window({
 
 function createWindow(monitor){
   const window = LockWindow();
-  windows.push({window, monitor});
+  const win = {window, monitor};
+  windows.push(win);
+  return win;
 }
 
 function lock_screen() {
@@ -137,7 +139,9 @@ function lock_screen() {
     createWindow(monitor);
   }
   display?.connect("monitor-added", (disp, monitor) => {
-    createWindow(monitor);
+    const w = createWindow(monitor);
+    lock.new_surface(w.window, w.monitor)
+    w.window.show()
   });
   lock.lock_lock();
   windows.map(w => {
