@@ -1,6 +1,7 @@
 #!/usr/bin/ags -c
 
 import {exec, idle, monitorFile} from "resource:///com/github/Aylur/ags/utils.js";
+import "./utils.js";
 import Bar from "./modules/bar/index.js";
 import {
   CornerTopleft,

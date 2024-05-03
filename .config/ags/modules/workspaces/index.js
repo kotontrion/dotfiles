@@ -10,7 +10,7 @@ function wsVisible(i, button) {
   if(hlMonID !== undefined) {
     const hlMon = JSON.parse(Hyprland.message("j/monitors")).find(mon => mon.id === hlMonID);
     const gdkMon = display?.get_monitor_at_window(button.get_window());
-    return display?.get_monitor_at_point(hlMon.x, hlMon.y) === gdkMon;
+    return hlMon.name === Utils.getMonitorName(gdkMon);
   }
   return false;
 }
