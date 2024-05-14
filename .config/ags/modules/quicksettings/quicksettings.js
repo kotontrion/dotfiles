@@ -15,6 +15,7 @@ import { Switch } from "../widgets/widgets.js";
 import { Cava } from "../cava/index.js";
 import { LyricsTerminal } from "../vte/index.js";
 import GObject from "gi://GObject";
+import NetworkSpeeds from "../network/speeds.js";
 
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Widget} content
@@ -67,15 +68,33 @@ const QSWifi = () => QuickSettingsPage(Menu({
   title: "Wi-Fi",
   icon: "network-wireless-signal-good-symbolic",
   content: WifiList(),
-  headerChild: Switch({})
-    .hook(Network, (sw) => {
-      if (sw.active !== Network.wifi.enabled)
-        sw.active = Network.wifi.enabled;
-    })
-    .on("notify::active", ({active}) => {
-      if (active !== Network.wifi.enabled)
-        Network.wifi.enabled = active;
-    })
+  headerChild: Widget.Box({
+    class_name: "spacing-5",
+    children: [
+      Widget.Box({
+        vertical: true,
+        children: [
+          Widget.Label({
+            class_name: "speed-label",
+            hpack: "end",
+            label: NetworkSpeeds.bind().as(s => s.up)}),
+          Widget.Label({
+            class_name: "speed-label",
+            hpack: "end",
+            label: NetworkSpeeds.bind().as(s => s.down)})
+        ]
+      }),
+      Switch({vpack: "center"})
+        .hook(Network, (sw) => {
+          if (sw.active !== Network.wifi.enabled)
+            sw.active = Network.wifi.enabled;
+        })
+        .on("notify::active", ({active}) => {
+          if (active !== Network.wifi.enabled)
+            Network.wifi.enabled = active;
+        })
+    ]
+  })
 }));
 
 /**
