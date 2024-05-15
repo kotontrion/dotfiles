@@ -16,9 +16,13 @@ import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
 import Menu from "../quicksettings/menu.js";
 import { QuickSettingsPage } from "../quicksettings/quicksettings.js";
 import icons from "../icons/index.js";
+import GLib from "gi://GLib";
+import GObject from "gi://GObject?version=2.0";
 
+const ComboBox = Widget.subclass(Gtk.ComboBoxText);
 
 let AIContainer;
+const SettingsVisible = Variable(false);
 
 /**
 * @param {import('modules/widgets/widgets').TextView} textView
@@ -29,7 +33,7 @@ function sendMessage(textView) {
   const text = buffer.get_text(start, end, true);
   if (!text || text.length == 0) return;
   if(text.startsWith("/system")){
-    ChatGPT.setSystemMessage(text.substring(7));
+    ChatGPT.systemMessage = text.substring(7);
   }
   else {
     ChatGPT.send(text);
@@ -213,11 +217,94 @@ try {
     });
   };
 
+  const SettingsContainer = () => Box({
+    class_name: "spacing-5 settings-container",
+    vertical: true,
+    children: [
+      Box({
+        children: [
+          Label({
+            label: "Model:"
+          }),
+          Box({hexpand: true}),
+          ComboBox({
+            setup: (self) => {
+              ChatGPT.getModels().forEach(item => {
+                self.append(item, item);
+              });
+              ChatGPT.bind_property(
+                "model",
+                self,
+                "active-id",
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+              );
+            }
+          })
+        ]
+      }),
+      Box({
+        children: [
+          Label({
+            label: "Temperatur:"
+          }),
+          Box({hexpand: true}),
+          Widget.SpinButton({
+            range: [0, 2],
+            increments: [0.1, 0.5],
+            digits: 2,
+            setup: (self) => {
+              ChatGPT.bind_property(
+                "temperatur",
+                self,
+                "value",
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+              );
+            }
+          })
+        ]
+      }),
+      Box({
+        class_name: "spacing-5",
+        vertical: true,
+        children: [
+          Label({
+            hpack: "start",
+            label: "System message:"
+          }),
+          Scrollable({
+            child: TextView({
+              class_name: "system-message",
+              wrap_mode: Gtk.WrapMode.WORD_CHAR,
+              hexpand: true,
+              setup: (self) => {
+                ChatGPT.bind_property(
+                  "system-message",
+                  self.get_buffer(),
+                  "text",
+                  GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+                );
+              }
+            }),
+            max_content_height: 150,
+            min_content_height: 50,
+            propagate_natural_height: true,
+            vscroll: "automatic",
+            hscroll: "never",
+          })
+        ]
+      })
+    ]
+  });
+
 
   AIContainer = () => Box({
     class_name: "ai-container",
     vertical: true,
     children: [
+      Widget.Revealer({
+        reveal_child: SettingsVisible.bind(),
+        child: SettingsContainer()
+      }),
       Scrollable({
         class_name: "ai-message-list",
         hscroll: "never",
@@ -271,15 +358,24 @@ const QSChatGPT = () => QuickSettingsPage(
     title: "ChatGPT",
     icon: icons.ai,
     content: AIContainer(),
-    headerChild: Widget.Button({
-      on_clicked: () => ChatGPT.clear(),
-      child: Widget.Box({
-        children: [
-          Widget.Label("Clear "),
-          Widget.Icon(icons.trash.empty),
-        ]
-      }),
-    }),
+    headerChild: Widget.Box({
+      class_name: "spacing-5",
+      children: [
+        Widget.Button({
+          on_clicked: () => ChatGPT.clear(),
+          child: Widget.Box({
+            children: [
+              Widget.Label("Clear "),
+              Widget.Icon(icons.trash.empty),
+            ]
+          }),
+        }),
+        Widget.Button({
+          on_clicked: () => SettingsVisible.value = !SettingsVisible.value,
+          child: Widget.Icon(icons.settings)
+        })
+      ]
+    })
   })
 );
 

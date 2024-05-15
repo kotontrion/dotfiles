@@ -1,4 +1,16 @@
 .ai-container {
+  .settings-container {
+    background: $primary_bg;
+    border-radius: 1rem;
+    padding: 0.5rem;
+
+    .system-message {
+      background: $secondary_bg;
+      border-radius: 1rem;
+      padding: 0.5rem;
+    }
+  }
+
   .ai-message-list {
     margin-bottom: 3px;
 

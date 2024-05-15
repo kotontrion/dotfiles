@@ -5,6 +5,8 @@ import GLib from "gi://GLib";
 import Soup from "gi://Soup?version=3.0";
 import Keys from "../../keys.js";
 
+Gio._promisify(Gio.DataInputStream.prototype, "read_upto_async");
+
 export class ChatGPTMessage extends Service {
   static {
     Service.register(this, {},
@@ -78,6 +80,10 @@ class ChatGPTService extends Service {
     Service.register(this, {
       "newMsg": ["int"],
       "clear": [],
+    }, {
+      "temperatur": ["float", "rw"],
+      "model": ["string", "rw"],
+      "system-message": ["string", "rw"]
     });
   }
 
@@ -89,12 +95,58 @@ class ChatGPTService extends Service {
   /** @type {ChatGPTMessage[]} */
   _messages = [];
   _decoder = new TextDecoder();
-  model = "gpt-3.5-turbo-1106";
+  _model = "gpt-4o";
+  _temperatur = 1;
   url = GLib.Uri.parse("https://api.openai.com/v1/chat/completions", GLib.UriFlags.NONE);
 
-  /** @param {string} msg */
-  setSystemMessage(msg) {
+  constructor(){
+    super();
+    if(!Keys.OPENAI_API_KEY) {
+      console.error("ChatGPT: API Key is not set!");
+    }
+  }
+
+  getModels(){
+    return [
+      "gpt-4o",
+      "gpt-4-turbo",
+      "gpt-3.5-turbo"
+    ];
+  }
+
+  set systemMessage(msg) {
     this._systemMessage.content = msg;
+    this.notify("system-message");
+  }
+
+  get systemMessage() {
+    return this._systemMessage.content;
+  }
+
+  set temperatur(temp) {
+    if(temp < 0 || temp > 2){
+      console.warn("temperator must be between 0 and 2");
+      return;
+    }
+    this._temperatur = temp;
+    this.notify("temperatur");
+  }
+
+  get temperatur() {
+    return this._temperatur;
+  }
+
+  set model(model) {
+    if(!this.getModels().includes(model)){
+      console.warn("model must be one of " + this.getModels());
+      return;
+    }
+    this._model = model;
+    this.notify("model");
+  }
+
+  get model(){
+    return this._model;
   }
 
   get messages() {
@@ -138,8 +190,27 @@ class ChatGPTService extends Service {
       });
   }
 
+  /**
+   * @param {Gio.DataInputStream} stream
+   * @param {ChatGPTMessage} aiResponse
+  */
+  async showError(stream, aiResponse) {
+    if (!stream) {
+      return;
+    }
+    //TODO: visualize error better than just showing raw json
+    const [data] = await stream.read_upto_async("\x04", -1, 0, null);
+    if (data) {
+      aiResponse.addDelta("```json\n");
+      aiResponse.addDelta(data);
+      aiResponse.addDelta("```");
+    }
+  }
+
+
   /** @param {string} msg } */
   send(msg) {
+
     this.messages.push(new ChatGPTMessage("user", msg));
     this.emit("newMsg", this.messages.length - 1);
 
@@ -152,17 +223,9 @@ class ChatGPTService extends Service {
     this.messages.push(aiResponse);
     this.emit("newMsg", this.messages.length - 1);
 
-    //    aiResponse.content = `<html><head>
-    // <title>Test HTML File</title>
-    // <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    // </head>
-    // <body>
-    // <p>This is a very simple HTML file.</p>
-    // </body></html>`
-    //    return;
-
     const body = {
-      model: this.model,
+      model: this._model,
+      temperature: this._temperatur,
       messages: this._systemMessage.content != "" ? [this._systemMessage, ...messages] : messages,
       stream: true,
     };
@@ -178,10 +241,12 @@ class ChatGPTService extends Service {
 
     session.send_async(message, 0, null, /** @type Gio.AsyncReadyCallback*/(_, result) => {
       const stream = session.send_finish(result);
-      this.readResponse(new Gio.DataInputStream({
+      const dataStream = new Gio.DataInputStream({
         close_base_stream: true,
         base_stream: stream
-      }), aiResponse);
+      });
+      if(message.get_status() == 200) this.readResponse(dataStream, aiResponse);
+      else this.showError(dataStream, aiResponse);
     });
   }
 }

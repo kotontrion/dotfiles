@@ -257,3 +257,34 @@ spinner:checked {
   opacity: 1;
   animation: spin 1s linear infinite;
 }
+
+
+combobox arrow {
+  -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
+  min-height: 16px;
+  min-width: 16px;
+}
+
+combobox > .linked > button.combo {
+  padding: 6px 10px;
+}
+
+button.combo:only-child {
+  border-radius: 6px;
+  font-weight: normal;
+  background-color: $secondary_bg;
+  color: #FFFFFF;
+}
+
+spinbutton {
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background-color: $secondary_bg;
+  color: #FFFFFF;
+
+}
+
+spinbutton:not(.vertical) button {
+  padding: 0.4rem;
+}
