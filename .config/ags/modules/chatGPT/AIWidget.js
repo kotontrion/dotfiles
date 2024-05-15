@@ -245,16 +245,16 @@ try {
       Box({
         children: [
           Label({
-            label: "Temperatur:"
+            label: "Temperature:"
           }),
           Box({hexpand: true}),
           Widget.SpinButton({
             range: [0, 2],
             increments: [0.1, 0.5],
-            digits: 2,
+            digits: 1,
             setup: (self) => {
               ChatGPT.bind_property(
-                "temperatur",
+                "temperature",
                 self,
                 "value",
                 GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE

@@ -81,7 +81,7 @@ class ChatGPTService extends Service {
       "newMsg": ["int"],
       "clear": [],
     }, {
-      "temperatur": ["float", "rw"],
+      "temperature": ["double", "rw"],
       "model": ["string", "rw"],
       "system-message": ["string", "rw"]
     });
@@ -96,7 +96,7 @@ class ChatGPTService extends Service {
   _messages = [];
   _decoder = new TextDecoder();
   _model = "gpt-4o";
-  _temperatur = 1;
+  _temperature = 1;
   url = GLib.Uri.parse("https://api.openai.com/v1/chat/completions", GLib.UriFlags.NONE);
 
   constructor(){
@@ -123,17 +123,17 @@ class ChatGPTService extends Service {
     return this._systemMessage.content;
   }
 
-  set temperatur(temp) {
+  set temperature(temp) {
     if(temp < 0 || temp > 2){
       console.warn("temperator must be between 0 and 2");
       return;
     }
-    this._temperatur = temp;
-    this.notify("temperatur");
+    this._temperature = temp;
+    this.notify("temperature");
   }
 
-  get temperatur() {
-    return this._temperatur;
+  get temperature() {
+    return this._temperature;
   }
 
   set model(model) {
@@ -225,7 +225,7 @@ class ChatGPTService extends Service {
 
     const body = {
       model: this._model,
-      temperature: this._temperatur,
+      temperature: this._temperature,
       messages: this._systemMessage.content != "" ? [this._systemMessage, ...messages] : messages,
       stream: true,
     };
