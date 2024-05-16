@@ -12,6 +12,11 @@ html, body {
   background-color: $secondary_bg;
 }
 
+img {
+  width:100%;
+  max-width:28rem;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

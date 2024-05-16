@@ -238,7 +238,6 @@ class ChatGPTService extends Service {
     message.request_headers.append("Authorization", "Bearer " + Keys.OPENAI_API_KEY);
     // @ts-ignore
     message.set_request_body_from_bytes("application/json", new GLib.Bytes(JSON.stringify(body)));
-
     session.send_async(message, 0, null, /** @type Gio.AsyncReadyCallback*/(_, result) => {
       const stream = session.send_finish(result);
       const dataStream = new Gio.DataInputStream({

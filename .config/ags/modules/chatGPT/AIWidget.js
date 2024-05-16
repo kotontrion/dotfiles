@@ -16,24 +16,38 @@ import { execAsync } from "resource:///com/github/Aylur/ags/utils.js";
 import Menu from "../quicksettings/menu.js";
 import { QuickSettingsPage } from "../quicksettings/quicksettings.js";
 import icons from "../icons/index.js";
+import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import GObject from "gi://GObject?version=2.0";
+import GdkPixbuf from "gi://GdkPixbuf";
 
 const ComboBox = Widget.subclass(Gtk.ComboBoxText);
 
 let AIContainer;
 const SettingsVisible = Variable(false);
+const files = new Map();
 
 /**
 * @param {import('modules/widgets/widgets').TextView} textView
 */
-function sendMessage(textView) {
+function sendMessage(textView, filesContainer) {
   const buffer = textView.get_buffer();
   const [start, end] = buffer.get_bounds();
   const text = buffer.get_text(start, end, true);
   if (!text || text.length == 0) return;
-  if(text.startsWith("/system")){
-    ChatGPT.systemMessage = text.substring(7);
+  if(files.size > 0) {
+    const msg = [{"type": "text", "text": text}];
+    files.forEach((v, k) => {
+      msg.push({
+        "type": "image_url",
+        "image_url": {
+          "url": `data:${v.mime};base64,${v.base64}`,
+          "filePath": k
+        }
+      }),
+      filesContainer.attribute.removeFile(k);
+    });
+    ChatGPT.send(msg);
   }
   else {
     ChatGPT.send(text);
@@ -84,6 +98,77 @@ try {
   const stylesheet = new WebKit2.UserStyleSheet(
     styleString, 0, 0, null, null);
 
+  const FilesContainer = () => {
+
+    const box = Widget.Box({
+      vertical: true,
+      attribute: {}
+    });
+
+    const FileWidget = (filePath) => {
+
+      const imageData = GLib.base64_decode(files.get(filePath).base64);
+
+      const loader = new GdkPixbuf.PixbufLoader();
+      loader.write(imageData);
+      loader.close();
+
+
+      const fileBox = Widget.Box({
+        attribute: filePath,
+        class_name: "file-container spacing-5",
+        children: [
+          Widget.Box({
+            class_name: "image",
+            css: `background-image: url('${filePath}');
+                  background-size: auto 100%;
+                  background-repeat: no-repeat;
+                  background-position: left;
+                  min-width: 5rem;
+                  min-height: 5rem;`
+          }),
+          Widget.Label({
+            truncate: "end",
+            label: GLib.path_get_basename(filePath)
+          }),
+          Widget.Box({hexpand: true}),
+          Widget.Button({
+            child: Widget.Icon(icons.notifications.close),
+            on_clicked: () => box.attribute.removeFile(filePath)
+          })
+        ]
+      });
+      return fileBox;
+    };
+
+
+
+    const addFile = (filePath, contentType) => {
+      if(files.has(filePath)) return;
+      const file = Gio.File.new_for_path(filePath);
+      const [, contents, length] = file.load_contents(null);
+
+      const content = GLib.base64_encode(contents);
+      files.set(filePath, {
+        mime: contentType,
+        base64: content
+      });
+      box.add(FileWidget(filePath));
+    };
+
+    const removeFile = (filePath) => {
+      files.delete(filePath);
+      box.children.forEach(fileWidget => {
+        if(fileWidget.attribute == filePath) fileWidget.destroy();
+      });
+    };
+
+    box.attribute.addFile = addFile;
+    box.attribute.removeFile = removeFile;
+
+    return box;
+  };
+
   /**
   * @param {import('modules/chatGPT/AIService').ChatGPTMessage} msg
   * @param {import('types/widget').Scrollable} scrollable
@@ -94,6 +179,20 @@ try {
       hexpand: true
     })
       .hook(msg, (view) => {
+        let text = "";
+        if(Array.isArray(msg.content)) {
+          msg.content.forEach(entry => {
+            if(entry.type == "text") text += entry.text;
+            if(entry.type == "image_url") {
+              if(entry.image_url.filePath) text += `![image](${entry.image_url.filePath})`;
+              else text += `![image](${entry.image_url.url})`;
+            }
+          });
+        }
+        else {
+          text = msg.content;
+        }
+        const parsed = parser.parse(text);
         const content = `<script>
             function copyCode(button, encodedCode) {
               const decodedCode = decodeURIComponent(encodedCode);
@@ -102,7 +201,7 @@ try {
               navigator.clipboard.writeText(tempElement.innerText);
               button.innerText = 'Copied';
               setTimeout(() => button.innerText = 'Copy', 2000);
-            }</script>` + parser.parse(msg.content);
+            }</script>` + parsed;//parser.parse(msg.content);
         view.load_html(content, "file://");
       }, "notify::content")
       .on("load-changed", /** @param {WebKit2.WebView} view, @param {WebKit2.LoadEvent} event*/(view, event) => {
@@ -167,7 +266,7 @@ try {
     ]
   });
 
-  const TextEntry = () => {
+  const TextEntry = (fileContainer) => {
     const placeholder = "Ask ChatGPT";
     const textView = TextView({
       class_name: "ai-entry",
@@ -194,10 +293,39 @@ try {
           ChatGPT.clear();
         }
         else if (event.get_keyval()[1] === Gdk.KEY_Return && event.get_state()[1] == Gdk.ModifierType.MOD2_MASK) {
-          sendMessage(entry);
+          sendMessage(entry, fileContainer);
           return true;
         }
 
+      })
+      .on("drag-data-received", (entry, context, x, y, data, info, time) => {
+        if (data.get_length() > 0) {
+          let uris = data.get_uris();
+
+          for (let uri of uris) {
+            const file = Gio.File.new_for_uri(uri);
+            const filePath = file.get_path();
+
+            const buffer = textView.get_buffer();
+            const iter = buffer.get_end_iter();
+            const contentType = file.query_info("standard::content-type", Gio.FileQueryInfoFlags.NONE, null).get_content_type();
+            if(contentType?.startsWith("text/")) {
+              Utils.readFileAsync(file).then(content => {
+                const [start, end] = buffer.get_bounds();
+                const text = buffer.get_text(start, end, true);
+                if(text === placeholder) buffer.set_text(content, -1);
+                else buffer.insert(iter, content, -1);
+              });
+            }
+            else if(contentType?.startsWith("image/")) {
+              fileContainer.attribute.addFile(filePath, contentType);
+            }
+          }
+          Gtk.drag_finish(context, true, false, time);
+        } else {
+          Gtk.drag_finish(context, false, false, time);
+        }
+        return true;
       })
       .hook(QSState, (entry) => {
         if (QSState.value === "ChatGPT")
@@ -207,6 +335,10 @@ try {
         if (window === "quicksettings" && visible && QSState.value === "ChatGPT")
           entry.grab_focus();
       });
+
+    const dndTarget = new Gtk.TargetEntry("text/uri-list", 0, 0);
+    textView.drag_dest_set(Gtk.DestDefaults.ALL, [dndTarget], Gdk.DragAction.COPY | Gdk.DragAction.MOVE);
+
 
     return Scrollable({
       child: textView,
@@ -297,53 +429,64 @@ try {
   });
 
 
-  AIContainer = () => Box({
-    class_name: "ai-container",
-    vertical: true,
-    children: [
-      Widget.Revealer({
-        reveal_child: SettingsVisible.bind(),
-        child: SettingsContainer()
-      }),
-      Scrollable({
-        class_name: "ai-message-list",
-        hscroll: "never",
-        vscroll: "always",
-        vexpand: true,
-        setup: self => {
-          const viewport = self.child;
-          //prevent jump to the top of clicked element
-          // @ts-ignore
-          viewport.set_focus_vadjustment(new Gtk.Adjustment(undefined));
-        },
-        child: Box({vertical: true})
-          .hook(ChatGPT, (box, idx) => {
-            const msg = ChatGPT.messages[idx];
-            if (!msg) return;
-            const msgWidget = Message(msg, box.get_parent());
-            box.add(msgWidget);
-          }, "newMsg")
-          .hook(ChatGPT, box => {
-            box.children = [];
-          }, "clear")
-      }),
-      Box({
-        class_name: "ai-entry-box spacing-5",
-        children: [
-          TextEntry(),
-          Button({
-            class_name: "ai-send-button",
-            on_clicked: (btn) => {
-              // @ts-ignore
-              const textView = btn.get_parent().children[0].child;
-              sendMessage(textView);
-            },
-            label: "󰒊",
-          }),
-        ]
-      }),
-    ],
-  });
+  AIContainer = () => {
+
+    const fileContainer = FilesContainer();
+    const box = Box({
+      class_name: "ai-container",
+      vertical: true,
+      children: [
+        Widget.Revealer({
+          reveal_child: SettingsVisible.bind(),
+          child: SettingsContainer()
+        }),
+        Scrollable({
+          class_name: "ai-message-list",
+          hscroll: "never",
+          vscroll: "always",
+          vexpand: true,
+          setup: self => {
+            const viewport = self.child;
+            //prevent jump to the top of clicked element
+            // @ts-ignore
+            viewport.set_focus_vadjustment(new Gtk.Adjustment(undefined));
+          },
+          child: Box({vertical: true})
+            .hook(ChatGPT, (box, idx) => {
+              const msg = ChatGPT.messages[idx];
+              if (!msg) return;
+              const msgWidget = Message(msg, box.get_parent());
+              box.add(msgWidget);
+            }, "newMsg")
+            .hook(ChatGPT, box => {
+              box.children = [];
+            }, "clear")
+        }),
+        Box({
+          class_name: "ai-entry-box spacing-5",
+          vertical: true,
+          children: [
+            fileContainer,
+            Box({
+              children: [
+                TextEntry(fileContainer),
+                Button({
+                  class_name: "ai-send-button",
+                  on_clicked: (btn) => {
+                    // @ts-ignore
+                    const textView = btn.get_parent().children[0].child;
+                    sendMessage(textView, fileContainer);
+                  },
+                  label: "󰒊",
+                }),
+              ]
+            })
+          ]
+        }),
+      ],
+    });
+    return box;
+  };
 }
 catch(e) {
   AIContainer = () => Widget.Box();

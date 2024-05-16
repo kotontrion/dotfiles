@@ -34,7 +34,24 @@
   .ai-entry-box {
     border: 1px solid $primary_fg;
     border-radius: 1rem;
-    padding: 8px;
+    padding: 0.5rem;
+
+    .file-container {
+      background: $primary_bg;
+      margin: 0rem -0.5rem;
+      padding-right: 0.5rem;
+
+      &:first-child {
+        border-top-right-radius: 1rem;
+        border-top-left-radius: 1rem;
+        margin-top: -0.5rem;
+
+        .image {
+          border-top-left-radius: 1rem;
+        }
+      }
+    }
+
     .ai-send-button {
       min-width: 2rem;
       border-radius: 5px;
