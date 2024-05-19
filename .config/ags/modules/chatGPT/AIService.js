@@ -203,7 +203,7 @@ class ChatGPTService extends Service {
     if (data) {
       aiResponse.addDelta("```json\n");
       aiResponse.addDelta(data);
-      aiResponse.addDelta("```");
+      aiResponse.addDelta("\n```");
     }
   }
 

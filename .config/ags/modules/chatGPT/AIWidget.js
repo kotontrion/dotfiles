@@ -61,7 +61,6 @@ try {
 
   const WebView = Widget.subclass(WebKit2.WebView, "AgsWebView");
 
-
   const parser = new Marked(
     markedHighlight({
       langPrefix: "hljs language-",
@@ -106,13 +105,6 @@ try {
     });
 
     const FileWidget = (filePath) => {
-
-      const imageData = GLib.base64_decode(files.get(filePath).base64);
-
-      const loader = new GdkPixbuf.PixbufLoader();
-      loader.write(imageData);
-      loader.close();
-
 
       const fileBox = Widget.Box({
         attribute: filePath,
