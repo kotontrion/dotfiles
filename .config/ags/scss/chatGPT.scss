@@ -41,14 +41,15 @@
       margin: 0rem -0.5rem;
       padding-right: 0.5rem;
 
+      .ai-image {
+        margin: 0.5rem;
+        font-size: 5rem;
+      }
+
       &:first-child {
         border-top-right-radius: 1rem;
         border-top-left-radius: 1rem;
         margin-top: -0.5rem;
-
-        .image {
-          border-top-left-radius: 1rem;
-        }
       }
     }
 

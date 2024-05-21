@@ -42,7 +42,7 @@ function sendMessage(textView, filesContainer) {
         "type": "image_url",
         "image_url": {
           "url": `data:${v.mime};base64,${v.base64}`,
-          "filePath": k
+          "filePath": v.filePath
         }
       }),
       filesContainer.attribute.removeFile(k);
@@ -104,20 +104,24 @@ try {
       attribute: {}
     });
 
-    const FileWidget = (filePath) => {
+    const FileWidget = (filePath, fileData) => {
+
+      if(!fileData) fileData = `url(${filePath})`;
+      else fileData = "data:image/png;base64," + fileData;
+
+      const loader = new GdkPixbuf.PixbufLoader();
+      const data = GLib.base64_decode(files.get(filePath).base64.trim());
+      loader.write(data);
+      loader.close();
+      const pixbuf = loader.get_pixbuf();
 
       const fileBox = Widget.Box({
         attribute: filePath,
         class_name: "file-container spacing-5",
         children: [
-          Widget.Box({
-            class_name: "image",
-            css: `background-image: url('${filePath}');
-                  background-size: auto 100%;
-                  background-repeat: no-repeat;
-                  background-position: left;
-                  min-width: 5rem;
-                  min-height: 5rem;`
+          Widget.Icon({
+            class_name: "ai-image",
+            icon: pixbuf
           }),
           Widget.Label({
             truncate: "end",
@@ -135,7 +139,7 @@ try {
 
 
 
-    const addFile = (filePath, contentType) => {
+    const addFilePath = (filePath, contentType) => {
       if(files.has(filePath)) return;
       const file = Gio.File.new_for_path(filePath);
       const [, contents, length] = file.load_contents(null);
@@ -143,10 +147,23 @@ try {
       const content = GLib.base64_encode(contents);
       files.set(filePath, {
         mime: contentType,
-        base64: content
+        base64: content,
+        filePath: filePath
       });
       box.add(FileWidget(filePath));
     };
+
+    const addFileData = (fileData, contentType) => {
+      const now = GLib.DateTime.new_now_local();
+      const formattedTime = now.format("%Y-%m-%d %H:%M:%S");
+      const fileName = `screenshot-${formattedTime}`;
+      files.set(fileName, {
+        mime: contentType,
+        base64: fileData
+      });
+      box.add(FileWidget(fileName, fileData));
+    };
+
 
     const removeFile = (filePath) => {
       files.delete(filePath);
@@ -155,7 +172,8 @@ try {
       });
     };
 
-    box.attribute.addFile = addFile;
+    box.attribute.addFilePath = addFilePath;
+    box.attribute.addFileData = addFileData;
     box.attribute.removeFile = removeFile;
 
     return box;
@@ -310,7 +328,7 @@ try {
               });
             }
             else if(contentType?.startsWith("image/")) {
-              fileContainer.attribute.addFile(filePath, contentType);
+              fileContainer.attribute.addFilePath(filePath, contentType);
             }
           }
           Gtk.drag_finish(context, true, false, time);
@@ -462,6 +480,17 @@ try {
             Box({
               children: [
                 TextEntry(fileContainer),
+                Button({
+                  class_name: "ai-send-button",
+                  on_clicked: (btn) => {
+                    Utils.execAsync("bash -c 'slurp | grim -g - - | base64 -w0'")
+                      .then(img => {
+                        fileContainer.attribute.addFileData(img, "image/png");
+                      });
+                  },
+                  child: Widget.Icon("edit-select-all-symbolic"),
+                }),
+
                 Button({
                   class_name: "ai-send-button",
                   on_clicked: (btn) => {
