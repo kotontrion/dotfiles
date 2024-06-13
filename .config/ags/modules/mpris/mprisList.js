@@ -167,6 +167,9 @@ const PlayerList = () => Box({
       box.attribute.player.get(id).destroy();
       box.attribute.player.delete(id);
     }
+  },
+  setup: (self) => {
+    Mpris.players.forEach(p => self.attribute.onAdded(self, p.bus_name));
   }
 })
   .hook(Mpris, (box, id) => box.attribute.onAdded(box, id), "player-added")

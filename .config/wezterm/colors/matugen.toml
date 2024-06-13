@@ -1,0 +1,34 @@
+[colors]
+ansi = [
+    '#111318',
+    '#ffb4ab',
+    '#abc7ff',
+    '#ddbce0',
+    '#d7e3ff',
+    '#dae2f9',
+    '#abc7ff',
+    '#e2e2e9',
+]
+brights = [
+    '#c4c6d0',
+    '#ffb4ab',
+    '#abc7ff',
+    '#ddbce0',
+    '#d7e3ff',
+    '#dae2f9',
+    '#abc7ff',
+    '#e2e2e9',
+]
+cursor_bg = '#e2e2e9'
+cursor_border = '#e2e2e9'
+cursor_fg = '#111318'
+foreground = '#e2e2e9'
+background = '#111318'
+selection_bg = '#abc7ff'
+selection_fg = '#0b305f'
+
+[colors.indexed]
+
+[metadata]
+name = 'matugen'
+

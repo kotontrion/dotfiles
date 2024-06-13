@@ -1,5 +1,5 @@
 #!/usr/bin/ags -c
-
+import GLib from "gi://GLib";
 import {exec, idle, monitorFile} from "resource:///com/github/Aylur/ags/utils.js";
 import "./utils.js";
 import Bar from "./modules/bar/index.js";
@@ -18,26 +18,7 @@ import App from "resource:///com/github/Aylur/ags/app.js";
 import Gio from "gi://Gio";
 import Gdk from "gi://Gdk";
 import Notifications from "resource:///com/github/Aylur/ags/service/notifications.js";
-
-const applyScss = () => {
-  // Compile scss
-  exec(`sass ${App.configDir}/scss/main.scss ${App.configDir}/style.css`);
-  exec(`sass ${App.configDir}/scss/highlight.scss ${App.configDir}/highlight.css`);
-  console.log("Scss compiled");
-
-  // Apply compiled css
-  App.resetCss();
-  App.applyCss(`${App.configDir}/style.css`);
-  console.log("Compiled css applied");
-};
-
-monitorFile(`${App.configDir}/scss`, (_, eventType) => {
-  if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {
-    applyScss();
-  }
-});
-
-applyScss();
+import ConfigService from "./modules/config/index.js";
 
 /**
  * @param {import('types/@girs/gtk-3.0/gtk-3.0').Gtk.Window[]} windows
@@ -67,11 +48,11 @@ function addMonitorWindows(monitor) {
   monitorCounter++;
 }
 
-idle(() => {
+idle(async () => {
   addWindows([
     IndicatorWidget(),
     Quicksettings(),
-    Launcher(),
+    await Launcher(),
     PowerMenu(),
     PopupNotifications(),
   ]);
@@ -113,6 +94,4 @@ App.config({
     popupNotifications: 200,
   },
 });
-
-
 

@@ -1,5 +1,3 @@
-
-
 * {
   all: unset;
   font-family: "CaskaydiaCove Nerd Font";
@@ -9,7 +7,7 @@
 @import "common";
 
 .lock-container {
-  background-image: url("/etc/greetd/ags/mountain.png");
+  background-image: $image;
   background-position: center;
   background-size: cover;
 }
@@ -24,7 +22,7 @@
 }
 
 .entry-box {
-  background: rgba(14, 14, 30, 0.80);
+  background: transparentize($surface, 0.05);
   border-radius: 1rem;
   min-width: 350px;
   padding: 8px;
@@ -35,8 +33,8 @@ entry {
 }
 
 .tooltip {
-  background-color: $dark-background;
-  color: $primary-color;
+  background-color: $surface;
+  color: $on_surface;
   padding: 0 0 8px 8px;
 }
 
@@ -44,37 +42,37 @@ separator {
   margin: 3px;
   min-width: 1px;
   min-height: 1px;
-  background-color: $light-background;
+  background-color: $surface_variant;
 }
 .clock-container {
-  background-color: $dark-background;
+  background-color: $surface;
   padding-right: 8px;
 }
 .clock-container .clock-date {
   font-size: 0.6rem;
-  color: $primary-fg;
+  color: $primary;
 }
 .clock-container .clock-time {
   font-size: 0.7rem;
 }
 
 .session-button {
-  background-color: $dark-background;
-  color: $primary-color;
+  background-color: $surface;
+  color: $primary;
   padding: 0px 8px;
 }
 
 .corner {
-  background-color: $dark-background;
+  background-color: $surface;
   font-size: 1rem;
 }
 
 .angle {
-  background-color: $dark-background;
+  background-color: $surface;
 }
 
 .corner-container {
-  background-color: $dark-background;
+  background-color: $surface;
   border-top-right-radius: 1rem;
   min-width: 2rem;
   min-height: 2rem;
@@ -92,7 +90,7 @@ separator {
 
 .music-container {
 
-  background-color: $secondary_bg;
+  background-color: $surface;
   border-radius: 1rem;
   padding: 1rem;
   margin-top: 5px;
@@ -104,17 +102,17 @@ separator {
   }
 
   .music-player-name {
-    text-shadow: 0.1rem 0.1rem $primary_bg;
+    text-shadow: 0.1rem 0.1rem $surface;
   }
 
   .music-artist {
-    text-shadow: 0.1rem 0.1rem $primary_bg;
+    text-shadow: 0.1rem 0.1rem $surface;
     padding-top: 5px;
   }
 
   .music-title {
     font-weight: bold;
-    text-shadow: 0.1rem 0.1rem $primary_bg;
+    text-shadow: 0.1rem 0.1rem $surface;
     padding-top: 5px;
   }
 
@@ -122,7 +120,7 @@ separator {
     padding-top: 1.5rem;
     .music-button {
       font-size: 1.6rem;
-      -gtk-icon-shadow: 0.1rem 0.1rem $primary_bg;
+      -gtk-icon-shadow: 0.1rem 0.1rem $surface;
     }
 
     .music-progress {

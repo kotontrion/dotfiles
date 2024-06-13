@@ -9,4 +9,20 @@ function getMonitorName(gdkmonitor) {
   }
 }
 
+function rgbaToHexString(rgba) {
+  const red = Math.max(0, Math.min(1, rgba.red));
+  const green = Math.max(0, Math.min(1, rgba.green));
+  const blue = Math.max(0, Math.min(1, rgba.blue));
+  const alpha = Math.max(0, Math.min(1, rgba.alpha));
+
+  const redHex = ("00" + Math.round(red * 255).toString(16)).slice(-2);
+  const greenHex = ("00" + Math.round(green * 255).toString(16)).slice(-2);
+  const blueHex = ("00" + Math.round(blue * 255).toString(16)).slice(-2);
+  const alphaHex = ("00" + Math.round(alpha * 255).toString(16)).slice(-2);
+
+  return `#${redHex}${greenHex}${blueHex}${alphaHex}`;
+}
+
+
 Utils.getMonitorName = getMonitorName;
+Utils.rgbaToHexString = rgbaToHexString;

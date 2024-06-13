@@ -5,20 +5,8 @@ import RoundedCorner from "../roundedCorner/index.js";
 import StackState from "../stackState/stackState.js";
 import icons from "../icons/index.js";
 import { Quicksettings } from "./quicksettings.js";
-import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 
 export const QSState = new StackState("Audio");
-
-const ModuleReloadIcon = (props = {}) => Widget.Button({
-  ...props,
-  class_name: "qs-switcher-button",
-  tooltip_text: "Reload Hyprland",
-  on_clicked: () => {
-    Hyprland.messageAsync("reload").catch(logError);
-    App.toggleWindow("quicksettings");
-  },
-  child: Widget.Icon({icon: icons.header.refresh})
-});
 
 const ModuleSettingsIcon = (props = {}) => Widget.Button({
   ...props,
@@ -49,7 +37,6 @@ const ModulePowerIcon = (props = {}) => Widget.Button({
 const SettingsButtons = () => Widget.Box({
   vertical: true,
   children: [
-    ModuleReloadIcon(),
     ModuleSettingsIcon(),
     ModulePowerIcon()
   ]
@@ -112,7 +99,7 @@ export default () => {
   QSState.items = Object.keys(stack.children);
   const stackSwitcher = StackSwitcher(Object.keys(stack.children));
   const window =  Widget.Window({
-    keymode: "on-demand",
+    keymode: "exclusive",
     visible: false,
     anchor: ["right", "top", "bottom"],
     name: "quicksettings",

@@ -3,7 +3,6 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import RoundedCorner, { RoundedAngleEnd } from "../roundedCorner/index.js";
-const Hyprland = await Service.import("hyprland");
 
 /**
  * @param {string} name
@@ -58,7 +57,7 @@ const SessionButton = (name, icon, command, props = {}) => {
 const SessionBox = () => {
   const lockButton = SessionButton("Lock", icons.powermenu.lock, () => {
     App.closeWindow("session");
-    Hyprland.messageAsync(`dispatch exec ags -b lockscreen -c ${App.configDir}/lockscreen.js`);
+    execAsync(["bash", "-c", `ags -b lockscreen -c ${App.configDir}/lockscreen.js`]);
   });
   const logoutButton = SessionButton("Logout", icons.powermenu.logout, () => {
     App.closeWindow("session");

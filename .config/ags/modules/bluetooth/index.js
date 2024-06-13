@@ -4,6 +4,7 @@ import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import { Switch } from "../widgets/widgets.js";
 
 const BluetoothList = () => Widget.Box({
+  class_name: "spacing-5",
   hexpand: true,
   vertical: true,
 })

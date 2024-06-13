@@ -2,7 +2,6 @@ import icons from "../icons/index.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {execAsync} from "resource:///com/github/Aylur/ags/utils.js";
 import Audio from "resource:///com/github/Aylur/ags/service/audio.js";
-import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 import Menu from "../quicksettings/menu.js";
 
 /** @param {string} type */
@@ -166,7 +165,7 @@ const SinkItem = (type) => stream => Widget.Button({
 
 /** @param {number} tab */
 const SettingsButton = (tab = 0) => Widget.Button({
-  on_clicked: () => Hyprland.messageAsync("dispatch exec pavucontrol -t " + tab)
+  on_clicked: () => Utils.execAsync(`pavucontrol -t ${tab}`)
     .catch(logError),
   child: Widget.Icon(icons.settings),
 });

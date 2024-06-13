@@ -1,12 +1,12 @@
 .launcher-switcher {
-  background-color: $primary_bg;
+  background-color: $surface;
   .launcher-switcher-button {
-    background-color: $secondary_bg;
+    background-color: $surface_container_low;
     margin-left: 10px;
     &.focused {
-      background-color: $primary_bg;
+      background-color: $surface;
       image {
-        background-color: $secondary_bg;
+        background-color: $surface_container_low;
         border-bottom-left-radius: 1rem;
         border-top-left-radius: 1rem;
       }
@@ -19,27 +19,27 @@
     }
     image {
       padding: 10px;
-      background-color: $primary_bg;
-      color: $default_fg;
+      background-color: $surface;
+      color: $primary;
       font-size: 2rem;
     }
   }
 }
 
 .launcher {
-  background-color: $secondary_bg;
+  background-color: $surface_container_low;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
   min-width: 25rem;
 
   .launcher-search {
     margin: 1rem;
-    background-color: $secondary_bg;
+    background-color: $surface_container_low;
     .search-entry {
       border-radius: 1rem;
       margin-bottom: 5px;
       padding: 8px;
-      border: 1px solid $primary_fg;
+      border: 1px solid $primary;
       image.left {
         margin-right: 8px;
       }
@@ -49,10 +49,10 @@
 
       .search-results {
         //color for letter highlighting
-        color: $primary_fg;
+        color: $primary;
 
         .app-button {
-          color: $default_fg;
+          color: $on_surface;
           padding: 5px;
           border-radius: 1rem;
 
@@ -71,7 +71,7 @@
           }
 
           &.focused {
-            background-color: $primary_bg;
+            background-color: $surface;
           }
         }
       }
@@ -80,13 +80,13 @@
 
   .launcher-category {
     margin: 1rem;
-    background-color: $secondary_bg;
+    background-color: $surface_container_low;
     .app-button {
       padding: 8px;
       border-radius: 1rem;
 
       &.focused {
-        background-color: $primary_bg;
+        background-color: $surface;
       }
 
       .app-icon {

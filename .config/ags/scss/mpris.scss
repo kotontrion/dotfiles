@@ -1,5 +1,5 @@
 .bar-music-container {
-  background-color: $primary_bg;
+  background-color: $surface;
   padding: 1px;
 
   .music-progress {
@@ -11,11 +11,14 @@
       font-size: 0.5rem;
     }
   }
+  label {
+    margin-left: 0.5rem;
+  }
 }
 
 .music-container {
 
-  background-color: $primary_bg;
+  background-color: $surface;
   border-radius: 1rem;
   padding: 1rem;
   margin-top: 5px;
@@ -27,17 +30,17 @@
   }
 
   .music-player-name {
-    text-shadow: 0.1rem 0.1rem $primary_bg;
+    text-shadow: 0.1rem 0.1rem $surface;
   }
 
   .music-artist {
-    text-shadow: 0.1rem 0.1rem $primary_bg;
+    text-shadow: 0.1rem 0.1rem $surface;
     padding-top: 5px;
   }
 
   .music-title {
     font-weight: bold;
-    text-shadow: 0.1rem 0.1rem $primary_bg;
+    text-shadow: 0.1rem 0.1rem $surface;
     padding-top: 5px;
   }
 
@@ -45,7 +48,7 @@
     padding-top: 1.5rem;
     .music-button {
       font-size: 1.6rem;
-      -gtk-icon-shadow: 0.1rem 0.1rem $primary_bg;
+      -gtk-icon-shadow: 0.1rem 0.1rem $surface;
     }
 
     .music-progress {

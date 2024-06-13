@@ -20,6 +20,7 @@ import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import GObject from "gi://GObject?version=2.0";
 import GdkPixbuf from "gi://GdkPixbuf";
+import ConfigService from "../config/index.js";
 
 const ComboBox = Widget.subclass(Gtk.ComboBoxText);
 
@@ -93,9 +94,9 @@ try {
   parser.use({renderer});
 
 
-  const styleString = readFile(`${App.configDir}/highlight.css`);
-  const stylesheet = new WebKit2.UserStyleSheet(
-    styleString, 0, 0, null, null);
+  // const styleString = readFile(`${App.configDir}/highlight.css`);
+  // const stylesheet = new WebKit2.UserStyleSheet(
+  // styleString, 0, 0, null, null);
 
   const FilesContainer = () => {
 
@@ -244,13 +245,19 @@ try {
       });
     view.get_settings().set_javascript_can_access_clipboard(true);
     view.get_settings().set_enable_write_console_messages_to_stdout(true);
-    view.get_user_content_manager().add_style_sheet(stylesheet);
     // HACK: style context is only accessable after the widget was added to the
     // hierachy, so i do this to set the color once.
     view.on("realize", () => {
       const bgCol = view.get_style_context().get_property("background-color", Gtk.StateFlags.NORMAL);
       view.set_background_color(bgCol);
     });
+    view.hook(ConfigService, () => {
+      const styleString = readFile(`${App.configDir}/highlight.css`);
+      const stylesheet = new WebKit2.UserStyleSheet(
+        styleString, 0, 0, null, null);
+      view.get_user_content_manager().add_style_sheet(stylesheet);
+    }, "css-changed");
+
     return Box({
       css: "padding: 1px",
       children: [view]
@@ -473,7 +480,7 @@ try {
             }, "clear")
         }),
         Box({
-          class_name: "ai-entry-box spacing-5",
+          class_name: "ai-entry-box",
           vertical: true,
           children: [
             fileContainer,

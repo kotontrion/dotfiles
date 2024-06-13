@@ -3,15 +3,15 @@
 }
 
 .notification-indicator-container {
-  background-color: $primary_bg;
+  background-color: $surface;
   padding: 0 0.341rem;
 }
 
 .notifications-popup-list {
-  min-width: 40rem;
+  min-width: 1rem;
   .notification {
       margin-right: 5px;
-      background-color: $primary_bg;
+      background-color: $surface;
   }
 }
 
@@ -21,7 +21,7 @@
   margin-top: 5px;
   border-radius: 1rem;
   min-width: 25.8rem;
-  background-color: $primary_bg;
+  background-color: $surface;
 
   .notification-icon {
     font-size: 5rem;
@@ -50,8 +50,25 @@
   }
 
   .notification-action-button {
-    background-color: mix($primary_fg, $primary_bg);
-    border-radius: 1rem;
+    background-color: $primary;
+    color: $on_primary;
+    border-right: 1px solid $surface;
     margin: 5px 0px;
+
+    &:first-child {
+      border-top-left-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      border-right: none;
+    }
   }
 }
+
+
+
+
+

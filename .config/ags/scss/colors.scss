@@ -1,22 +1,103 @@
-$primary-color: #CDD6F4;
-$dark-background: #0e0e1e;
-$light-background: #1e1e2e;
-$mauve: #cba6f7;
-$red: #f38ba8;
-$yellow: #f9e2af;
-$orange: #fab387;
-$teal: #94e2d5;
-$lightteal: #bac2de;
-$pink: #f5c2e7;
-$green: #a6e3a1;
-$grey: #585b70;
-$blue: #89b4fa;
-$lightgrey: #a6adc8;
-$lightblue: #74c7ec;
+$theme: 'dark';
+$image: url('/home/kotontrion/Pictures/wallpaper/mountain.png');
 
-$default_fg: $primary-color;
-$default_bg: #000000;
-$primary_bg: $dark-background;
-$primary_fg: mix($mauve, $primary_bg, 70%);
-$secondary_fg: $green;
-$secondary_bg: $light-background;
+
+$background: #111318;
+
+$error: #ffb4ab;
+
+$error_container: #93000a;
+
+$inverse_on_surface: #2e3036;
+
+$inverse_primary: #415e91;
+
+$inverse_surface: #e2e2e9;
+
+$on_background: #e2e2e9;
+
+$on_error: #690005;
+
+$on_error_container: #ffdad6;
+
+$on_primary: #0b305f;
+
+$on_primary_container: #d7e3ff;
+
+$on_primary_fixed: #001b3f;
+
+$on_primary_fixed_variant: #284777;
+
+$on_secondary: #283141;
+
+$on_secondary_container: #dae2f9;
+
+$on_secondary_fixed: #131c2b;
+
+$on_secondary_fixed_variant: #3e4759;
+
+$on_surface: #e2e2e9;
+
+$on_surface_variant: #c4c6d0;
+
+$on_tertiary: #3f2844;
+
+$on_tertiary_container: #fad8fd;
+
+$on_tertiary_fixed: #28132e;
+
+$on_tertiary_fixed_variant: #573e5c;
+
+$outline: #8e9099;
+
+$outline_variant: #44474e;
+
+$primary: #abc7ff;
+
+$primary_container: #284777;
+
+$primary_fixed: #d7e3ff;
+
+$primary_fixed_dim: #abc7ff;
+
+$scrim: #000000;
+
+$secondary: #bec6dc;
+
+$secondary_container: #3e4759;
+
+$secondary_fixed: #dae2f9;
+
+$secondary_fixed_dim: #bec6dc;
+
+$shadow: #000000;
+
+$source_color: #060b15;
+
+$surface: #111318;
+
+$surface_bright: #37393e;
+
+$surface_container: #1e2025;
+
+$surface_container_high: #282a2f;
+
+$surface_container_highest: #33353a;
+
+$surface_container_low: #191c20;
+
+$surface_container_lowest: #0c0e13;
+
+$surface_dim: #111318;
+
+$surface_variant: #44474e;
+
+$tertiary: #ddbce0;
+
+$tertiary_container: #573e5c;
+
+$tertiary_fixed: #fad8fd;
+
+$tertiary_fixed_dim: #ddbce0;
+
+

@@ -5,22 +5,22 @@
 }
 
 .mixer-item {
-  margin: 5px 0px;
+  margin: 0.5rem 0px;
 
   .mixer-item-volume {
-    margin: 0px 8px;
+    margin: 0px 0.5rem;
   }
 
   .mixer-item-title {
-    margin: 0px 8px;
+    margin: 0px 0.5rem;
   }
 
   .mixer-item-slider {
-    margin: 8px;
+    margin-top: 0.5rem;
   }
 
   image {
-    font-size: 40px;
+    font-size: 3rem;
   }
 }
 

@@ -102,7 +102,6 @@ const Notification = notification => Widget.Box({
       })
     }),
     Widget.Box({
-      class_name: "spacing-5",
       children: notification.actions.map(action => Widget.Button({
         child: Widget.Label(action.label),
         on_clicked: () => notification.invoke(action.id),

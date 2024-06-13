@@ -1,20 +1,20 @@
 .indicator-container {
   min-width: 10rem;
-  background-color: $primary_bg;
+  background-color: $surface;
 }
 
 .osd-indicator {
   padding: 1rem 0rem 1rem 1.5rem;
 
   .osd-icon {
-    color: $default_fg;
+    color: $primary;
     font-size: 2rem;
     min-width: 2rem;
   }
 
   .osd-value-txt {
     font-weight: 500;
-    color: $default_fg;
+    color: $primary;
     font-size: 1.2rem;
     min-width: 2.5rem;
   }
@@ -24,12 +24,12 @@
 
     trough {
       border-radius: 10rem;
-      background-color: $secondary_bg;
+      background-color: $surface_variant;
     }
 
     progress {
       border-radius: 10rem;
-      background-color: $primary_fg;
+      background-color: $primary;
     }
   }
 

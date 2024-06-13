@@ -1,4 +1,3 @@
-import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import {execAsync, fetch} from "resource:///com/github/Aylur/ags/utils.js";
@@ -29,7 +28,6 @@ const TabIcon = tab => {
 const AppButton = tab => Widget.Button({
   on_clicked: () => {
     execAsync(`bt activate ${tab.address}`)
-      .then(() => Hyprland.messageAsync(`dispatch focuswindow title:${tab.title}`))
       .catch(logError);
     App.closeWindow("launcher");
   },
@@ -123,7 +121,6 @@ const SearchBox = (launcherState) => {
     .on("activate", () => {
       const tab = results.children[0]?.attribute.tab;
       if(tab) execAsync(`bt activate ${tab.address}`)
-        .then(() => Hyprland.messageAsync(`dispatch focuswindow title:${tab.title}`))
         .catch(logError);
       App.closeWindow("launcher");
     })

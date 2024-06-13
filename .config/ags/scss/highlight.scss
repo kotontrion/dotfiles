@@ -1,7 +1,7 @@
 @import "colors";
 
 * {
-  color: $default_fg;
+  color: $on_surface;
   font-family: "CaskaydiaCove Nerd Font";
   font-size: 0.9rem;
 }
@@ -9,7 +9,7 @@
 html, body {
   padding: 0;
   margin: 0;
-  background-color: $secondary_bg;
+  background-color: $surface_container_low;
 }
 
 img {
@@ -22,18 +22,18 @@ img {
 }
 
 .code {
-  background: $dark-background;
+  background: $surface_container_lowest;
   border-radius: 0.5rem;
 
   .code-header {
-    background: $dark-background;
+    background: $surface_container_lowest;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
-    border-bottom: 1px solid $primary_fg;
+    border-bottom: 1px solid $primary;
     padding: 5px;
 
     > button {
-      color: $default_fg;
+      color: $primary;
       background: transparent;
       float: right;
       border: none;
@@ -93,7 +93,7 @@ $languages-map: (
   [data-language="#{$lang}"]:before {
     content: $content;
     font-size: 1.1rem;
-    color: $primary_fg;
+    color: $primary;
     padding-right: 0.5rem;
   }
 }
@@ -103,124 +103,125 @@ pre {
   overflow-x: scroll;
 
   code.hljs {
-    color: $default_fg;
+    color: $on_surface;
     background: transparent;
   }
 }
 
+//TODO: fox colors here
 code {
   & .hljs-keyword {
-    color: $mauve;
+    color: $source_color;
   }
 
   & .hljs-built_in {
-    color: $red;
+    color: $primary;
   }
 
   & .hljs-type {
-    color: $yellow;
+    color: $on_primary;
   }
 
   & .hljs-literal,
   & .hljs-number {
-    color: $orange;
+    color: $on_secondary;
   }
 
   & .hljs-operator {
-    color: $teal;
+    color: $on_tertiary;
   }
 
   & .hljs-punctuation {
-    color: $lightteal;
+    color: $on_tertiary;
   }
 
   & .hljs-property,
   & .hljs-variable.language_,
   & .hljs-symbol {
-    color: $teal;
+    color: $on_tertiary;
   }
 
   & .hljs-regexp {
-    color: $pink;
+    color: $primary;
   }
 
   & .hljs-string,
   & .hljs-char.escape_,
   & .hljs-subst {
-    color: $green;
+    color: $secondary;
   }
 
   & .hljs-comment {
-    color: $grey;
+    color: $on_secondary;
   }
 
   & .hljs-doctag {
-    color: $red;
+    color: $primary;
   }
 
   & .hljs-meta,
   & .hljs-title.function_,
   & .hljs-section {
-    color: $orange;
+    color: $on_secondary;
   }
 
   & .hljs-tag,
   & .hljs-attribute {
-    color: $lightgrey;
+    color: $on_secondary;
   }
 
   & .hljs-name,
   & .hljs-selector-attr {
-    color: $mauve;
+    color: $source-color;
   }
 
   & .hljs-params,
   & .hljs-selector-class,
   & .hljs-template-variable {
-    color: $default_fg;
+    color: $on_surface;
   }
 
   & .hljs-selector-tag {
-    color: $yellow;
+    color: $on_primary;
   }
 
   & .hljs-selector-id {
-    color: $blue;
+    color: $tertiary;
   }
 
   & .hljs-bullet,
   & .hljs-code,
   & .hljs-formula {
-    color: $teal;
+    color: $on_tertiary;
   }
 
   & .hljs-emphasis {
-    color: $red;
+    color: $primary;
     font-style: italic;
   }
 
   & .hljs-strong {
-    color: $red;
+    color: $primary;
     font-weight: bold;
   }
 
   & .hljs-link {
-    color: $lightblue;
+    color: $tertiary;
     font-style: italic;
   }
 
   & .hljs-quote {
-    color: $green;
+    color: $secondary;
     font-style: italic;
   }
 
   & .hljs-addition {
-    color: $green;
+    color: $secondary;
     background: rgba(166, 227, 161, 0.15);
   }
 
   & .hljs-deletion {
-    color: $red;
+    color: $primary;
     background: rgba(243, 139, 168, 0.15);
   }
 }

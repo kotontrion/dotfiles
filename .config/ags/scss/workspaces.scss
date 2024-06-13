@@ -1,25 +1,25 @@
 .ws-container {
-  background-color: $primary_bg;
+  background-color: $surface;
   padding: 3px;
 
   .ws-button {
     transition: all 200ms;
 
     &.occupied {
-      background-color: $secondary_bg;
-      border-top: 1px solid $primary_fg;
-      border-bottom: 1px solid $primary_fg;
+      background-color: $surface_container_low;
+      border-top: 1px solid $primary;
+      border-bottom: 1px solid $primary;
 
       &.occupied-left {
         border-bottom-left-radius: 1rem;
         border-top-left-radius: 1rem;
-        border-left: 1px solid $primary_fg;
+        border-left: 1px solid $primary;
       }
 
       &.occupied-right {
         border-bottom-right-radius: 1rem;
         border-top-right-radius: 1rem;
-        border-right: 1px solid $primary_fg;
+        border-right: 1px solid $primary;
       }
     }
 
@@ -29,10 +29,21 @@
 
     &.active {
       .ws-button-label {
-        background-color: $primary_fg;
-        color: $primary_bg;
-        border-radius: 1rem;
+        background-color: $primary;
+        color: $on_primary;
       }
+      &.active-left .ws-button-label {
+        border-bottom-left-radius: 1rem;
+        border-top-left-radius: 1rem;
+        border-left: 1px solid $primary;
+      }
+
+      &.active-right .ws-button-label {
+        border-bottom-right-radius: 1rem;
+        border-top-right-radius: 1rem;
+        border-right: 1px solid $primary;
+      }
+
     }
 
     .ws-button-label {

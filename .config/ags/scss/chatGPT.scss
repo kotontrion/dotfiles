@@ -1,11 +1,11 @@
 .ai-container {
   .settings-container {
-    background: $primary_bg;
+    background: $surface;
     border-radius: 1rem;
     padding: 0.5rem;
 
     .system-message {
-      background: $secondary_bg;
+      background: $surface_container_low;
       border-radius: 1rem;
       padding: 0.5rem;
     }
@@ -19,25 +19,25 @@
       font-weight: bold;
       .ai-role {
         &.user {
-          color: $primary_fg
+          color: $primary
         }
 
         &.assistant {
-          color: $secondary_fg;
+          color: $tertiary;
         }
       }
       .ai-msg-content {
-        background-color: $secondary_bg;
+        background-color: $surface;
       }
     }
   }
   .ai-entry-box {
-    border: 1px solid $primary_fg;
+    border: 1px solid $primary;
     border-radius: 1rem;
     padding: 0.5rem;
 
     .file-container {
-      background: $primary_bg;
+      background: $surface;
       margin: 0rem -0.5rem;
       padding-right: 0.5rem;
 
@@ -56,7 +56,7 @@
     .ai-send-button {
       min-width: 2rem;
       border-radius: 5px;
-      background-color: $secondary_bg;
+      background-color: $surface_container_low;
     }
   }
 }

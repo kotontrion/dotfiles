@@ -4,11 +4,10 @@ import {timeout, exec} from "resource:///com/github/Aylur/ags/utils.js";
 import SearchBox from "./search.js";
 import RoundedCorner from "../roundedCorner/index.js";
 import Categories from "./categories.js";
-import HyprlandBox from "./hyprlands.js";
 import FirefoxBox from "./firefox.js";
 import StackState from "../stackState/stackState.js";
 import icons from "../icons/index.js";
-
+import GLib from "gi://GLib";
 const LauncherState = new StackState("Search");
 
 /**
@@ -53,12 +52,14 @@ const StackSwitcher = items => Widget.Box({
   ]
 });
 
-const LauncherStack = () => {
+const LauncherStack = async () => {
   const children = {
     Search: SearchBox(LauncherState),
     ...Categories(),
-    Hyprland: HyprlandBox(LauncherState)
   };
+  if(GLib.getenv("XDG_CURRENT_DESKTOP") == "Hyprland") {
+    children["Hyprland"] = ((await import("./hyprlands.js")).default)(LauncherState);
+  }
   if (exec("which bt") != "") children["Firefox"] = FirefoxBox(LauncherState);
   else console.warn("brotab is not installed. Firefox tab switcher module has been disabled.");
   const stack = Widget.Stack({
@@ -84,12 +85,12 @@ globalThis.toggleLauncher = () => toggle("Search");
 globalThis.toggleHyprlandSwitcher = () => toggle("Hyprland");
 globalThis.toggleFirefoxSwitcher = () => toggle("Firefox");
 
-export default () => {
-  const stack = LauncherStack();
+export default async () => {
+  const stack = await LauncherStack();
   LauncherState.items = Object.keys(stack.children);
   const stackSwitcher = StackSwitcher(Object.keys(stack.children));
   const window = Widget.Window({
-    keymode: "on-demand",
+    keymode: "exclusive",
     visible: false,
     anchor: ["left", "top", "bottom"],
     name: "launcher",
