@@ -19,10 +19,11 @@ this list is probably incomplete.
   <summary>show dependency list</summary>
   
 #### wm related
-- Hyprland
-- GTK-theme:  Catppuccin
+- Hyprland and River are supported
+- GTK-theme:  adw-gtk3
 - Icon-theme: MoreWaita
 - Font:       Cascadia Code NF
+- matugen for color generation (optional)
 
 
 #### ags
@@ -33,6 +34,7 @@ this list is probably incomplete.
 - vte3: terminal widget, needed for sptlrx display (optional)
 - cava: audio visualizer (optional)
 - brotab: firefox tab switcher (optional)
+- [astal-river](https://github.com/astal-sh/river): for river status (optional)
 
 #### ags greeter
 - greetd
