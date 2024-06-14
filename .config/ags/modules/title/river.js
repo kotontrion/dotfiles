@@ -1,7 +1,7 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import AstalRiver from "gi://AstalRiver";
 
-const river = AstalRiver.River.new();
+const river = AstalRiver.River.get_default();
 
 const FocusedTitle = () => Widget.EventBox({
   class_name: "title-container",
@@ -14,7 +14,7 @@ const FocusedTitle = () => Widget.EventBox({
         truncate: "end",
         max_width_chars: 22,
       }).hook(river, (self) => {
-        self.label = river.focused_view;
+        self.label = river.focused_view || "Desktop";
       }, "notify::focused-view"),
     ]
   })

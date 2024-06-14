@@ -2,7 +2,7 @@ import AstalRiver from "gi://AstalRiver";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Gdk from "gi://Gdk";
 
-const river = AstalRiver.River.new();
+const river = AstalRiver.River.get_default();
 const display = Gdk.Display.get_default();
 
 function applyCssToWs(box, river) {
