@@ -26,10 +26,11 @@
   border-radius: 1rem;
   min-width: 350px;
   padding: 8px;
-}
 
-entry {
-  min-width: 350px;
+  entry {
+    @include unset(true);
+    min-width: 350px;
+  }
 }
 
 .tooltip {

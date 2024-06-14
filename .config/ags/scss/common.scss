@@ -8,11 +8,11 @@
     }
 }
 
-window, textview, textview > text, entry {
+window, combobox, textview, textview > text, entry {
   @include unset;
 }
 
-button, scrollbar, switch, scale {
+button, spinbutton, scrollbar, switch, scale {
   @include unset(true);
 }
 
@@ -30,7 +30,6 @@ button, scrollbar, switch, scale {
 
 textview {
   text {
-    font-weight: normal;
     selection {
       color: transparentize($on_primary, 0.13);
       background-color: $primary;
@@ -39,7 +38,19 @@ textview {
 }
 
 entry {
-  font-weight: normal;
+  border-radius: 1rem;
+  margin-bottom: 5px;
+  padding: 8px;
+  border: 1px solid $outline;
+
+  &:focus {
+    border: 1px solid $primary;
+  }
+
+  image.left {
+    margin-right: 0.5rem;
+  }
+
   selection {
     color: transparentize($on_primary, 0.13);
     background-color: $primary;
@@ -107,4 +118,44 @@ scale {
 
 }
 
+combobox {
+  arrow {
+    -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
+    min-height: 1rem;
+    min-width: 1rem;
+  }
 
+  button.combo {
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    background-color: $surface_container_low;
+    color: $on_surface;
+
+    &:hover {
+      background-color: mix($on_surface, $surface_container_low, 5%);
+    }
+  }
+}
+
+spinbutton {
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+  color: $on_surface;
+  background-color: $surface_container_low;
+
+  entry {
+    @include unset(true);
+  }
+
+  button {
+    border: solid 6px transparent;
+
+    &.up {
+      margin-left: -3px;
+    }
+
+    &.down {
+      margin-right: -3px;
+    }
+  }
+}

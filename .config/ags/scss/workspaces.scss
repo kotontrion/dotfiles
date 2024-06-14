@@ -35,13 +35,11 @@
       &.active-left .ws-button-label {
         border-bottom-left-radius: 1rem;
         border-top-left-radius: 1rem;
-        border-left: 1px solid $primary;
       }
 
       &.active-right .ws-button-label {
         border-bottom-right-radius: 1rem;
         border-top-right-radius: 1rem;
-        border-right: 1px solid $primary;
       }
 
     }

@@ -13,8 +13,8 @@ function applyCssToWs(box, river) {
   const occupied = output.occupied_tags;
   box.children.forEach((button, i) => {
     button.toggleClassName("occupied", occupied & (1 << (i)));
-    button.toggleClassName("occupied-left", !(occupied & (1 << (i-1))));
-    button.toggleClassName("occupied-right", !(occupied & (1 << (i+1))));
+    button.toggleClassName("occupied-left", i == 0 || !(occupied & (1 << (i-1))));
+    button.toggleClassName("occupied-right", i == 8 || !(occupied & (1 << (i+1))));
     button.toggleClassName("active", focused & (1 << (i)));
     button.toggleClassName("active-left", i == 0 || !(focused & (1 << (i-1))));
     button.toggleClassName("active-right", i == 8 || !(focused & (1 << (i+1))));

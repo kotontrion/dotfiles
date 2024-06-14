@@ -108,100 +108,83 @@ pre {
   }
 }
 
-//TODO: fox colors here
+$hue-step: 20deg;
+
 code {
   & .hljs-keyword {
-    color: $source_color;
-  }
-
-  & .hljs-built_in {
     color: $primary;
   }
 
-  & .hljs-type {
-    color: $on_primary;
+  & .hljs-type,
+  & .hljs-built_in {
+    color: adjust-hue($primary, $hue-step);
   }
 
   & .hljs-literal,
   & .hljs-number {
-    color: $on_secondary;
+    color: adjust-hue($primary, -4*$hue-step);
   }
 
-  & .hljs-operator {
-    color: $on_tertiary;
-  }
-
-  & .hljs-punctuation {
-    color: $on_tertiary;
-  }
-
+  & .hljs-operator,
+  & .hljs-punctuation,
   & .hljs-property,
   & .hljs-variable.language_,
   & .hljs-symbol {
-    color: $on_tertiary;
+    color: adjust-hue($primary, 2*$hue-step);
   }
 
-  & .hljs-regexp {
-    color: $primary;
-  }
-
+  & .hljs-regexp,
   & .hljs-string,
   & .hljs-char.escape_,
   & .hljs-subst {
-    color: $secondary;
+    color: adjust-hue($primary, -2*$hue-step);
   }
 
   & .hljs-comment {
-    color: $on_secondary;
+    color: mix($surface_container_low, $on_surface, 80%);
   }
 
   & .hljs-doctag {
-    color: $primary;
+    color: mix($surface_container_low, $on_surface, 60%);
   }
 
   & .hljs-meta,
   & .hljs-title.function_,
   & .hljs-section {
-    color: $on_secondary;
+    color: adjust-hue($primary, 3*$hue-step);
   }
 
   & .hljs-tag,
-  & .hljs-attribute {
-    color: $on_secondary;
-  }
-
+  & .hljs-attribute,
   & .hljs-name,
   & .hljs-selector-attr {
-    color: $source-color;
+    color: adjust-hue($primary, -3*$hue-step);
   }
 
   & .hljs-params,
   & .hljs-selector-class,
   & .hljs-template-variable {
-    color: $on_surface;
+    color: adjust-hue($primary, 4*$hue-step);
   }
 
-  & .hljs-selector-tag {
-    color: $on_primary;
-  }
-
+  & .hljs-selector-tag,
   & .hljs-selector-id {
-    color: $tertiary;
+    color: adjust-hue($primary, -$hue-step);
   }
 
   & .hljs-bullet,
   & .hljs-code,
   & .hljs-formula {
-    color: $on_tertiary;
+    color: green;
   }
 
   & .hljs-emphasis {
-    color: $primary;
+    color: $secondary;
     font-style: italic;
   }
 
   & .hljs-strong {
-    color: $primary;
+    color: $secondary;
     font-weight: bold;
   }
 
@@ -211,19 +194,18 @@ code {
   }
 
   & .hljs-quote {
-    color: $secondary;
+    color: $tertiary;
     font-style: italic;
   }
 
-  & .hljs-addition {
-    color: $secondary;
-    background: rgba(166, 227, 161, 0.15);
+  & .hljs-deletion {
+    color: adjust-hue($primary, 5*$hue-step);
   }
 
-  & .hljs-deletion {
-    color: $primary;
-    background: rgba(243, 139, 168, 0.15);
+  & .hljs-addition {
+    color: adjust-hue($primary, -5*$hue-step);
   }
+
 }
 
 

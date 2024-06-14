@@ -1,9 +1,12 @@
+@import "colors";
+
+
 * {
   font-family: "CaskaydiaCove Nerd Font";
+  color: $on_surface;
 }
 
 //general
-@import "colors";
 @import "common";
 
 //modules
