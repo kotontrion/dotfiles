@@ -5,9 +5,14 @@ import Gdk from "gi://Gdk";
 const river = AstalRiver.River.get_default();
 const display = Gdk.Display.get_default();
 
-function applyCssToWs(box, river) {
-  const monitor_name = Utils.getMonitorName(display.get_monitor_at_window(box.get_window()));
-  const output = river.get_output(monitor_name);
+function getRiverOutput(widget) {
+  const gdkmonitor = display?.get_monitor_at_window(widget.get_window());
+  const monitor_name = Utils.getMonitorName(gdkmonitor);
+  return river.get_output(monitor_name);
+}
+
+function applyCssToWs(box) {
+  const output = getRiverOutput(box);
   if(output == null) return;
   const focused = output.focused_tags;
   const occupied = output.occupied_tags;
@@ -22,10 +27,21 @@ function applyCssToWs(box, river) {
 }
 
 /** @param {number} i */
-const WorkspaceButton = (i) => Widget.EventBox({
+const WorkspaceButton = (i) => Widget.Button({
   class_name: "ws-button",
-  // on_primary_click_release: () => Hyprland.messageAsync(`dispatch workspace ${i}`)
-  // .catch(logError),
+  //NOTE: i would perfer shift/ctrl-click fo different behaviour
+  //but i can't get the modifier keys without also havin keyboard focus
+  on_primary_click_release: () => {
+    river.run_command_async(["set-focused-tags", `${1 << (i-1)}`], null);
+  },
+  on_secondary_click_release: (self) => {
+    const output = getRiverOutput(self);
+    const tags = output.get_focused_tags() ^ (1 << (i-1));
+    river.run_command_async(["set-focused-tags", `${tags}`], null);
+  },
+  on_middle_click_release: () => {
+    river.run_command_async(["set-view-tags", `${1 << (i-1)}`], null);
+  },
   child: Widget.Label({
     label: `${i}`,
     class_name: "ws-button-label"
@@ -38,7 +54,7 @@ export const Workspaces = () => {
       class_name: "ws-container",
       children: Array.from({length: 9}, (_, i) => i + 1).map(i => WorkspaceButton(i)),
     })
-      .hook(river, (box) => applyCssToWs(box, river), "changed")
+      .hook(river, applyCssToWs, "changed")
   });
 };
 
