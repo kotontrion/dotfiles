@@ -13,9 +13,8 @@ const FocusedTitle = () => Widget.EventBox({
         class_name: "title-title",
         truncate: "end",
         max_width_chars: 22,
-      }).hook(river, (self) => {
-        self.label = river.focused_view || "Desktop";
-      }, "notify::focused-view"),
+        label: Utils.bind(river, "focused-view").as(v => v || "Desktop")
+      })
     ]
   })
 });

@@ -23,9 +23,6 @@
       }
     }
 
-    &:not(.occupied) {
-      border-radius: 1rem;
-    }
 
     &.active {
       .ws-button-label {

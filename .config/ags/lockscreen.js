@@ -5,10 +5,40 @@ import { RoundedAngleEnd, RoundedCorner } from "./modules/roundedCorner/index.js
 import Clock from "./modules/clock/index.js";
 import SessionBox, {SessionBoxTooltip} from "./modules/powermenu/sessionbox.js";
 import { MprisCorner } from "./modules/mpris/index.js";
+import AstalAuth from "gi://AstalAuth";
 
 Utils.exec(`sass ${App.configDir}/scss/lock.scss ${App.configDir}/lockstyle.css`);
 App.applyCss(`${App.configDir}/lockstyle.css`);
 
+
+const prompt = Variable("Enter Password:");
+const inputVisible = Variable(false);
+const inputNeeded = Variable(false);
+
+const auth = new AstalAuth.Pam();
+auth.connect("auth-info", (auth, msg) => {
+  prompt.setValue(msg);
+  auth.supply_secret(null);
+});
+auth.connect("auth-error", (auth, msg) => {
+  prompt.setValue(msg);
+  auth.supply_secret(null);
+});
+auth.connect("auth-prompt-visible", (auth, msg) => {
+  prompt.setValue(msg);
+  inputVisible.setValue(true);
+  inputNeeded.setValue(true);
+});
+auth.connect("auth-prompt-hidden", (auth, msg) => {
+  prompt.setValue(msg);
+  inputVisible.setValue(false);
+  inputNeeded.setValue(true);
+});
+
+auth.connect("success", unlock);
+auth.connect("fail", p => {
+  auth.start_authenticate();
+});
 
 const lock = Lock.prepare_lock();
 
@@ -25,6 +55,7 @@ function unlock() {
     App.quit();
   });
 }
+
 
 const Right = () => Widget.Box({
   hpack: "end",
@@ -65,22 +96,19 @@ const LoginBox = () => Widget.Box({
             class_name: "entry-box",
             vertical: true,
             children: [
-              Widget.Label("Enter password:"),
+              Widget.Label({
+                label: prompt.bind()
+              }),
               Widget.Separator(),
               Widget.Entry({
                 hpack: "center",
                 xalign: 0.5,
-                visibility: false,
-                placeholder_text: "password",
+                visibility: inputVisible.bind(),
+                sensitive: inputNeeded.bind(),
                 on_accept: self => {
-                  self.sensitive = false;
-                  Utils.authenticate(self.text ?? "")
-                    .then(() => unlock())
-                    .catch(e => {
-                      self.text = "";
-                      self.parent.children[0].label = e.message;
-                      self.sensitive = true;
-                    });
+                  inputNeeded.setValue(false);
+                  self.text = "";
+                  auth.supply_secret(self.text);
                 }
               }).on("realize", (entry) => entry.grab_focus()),
             ]
@@ -160,5 +188,5 @@ function on_finished() {
 // lock.connect("locked", on_locked);
 lock.connect("finished", on_finished);
 lock_screen();
-
+auth.start_authenticate();
 

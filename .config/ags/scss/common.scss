@@ -145,6 +145,9 @@ spinbutton {
 
   entry {
     @include unset(true);
+    &:focus {
+      @include unset(true);
+    }
   }
 
   button {

@@ -1,5 +1,6 @@
 import Service from "resource:///com/github/Aylur/ags/service.js";
 import Gio from "gi://Gio";
+import GLib from "gi://GLib";
 
 class ConfigService extends Service {
   static {
@@ -7,15 +8,23 @@ class ConfigService extends Service {
       this,
       {
         "css-changed": [],
+      },
+      {
+        "wm": ["string", "r"]
       }
     );
   }
 
+  _wm = "";
+
+  get wm() { return this._wm; }
+
   constructor() {
     super();
 
-    this.applyScss();
+    this._wm = GLib.getenv("XDG_CURRENT_DESKTOP") || "";
 
+    this.applyScss();
 
     Utils.monitorFile(`${App.configDir}/scss`, (_, eventType) => {
       if (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT) {

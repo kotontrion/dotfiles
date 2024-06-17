@@ -1,10 +1,10 @@
 
-import GLib from "gi://GLib";
+import Config from "../config/index.js";
 
 let Workspaces;
 let hideEmptyWorkspaces;
 
-switch(GLib.getenv("XDG_CURRENT_DESKTOP")) {
+switch(Config.wm) {
   case "Hyprland":
     const hl = (await import("./hyprland.js"));
     Workspaces = hl.Workspaces;
@@ -15,7 +15,11 @@ switch(GLib.getenv("XDG_CURRENT_DESKTOP")) {
     Workspaces = riv.Workspaces;
     hideEmptyWorkspaces = Variable(false);
     break;
-
+  default:
+    console.warn("could not determine compositor. Make sure the XDG_CURRENT_DESKTOP environment variable is set correctly.");
+    Workspaces = () => Widget.Box();
+    hideEmptyWorkspaces = Variable(false);
+    break;
 }
 
 export {

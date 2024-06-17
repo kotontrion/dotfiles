@@ -1,14 +1,13 @@
 format = """
-[╭────┤$os├──┤\
+╭────┤$os├──┤\
 $directory\
-$git_branch$git_status├$fill┤$cmd_duration$time├──┤$character├──┤ ](#cba6f7)
-[╰─ ](#cba6f7)
+$git_branch$git_status├$fill┤$cmd_duration$time├──┤$character├──┤
+╰─ 
 """
 
 
 [fill]
 symbol = "─"
-style = "#cba6f7"
 
 [character]
 format="[ $symbol ]($style)"

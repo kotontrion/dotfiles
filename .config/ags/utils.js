@@ -1,4 +1,5 @@
 import Gdk from "gi://Gdk?version=3.0";
+import {Binding} from "resource:///com/github/Aylur/ags/service.js";
 
 const display = Gdk.Display.get_default();
 function getMonitorName(gdkmonitor) {
@@ -23,6 +24,10 @@ function rgbaToHexString(rgba) {
   return `#${redHex}${greenHex}${blueHex}${alphaHex}`;
 }
 
+function bind(obj, prop) {
+  return new Binding(obj, prop);
+}
 
 Utils.getMonitorName = getMonitorName;
 Utils.rgbaToHexString = rgbaToHexString;
+Utils.bind = bind;

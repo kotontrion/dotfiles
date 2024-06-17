@@ -1,45 +1,37 @@
-import SystemTray from "resource:///com/github/Aylur/ags/service/systemtray.js";
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Gdk from "gi://Gdk?version=3.0";
+import AstalTray from "gi://AstalTray";
+const SystemTray = AstalTray.Tray.get_default();
 
 
-/**
- * @param {import('types/service/systemtray').TrayItem} item
- */
 const SysTrayItem = item => Widget.Button({
   class_name: "systray-item",
+  attribute: item.create_menu(),
   child: Widget.Icon({
     hpack: "center",
-    icon: item.bind("icon")
+    icon: Utils.watch(item.icon_pixbuf || item.icon_name || "image-missing"
+      , item, () => item.icon_pixbuf || item.icon_name || "image-missing")
   }),
-  tooltip_markup: item.bind("tooltip_markup"),
-  on_clicked: btn => item.menu?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
-  on_secondary_click: btn => item.menu?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  tooltip_markup: Utils.bind(item, "tooltip_markup"),
+  on_clicked: btn => btn.attribute?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  on_secondary_click: btn => btn.attribute?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
 });
 
 const Tray = () => Widget.Box({
   class_name: "systray-container spacing-5",
   attribute: {
     "items": new Map(),
-    /**
-    * @param {import('types/widgets/box').default} box
-    * @param {import('types/service/systemtray').TrayItem | undefined} item
-    */
-    "onAdded": (box, item) => {
-      if (!item) return;
+    "onAdded": (box, id) => {
+      if(!id) return;
+      const item = SystemTray.get_item(id);
       // @ts-ignore
-      if (item.menu) item.menu.class_name = "menu";
-      if (box.attribute.items.has(item._busName) || !item)
+      if (box.attribute.items.has(id) || !item)
         return;
       const widget = SysTrayItem(item);
-      box.attribute.items.set(item._busName, widget);
+      box.attribute.items.set(id, widget);
       box.pack_start(widget, false, false, 0);
       box.show_all();
     },
-    /**
-    * @param {import('types/widgets/box').default} box
-    * @param {string} id
-    */
     "onRemoved": (box, id) => {
       if (!box.attribute.items.has(id))
         return;
@@ -48,11 +40,11 @@ const Tray = () => Widget.Box({
     }
   },
   setup: self => {
-    SystemTray.items.forEach(item => self.attribute.onAdded(self, item));
+    SystemTray.get_items().forEach(item => self.attribute.onAdded(self, item.item_id));
   }
 })
-  .hook(SystemTray, (box, id) => box.attribute.onAdded(box, SystemTray.getItem(id)), "added")
-  .hook(SystemTray, (box, id) => box.attribute.onRemoved(box, id), "removed");
+  .hook(SystemTray, (box, id) => box.attribute.onAdded(box, id), "item_added")
+  .hook(SystemTray, (box, id) => box.attribute.onRemoved(box, id), "item_removed");
 
 
 export default Tray;

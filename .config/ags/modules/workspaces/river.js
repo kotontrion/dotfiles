@@ -27,7 +27,7 @@ function applyCssToWs(box) {
 }
 
 /** @param {number} i */
-const WorkspaceButton = (i) => Widget.Button({
+const WorkspaceButton = (i) => Widget.EventBox({
   class_name: "ws-button",
   //NOTE: i would perfer shift/ctrl-click fo different behaviour
   //but i can't get the modifier keys without also havin keyboard focus
