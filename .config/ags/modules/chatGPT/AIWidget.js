@@ -304,12 +304,13 @@ try {
       })
       .on("key-press-event", (entry, event) => {
         const keyval = event.get_keyval()[1];
+        const state = event.get_state()[1] & ~Gdk.ModifierType.MOD2_MASK;
         if (
           (keyval === Gdk.KEY_C)
-      && ((event.get_state()[1]) === (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.MOD2_MASK))) {
+      && (state === (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK))) {
           ChatGPT.clear();
         }
-        else if (event.get_keyval()[1] === Gdk.KEY_Return && event.get_state()[1] == Gdk.ModifierType.MOD2_MASK) {
+        else if (event.get_keyval()[1] === Gdk.KEY_Return && state == 0) {
           sendMessage(entry, fileContainer);
           return true;
         }

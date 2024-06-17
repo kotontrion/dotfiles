@@ -137,13 +137,16 @@ export default async () => {
       ]
     })
   });
-  const mods = ["MOD1", "MOD2"];
-  window.keybind("Escape", () => App.closeWindow("launcher"));
-  window.keybind(mods, "Tab", () => LauncherState.next());
-  for (let i = 0; i < 10; i++) {
-    window.keybind(mods, `${i}`, () => LauncherState.setIndex(i));
-    window.keybind(mods, `KP_${i}`, () => LauncherState.setIndex(i));
-  }
+  const addKeyBinds = (mods) => {
+    window.keybind("Escape", () => App.closeWindow("launcher"));
+    window.keybind(mods, "Tab", () => LauncherState.next());
+    for (let i = 0; i < 10; i++) {
+      window.keybind(mods, `${i}`, () => LauncherState.setIndex(i));
+      window.keybind(mods, `KP_${i}`, () => LauncherState.setIndex(i));
+    }
+  };
+  addKeyBinds(["MOD1"]);
+  addKeyBinds(["MOD1", "MOD2"]);
   return window;
 };
 

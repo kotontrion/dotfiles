@@ -146,13 +146,17 @@ export default () => {
       ]
     })
   });
-  const mods = ["MOD1", "MOD2"];
-  window.keybind("Escape", () => App.closeWindow("quicksettings"));
-  window.keybind(mods, "Tab", () => QSState.next());
-  for (let i = 0; i < 10; i++) {
-    window.keybind(mods, `${i}`, () => QSState.setIndex(i));
-    window.keybind(mods, `KP_${i}`, () => QSState.setIndex(i));
-  }
+
+  const addKeyBinds = (mods) => {
+    window.keybind("Escape", () => App.closeWindow("quicksettings"));
+    window.keybind(mods, "Tab", () => QSState.next());
+    for (let i = 0; i < 10; i++) {
+      window.keybind(mods, `${i}`, () => QSState.setIndex(i));
+      window.keybind(mods, `KP_${i}`, () => QSState.setIndex(i));
+    }
+  };
+  addKeyBinds(["MOD1"]);
+  addKeyBinds(["MOD1", "MOD2"]);
   return window;
 };
 
