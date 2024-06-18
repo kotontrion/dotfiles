@@ -13,8 +13,13 @@ const SysTrayItem = item => Widget.Button({
       , item, () => item.icon_pixbuf || item.icon_name || "image-missing")
   }),
   tooltip_markup: Utils.bind(item, "tooltip_markup"),
-  on_clicked: btn => btn.attribute?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
-  on_secondary_click: btn => btn.attribute?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  on_primary_click: btn => btn.attribute?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),
+  on_secondary_click: btn => item.activate(0, 0),
+  on_middle_click: btn => item.activate(0, 0),
+}).on("scroll-event", (btn, event) => {
+  const [, x, y] = event.get_scroll_deltas();
+  if(x != 0) item.scroll(x, "horizontal");
+  if(y != 0) item.scroll(y, "vertical");
 });
 
 const Tray = () => Widget.Box({
