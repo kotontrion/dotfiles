@@ -107,8 +107,8 @@ const LoginBox = () => Widget.Box({
                 sensitive: inputNeeded.bind(),
                 on_accept: self => {
                   inputNeeded.setValue(false);
-                  self.text = "";
                   auth.supply_secret(self.text);
+                  self.text = "";
                 }
               }).on("realize", (entry) => entry.grab_focus()),
             ]
