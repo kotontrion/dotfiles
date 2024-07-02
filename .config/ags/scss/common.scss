@@ -12,7 +12,7 @@ window, combobox, textview, textview > text, entry {
   @include unset;
 }
 
-button, spinbutton, scrollbar, switch, scale {
+flowbox, button, spinbutton, scrollbar, switch, scale {
   @include unset(true);
 }
 

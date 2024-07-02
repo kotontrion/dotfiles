@@ -10,20 +10,70 @@ import AstalAuth from "gi://AstalAuth";
 Utils.exec(`sass ${App.configDir}/scss/lock.scss ${App.configDir}/lockstyle.css`);
 App.applyCss(`${App.configDir}/lockstyle.css`);
 
-
-const prompt = Variable("Enter Password:");
+const prompt = Variable("");
 const inputVisible = Variable(false);
 const inputNeeded = Variable(false);
 
 const auth = new AstalAuth.Pam();
-auth.connect("auth-info", (auth, msg) => {
-  prompt.setValue(msg);
-  auth.supply_secret(null);
-});
-auth.connect("auth-error", (auth, msg) => {
-  prompt.setValue(msg);
-  auth.supply_secret(null);
-});
+
+
+const Notif = (msg, type) => {
+  const notif = Widget.Box({
+    class_name: `auth-notif ${type}`,
+    children: [
+      Widget.Label({
+        label: msg,
+        max_width_chars: 25,
+        wrap: true,
+      })
+    ]
+  });
+
+  const revealer = Widget.Revealer({
+    child: notif,
+    hpack: "end",
+    transition: "slide_left",
+    transition_duration: 250,
+    reveal_child: false,
+  });
+
+  Utils.timeout(20000, () => {
+    revealer.reveal_child = false;
+    Utils.timeout(revealer.transition_duration, () => {
+      revealer.destroy();
+    });
+  });
+  Utils.idle(() => {
+    revealer.reveal_child = true;
+  });
+  return revealer;
+};
+
+const AuthNotifs = () => Widget.Box({
+  hpack: "end",
+  vpack: "start",
+  vertical: true,
+})
+  .hook(auth, (self, msg) => {
+    if(!msg) return;
+    self.add(Notif(msg, "error"));
+    self.show_all();
+    auth.supply_secret(null);
+  }, "auth-error")
+  .hook(auth, (self, msg) => {
+    if(!msg) return;
+    self.add(Notif(msg, "info"));
+    self.show_all();
+    auth.supply_secret(null);
+  }, "auth-info")
+  .hook(auth, (self, msg) => {
+    if(!msg) return;
+    self.add(Notif(msg, "fail"));
+    self.show_all();
+  }, "fail");
+
+
+
 auth.connect("auth-prompt-visible", (auth, msg) => {
   prompt.setValue(msg);
   inputVisible.setValue(true);
@@ -36,7 +86,7 @@ auth.connect("auth-prompt-hidden", (auth, msg) => {
 });
 
 auth.connect("success", unlock);
-auth.connect("fail", p => {
+auth.connect("fail", (p, msg) => {
   auth.start_authenticate();
 });
 
@@ -93,7 +143,7 @@ const LoginBox = () => Widget.Box({
             class_name: "avatar",
           }),
           Widget.Box({
-            class_name: "entry-box",
+            class_name: inputNeeded.bind().as(n => `entry-box ${n ? "" : "hidden"}`),
             vertical: true,
             children: [
               Widget.Label({
@@ -142,7 +192,8 @@ const LockWindow = () => new Gtk.Window({
               child: LoginBox(),
               overlays: [
                 SessionBoxTooltip(),
-                MprisCorner()
+                MprisCorner(),
+                AuthNotifs(),
               ]
             })
           ]

@@ -18,9 +18,9 @@ async function blurCoverArtCss(player, default_color) {
     `background-image: radial-gradient(
       circle at right,
       rgba(0, 0, 0, 0),
-      ${color} 11.5rem), ${bg};
-    background-position: right top, right top;
-    background-size: contain;
+      ${color} 14.5rem), ${bg};
+    background-position: right, right;
+    background-size: auto 15rem;
     transition: all 0.7s ease;
     background-repeat: no-repeat;`;
 

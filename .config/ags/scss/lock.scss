@@ -26,6 +26,11 @@
   border-radius: 1rem;
   min-width: 350px;
   padding: 8px;
+  transition: opacity 200ms;
+
+  &.hidden {
+    opacity: 0.5;
+  }
 
   entry {
     @include unset(true);
@@ -131,3 +136,24 @@ separator {
     }
   }
 }
+
+.auth-notif {
+  background-color: $surface;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  margin-bottom: 0.25rem;
+  min-width: 20rem;
+  border-radius: 1rem;
+
+  &.error {
+    border-left: 0.3rem solid $error_container;
+  }
+  &.fail {
+    border-left: 0.3rem solid $error_container;
+  }
+  &.info {
+    border-left: 0.3rem solid $primary_container;
+  }
+}
+
+
