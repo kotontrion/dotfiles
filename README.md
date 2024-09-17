@@ -34,6 +34,8 @@ this list is probably incomplete.
 - brotab: firefox tab switcher (optional)
 - [astal-river](https://github.com/astal-sh/river): for river status (optional)
 - [astal-auth](https://github.com/astal-sh/auth): for the lockscreen
+- gvfs
+- libgtop
 
 #### ags greeter
 - greetd
