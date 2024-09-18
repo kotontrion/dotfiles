@@ -32,10 +32,10 @@ this list is probably incomplete.
 - vte3: terminal widget, needed for sptlrx display (optional)
 - cava: audio visualizer (optional)
 - brotab: firefox tab switcher (optional)
-- [astal-river](https://github.com/astal-sh/river): for river status (optional)
-- [astal-auth](https://github.com/astal-sh/auth): for the lockscreen
-- gvfs: needed for the system monitor to work
-- libgtop needed for the file manager to work
+- [astal-river](https://github.com/Aylur/astal/tree/main/lib/river): for river status (optional)
+- [astal-auth](https://github.com/Aylur/astal/tree/main/lib/auth): for the lockscreen
+- gvfs: needed for some file operations, like mpris cover caching
+- libgtop: needed for the network speed indicator
 
 #### ags greeter
 - greetd
