@@ -9,7 +9,6 @@ const FocusedTitle = () => Widget.EventBox({
     class_name: "title-box",
     children: [
       Widget.Label({
-        hpack: "end",
         class_name: "title-title",
         truncate: "end",
         max_width_chars: 22,

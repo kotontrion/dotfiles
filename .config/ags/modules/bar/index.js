@@ -11,6 +11,7 @@ import {NotificationIndicator} from "../notifications/index.js";
 import {MusicBarContainer} from "../mpris/index.js";
 import Cairo from "cairo";
 
+
 const Right = () => Widget.EventBox({
   hpack: "end",
   child: Widget.Box({

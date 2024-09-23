@@ -1,7 +1,6 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
-import { Switch } from "../widgets/widgets.js";
 
 const BluetoothList = () => Widget.Box({
   class_name: "spacing-5",
@@ -20,7 +19,7 @@ const BluetoothList = () => Widget.Box({
           Widget.Spinner({
             active: true
           }) :
-          Switch({active: device.connected})
+          Widget.Switch({active: device.connected})
             .on("notify::active", ({active}) => {
               if (active !== device.connected)
                 device.setConnection(active);

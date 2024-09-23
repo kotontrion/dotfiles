@@ -1,5 +1,6 @@
 #!/usr/bin/ags -c
 import GLib from "gi://GLib";
+import "./modules/widgets/widgets.js";
 import {exec, idle, monitorFile} from "resource:///com/github/Aylur/ags/utils.js";
 import "./utils.js";
 import Bar from "./modules/bar/index.js";

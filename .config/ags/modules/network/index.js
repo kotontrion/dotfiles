@@ -3,7 +3,6 @@ import {execAsync, notify} from "resource:///com/github/Aylur/ags/utils.js";
 import icons from "../icons/index.js";
 import Gtk from "gi://Gtk?version=3.0";
 
-const Expander = Widget.subclass(Gtk.Expander);
 
 const WifiAccessPoint = ap => {
 
@@ -40,7 +39,7 @@ const WifiGroup = (expander, aps) => {
   const strongest = aps.sort((a, b) => b.strength - a.strength);
 
   if(!expander) {
-    expander = Expander({
+    expander = Widget.Expander({
       class_name: "wifi-group",
       label_widget: Widget.Box({
         class_name: "spacing-5",

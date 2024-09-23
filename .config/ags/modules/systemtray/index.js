@@ -1,6 +1,7 @@
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Gdk from "gi://Gdk?version=3.0";
 import AstalTray from "gi://AstalTray";
+import Gio from "gi://Gio";
 const SystemTray = AstalTray.Tray.get_default();
 
 
@@ -9,8 +10,7 @@ const SysTrayItem = item => Widget.Button({
   attribute: item.create_menu(),
   child: Widget.Icon({
     hpack: "center",
-    icon: Utils.watch(item.icon_pixbuf || item.icon_name || "image-missing"
-      , item, () => item.icon_pixbuf || item.icon_name || "image-missing")
+    gicon: Utils.bind(item, "gicon")
   }),
   tooltip_markup: Utils.bind(item, "tooltip_markup"),
   on_primary_click: btn => btn.attribute?.popup_at_widget(btn, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null),

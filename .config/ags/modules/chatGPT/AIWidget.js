@@ -4,7 +4,6 @@ import Keys from "../../keys.js";
 import {QSState} from "../quicksettings/index.js";
 import App from "resource:///com/github/Aylur/ags/app.js";
 import Gtk from "gi://Gtk?version=3.0";
-import { TextView } from "..//widgets/widgets.js";
 import Gdk from "gi://Gdk";
 import {readFile} from "resource:///com/github/Aylur/ags/utils.js";
 import {Marked} from "../../node_modules/marked/lib/marked.esm.js";
@@ -21,8 +20,6 @@ import GLib from "gi://GLib";
 import GObject from "gi://GObject?version=2.0";
 import GdkPixbuf from "gi://GdkPixbuf";
 import ConfigService from "../config/index.js";
-
-const ComboBox = Widget.subclass(Gtk.ComboBoxText);
 
 let AIContainer;
 const SettingsVisible = Variable(false);
@@ -285,7 +282,7 @@ try {
 
   const TextEntry = (fileContainer) => {
     const placeholder = "Ask ChatGPT";
-    const textView = TextView({
+    const textView = Widget.TextView({
       class_name: "ai-entry",
       wrap_mode: Gtk.WrapMode.WORD_CHAR,
       hexpand: true,
@@ -377,7 +374,7 @@ try {
             label: "Model:"
           }),
           Box({hexpand: true}),
-          ComboBox({
+          Widget.ComboBoxText({
             setup: (self) => {
               ChatGPT.getModels().forEach(item => {
                 self.append(item, item);
@@ -422,7 +419,7 @@ try {
             label: "System message:"
           }),
           Scrollable({
-            child: TextView({
+            child: Widget.TextView({
               class_name: "system-message",
               wrap_mode: Gtk.WrapMode.WORD_CHAR,
               hexpand: true,

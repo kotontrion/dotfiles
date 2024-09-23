@@ -11,7 +11,6 @@ import BluetoothList from "../bluetooth/index.js";
 // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import Network from "resource:///com/github/Aylur/ags/service/network.js";
-import { Switch } from "../widgets/widgets.js";
 import { Cava } from "../cava/index.js";
 // import { LyricsTerminal } from "../vte/index.js";
 import GObject from "gi://GObject";
@@ -48,7 +47,7 @@ const QSNotification = () => QuickSettingsPage(Menu({
         }),
         visible: Notifications.bind("notifications").transform(notifs => notifs.length > 0)
       }),
-      Switch({})
+      Widget.Switch({})
         .hook(Notifications, (sw) => {
           if (sw.active === Notifications.dnd)
             sw.active = !Notifications.dnd;
@@ -84,7 +83,7 @@ const QSWifi = () => QuickSettingsPage(Menu({
             label: NetworkSpeeds.bind().as(s => s.down)})
         ]
       }),
-      Switch({vpack: "center"})
+      Widget.Switch({vpack: "center"})
         .hook(Network, (sw) => {
           if (sw.active !== Network.wifi.enabled)
             sw.active = Network.wifi.enabled;
