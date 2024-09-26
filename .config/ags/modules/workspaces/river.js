@@ -27,17 +27,15 @@ function applyCssToWs(box) {
 }
 
 /** @param {number} i */
-const WorkspaceButton = (i) => Widget.EventBox({
+const WorkspaceButton = (i, output) => Widget.EventBox({
   class_name: "ws-button",
   //NOTE: i would perfer shift/ctrl-click fo different behaviour
   //but i can't get the modifier keys without also havin keyboard focus
   on_primary_click_release: () => {
-    river.run_command_async(["set-focused-tags", `${1 << (i-1)}`], null);
+    output.focused_tags = 1 << (i-1);
   },
-  on_secondary_click_release: (self) => {
-    const output = getRiverOutput(self);
-    const tags = output.get_focused_tags() ^ (1 << (i-1));
-    river.run_command_async(["set-focused-tags", `${tags}`], null);
+  on_secondary_click_release: () => {
+    output.focused_tags = output.focused_tags ^ (1 << (i-1));
   },
   on_middle_click_release: () => {
     river.run_command_async(["set-view-tags", `${1 << (i-1)}`], null);
@@ -52,7 +50,8 @@ export const Workspaces = () => {
   return Widget.EventBox({
     child: Widget.Box({
       class_name: "ws-container",
-      children: Array.from({length: 9}, (_, i) => i + 1).map(i => WorkspaceButton(i)),
+    }).on("realize", (self) => {
+      self.children = Array.from({length: 9}, (_, i) => i + 1).map(i => WorkspaceButton(i, getRiverOutput(self)))
     })
       .hook(river, applyCssToWs, "changed")
   });
