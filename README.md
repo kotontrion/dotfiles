@@ -5,7 +5,7 @@ These files are always evolving, there are currently a few issues with them, whi
 
 
 > [!NOTE]  
-> The ags config won't receive any updates anymore as I created a [new bar](github.com/kotontrion/kompass) using astal. The old ags config will stay available here.
+> The ags config won't receive any updates anymore as I created a [new bar](https://www.github.com/kotontrion/kompass) using astal. The old ags config will stay available here.
 
 ### showcase ( as of 2024-07-02 )
 
