@@ -2,6 +2,11 @@
 my personal dotfiles, use at your own risk.
 These files are always evolving, there are currently a few issues with them, which probably will be fixed eventually.
 
+
+
+> [!NOTE]  
+> The ags config won't receive any updates anymore as I created a [new bar](github.com/kotontrion/kompass) using astal. The old ags config will stay available here.
+
 ### showcase ( as of 2024-07-02 )
 
 https://github.com/kotontrion/dotfiles/assets/141950090/9e1623b4-401f-432e-9d39-7134e9dc31dc
